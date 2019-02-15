@@ -1,0 +1,30 @@
+body {
+  margin-left: 5%;
+  margin-top: 5%;
+}
+
+.data-table {
+  border: 1;
+  border-style: solid;
+  border-width: 1px;
+  border-collapse: collapse;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #000;
+}
+
+td,
+th {
+  border: 1px solid #000;
+  width: 16.666%;
+}
+
+td {
+  text-align: center;
+  vertical-align: top;
+}
+
+.hora {
+  width: 10%;
+}
