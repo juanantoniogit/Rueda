@@ -1,4 +1,17 @@
+/*
+///////////////
+HTML ids usados
+en la tabla
 
+l1 m1 x1 j1 v1
+l2 m2 x2 j2 v2
+l3 m3 x3 j3 v3
+l4 m4 x4 j4 v4
+l5 m5 x5 j5 v5
+l6 m6 x6 j6 v6
+
+///////////////
+*/
 var usuario = []
 usuario.push({
   nombre: 'Juan',
