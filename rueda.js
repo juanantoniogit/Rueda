@@ -71,6 +71,7 @@ usuario.push({
   },
 })
 
+// VARIABLES DE ENTRADA  e[0]..e[6] 
 var e = []
 e[0] = [
   [],
@@ -143,6 +144,7 @@ e[6] = [
   []
 ]
 
+// VARIABLES DE ENTRADA  s[0]..s[6] 
 var s = []
 s[0] = [
   [],
@@ -220,31 +222,7 @@ for (var a = 0; a < usuario.length; a++) {
 }
 var cad = ''
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
-function llena(){
-var nsomos = 0;
-for (var a = 1; a < 6; a++) {
-  nsomos = e[a][1].length
-  cad = recopilaEntrada(a, 1, nsomos)
-  $('#' + diass[a] + '1').html(cad)
-  nsomos = e[a][2].length
-  cad = recopilaEntrada(a, 2, nsomos)
-  $('#' + diass[a] + '2').html(cad)
-  nsomos = e[a][3].length
-  cad = recopilaEntrada(a, 3, nsomos)
-  $('#' + diass[a] + '3').html(cad)
 
-  nsomos = s[a][4].length
-  cad = recopilaSalida(a, 4, nsomos)
-  $('#' + diass[a] + '4').html(cad)
-  nsomos = s[a][5].length
-  cad = recopilaSalida(a, 5, nsomos)
-  $('#' + diass[a] + '5').html(cad)
-  nsomos = s[a][6].length
-  cad = recopilaSalida(a, 6, nsomos)
-  $('#' + diass[a] + '6').html(cad)
-
-}
-}
 function recopilaEntrada(a, b, n) {
   var cad = ''
   var cssprev = '<u><b>'
@@ -260,6 +238,7 @@ function recopilaEntrada(a, b, n) {
     css1 = ''
     if (n == 1) {
       usuario[e[a][b][i]].usacoche = true;
+      //usuario[s[a][b][i]].usacoche = true;
       css0 = cssprev;
       css1 = cssend
     }
@@ -290,6 +269,34 @@ function recopilaSalida(a, b, n) {
   }
   return cad
 }
+
+
+function llena(){
+  var nsomos = 0;
+  for (var a = 1; a < 6; a++) {
+    nsomos = e[a][1].length
+    cad = recopilaEntrada(a, 1, nsomos)
+    $('#' + diass[a] + '1').html(cad)
+    nsomos = e[a][2].length
+    cad = recopilaEntrada(a, 2, nsomos)
+    $('#' + diass[a] + '2').html(cad)
+    nsomos = e[a][3].length
+    cad = recopilaEntrada(a, 3, nsomos)
+    $('#' + diass[a] + '3').html(cad)
+
+    nsomos = s[a][4].length
+    cad = recopilaSalida(a, 4, nsomos)
+    $('#' + diass[a] + '4').html(cad)
+    nsomos = s[a][5].length
+    cad = recopilaSalida(a, 5, nsomos)
+    $('#' + diass[a] + '5').html(cad)
+    nsomos = s[a][6].length
+    cad = recopilaSalida(a, 6, nsomos)
+    $('#' + diass[a] + '6').html(cad)
+
+  }
+}
+
 
 $(document).ready(function(){
 llena()
