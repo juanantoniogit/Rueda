@@ -26,7 +26,7 @@ usuario.push({
     usacoche: false
   },
   miercoles: {
-    entrada: 1,
+    entrada: 2,
     salida: 6,
     usacoche: false
   },
@@ -55,7 +55,7 @@ usuario.push({
     usacoche: false
   },
   miercoles: {
-    entrada: 2,
+    entrada: 1,
     salida: 4,
     usacoche: false
   },
