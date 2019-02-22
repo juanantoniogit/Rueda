@@ -45,8 +45,8 @@ usuario.push({
 usuario.push({
   nombre: 'Pedro',
   lunes: {
-    entrada: 1,
-    salida: 6,
+    entrada: 0,
+    salida: 0,
     usacoche: false
   },
   martes: {
@@ -55,7 +55,7 @@ usuario.push({
     usacoche: false
   },
   miercoles: {
-    entrada: 1,
+    entrada: 2,
     salida: 4,
     usacoche: false
   },
@@ -207,22 +207,29 @@ s[5] = [
   []
 ]
 
-function llenaMatrizComun(){
+
+var diass = ['', 'l', 'm', 'x', 'j', 'v']
+var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
+
+function llenaSalidasYentradas(){
 	for (var a = 0; a < usuario.length; a++) {
-	  e[1][usuario[a].lunes.entrada].push(a)
-	  s[1][usuario[a].lunes.salida].push(a)
-	  e[2][usuario[a].martes.entrada].push(a)
-	  s[2][usuario[a].martes.salida].push(a)
-	  e[3][usuario[a].miercoles.entrada].push(a)
-	  s[3][usuario[a].miercoles.salida].push(a)
-	  e[4][usuario[a].jueves.entrada].push(a)
-	  s[4][usuario[a].jueves.salida].push(a)
-	  e[5][usuario[a].viernes.entrada].push(a)
-	  s[5][usuario[a].viernes.salida].push(a)
+		e[1][usuario[a].lunes.entrada].push(a)
+		s[1][usuario[a].lunes.salida].push(a)
+	 
+		e[2][usuario[a].martes.entrada].push(a)
+		s[2][usuario[a].martes.salida].push(a)
+	  
+		e[3][usuario[a].miercoles.entrada].push(a)
+	  	s[3][usuario[a].miercoles.salida].push(a)
+	  
+		e[4][usuario[a].jueves.entrada].push(a)
+	  	s[4][usuario[a].jueves.salida].push(a)
+	  	
+		e[5][usuario[a].viernes.entrada].push(a)
+	  	s[5][usuario[a].viernes.salida].push(a)
 	}
 }
-var cad = ''
-var diass = ['', 'l', 'm', 'x', 'j', 'v']
+
 
 function recopilaEntrada(a, b, n) {
   var cad = ''
@@ -237,9 +244,7 @@ function recopilaEntrada(a, b, n) {
   for (var i = 0; i < e[a][b].length; i++) {
     css0 = '';
     css1 = ''
-    if (n == 1) {
-      usuario[e[a][b][i]].usacoche = true;
-      //usuario[s[a][b][i]].usacoche = true;
+    if (usuario[e[a][b][i]][diasn[a]].usacoche) {
       css0 = cssprev;
       css1 = cssend
     }
@@ -261,10 +266,9 @@ function recopilaSalida(a, b, n) {
   for (var i = 0; i < s[a][b].length; i++) {
     css0 = '';
     css1 = ''
-    if (n == 1) {
-      usuario[s[a][b][i]].usacoche = true;
-      css0 = cssprev;
-      css1 = cssend
+     if (usuario[s[a][b][i]][diasn[a]].usacoche) {
+       css0 = cssprev;
+       css1 = cssend
     }
     cad += css0 + usuario[s[a][b][i]].nombre + css1 + '<br>'
   }
@@ -272,7 +276,23 @@ function recopilaSalida(a, b, n) {
 }
 
 
-function buscaConductoresYllenaTabla(){
+function buscaConductoresEntrada(){
+  var nsomos = 0;
+  for (var a = 0; a < e.length; a++) {
+	for (var b = 0; b < e[a].length; b++) {
+          	for (var c = 0; c < e[a][b].length; c++) {
+           		if(e[a][b].length==1) {
+    				usuario[e[a][b][c]][diasn[a]].usacoche=true
+				
+	   		}		
+    		}
+  	}
+  }	
+
+}
+
+
+function llenaTabla(){
   var nsomos = 0;
   for (var a = 1; a < 6; a++) {
     nsomos = e[a][1].length
@@ -298,8 +318,8 @@ function buscaConductoresYllenaTabla(){
   }
 }
 
-
 $(document).ready(function(){
-llenaMatrizComun()
-buscaConductoresYllenaTabla()
+	llenaSalidasYentradas()
+	buscaConductoresEntrada()
+	llenaTabla()
 });
