@@ -144,7 +144,7 @@ e[6] = [
   []
 ]
 
-// VARIABLES DE ENTRADA  s[0]..s[6] 
+// VARIABLES DE SALIDA  s[0]..s[6] 
 var s = []
 s[0] = [
   [],
