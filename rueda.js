@@ -207,18 +207,19 @@ s[5] = [
   []
 ]
 
-
-for (var a = 0; a < usuario.length; a++) {
-  e[1][usuario[a].lunes.entrada].push(a)
-  s[1][usuario[a].lunes.salida].push(a)
-  e[2][usuario[a].martes.entrada].push(a)
-  s[2][usuario[a].martes.salida].push(a)
-  e[3][usuario[a].miercoles.entrada].push(a)
-  s[3][usuario[a].miercoles.salida].push(a)
-  e[4][usuario[a].jueves.entrada].push(a)
-  s[4][usuario[a].jueves.salida].push(a)
-  e[5][usuario[a].viernes.entrada].push(a)
-  s[5][usuario[a].viernes.salida].push(a)
+function llenaMatrizComun(){
+	for (var a = 0; a < usuario.length; a++) {
+	  e[1][usuario[a].lunes.entrada].push(a)
+	  s[1][usuario[a].lunes.salida].push(a)
+	  e[2][usuario[a].martes.entrada].push(a)
+	  s[2][usuario[a].martes.salida].push(a)
+	  e[3][usuario[a].miercoles.entrada].push(a)
+	  s[3][usuario[a].miercoles.salida].push(a)
+	  e[4][usuario[a].jueves.entrada].push(a)
+	  s[4][usuario[a].jueves.salida].push(a)
+	  e[5][usuario[a].viernes.entrada].push(a)
+	  s[5][usuario[a].viernes.salida].push(a)
+	}
 }
 var cad = ''
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
@@ -271,7 +272,7 @@ function recopilaSalida(a, b, n) {
 }
 
 
-function llena(){
+function buscaConductoresYllenaTabla(){
   var nsomos = 0;
   for (var a = 1; a < 6; a++) {
     nsomos = e[a][1].length
@@ -299,5 +300,6 @@ function llena(){
 
 
 $(document).ready(function(){
-llena()
+llenaMatrizComun()
+buscaConductoresYllenaTabla()
 });
