@@ -465,19 +465,37 @@ function recopilaSalida(a, b, n) {
 }
 
 
-function buscaConductoresEntrada(){
+function buscaConductoresSolosEntrada(){
   var nsomos = 0;
   for (var a = 0; a < e.length; a++) {
 	for (var b = 0; b < e[a].length; b++) {
           	for (var c = 0; c < e[a][b].length; c++) {
            		if(e[a][b].length==1) {
     				usuario[e[a][b][c]][diasn[a]].usacoche=true
-				
-	   		}		
+				}		
     		}
   	}
   }	
 
+}
+
+function buscaConductoresSolosSalida(){
+  var nsomos = 0;
+  var marca=[]
+  for (var a = 0; a < s.length; a++) {
+	for (var b = 0; b < s[a].length; b++) {
+          	for (var c = 0; c < s[a][b].length; c++) {
+           		if(s[a][b].length==1) {
+    				marca.push(a+','+b+','+c+','+ s[a][b][c])
+				}		
+    		}
+  	}
+  }	
+  for(var j=0;j<marca.length;j++){
+	   var m=marca[j].split(',')
+	  usuario[m[3]][diasn[m[0]]].usacoche=true
+     
+  }
 }
 
 
@@ -531,6 +549,7 @@ function llenaTabla(){
 
 $(document).ready(function(){
 	llenaSalidasYentradas()
-	buscaConductoresEntrada()
+	buscaConductoresSolosEntrada()
+	buscaConductoresSolosSalida()
 	llenaTabla()
 });
