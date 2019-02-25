@@ -9,7 +9,7 @@ l3 m3 x3 j3 v3
 l4 m4 x4 j4 v4
 l5 m5 x5 j5 v5
 l6 m6 x6 j6 v6
-
+l7 m7 x7 j7 v7
 ///////////////
 */
 var usuario = []
@@ -408,45 +408,59 @@ function llenaSalidasYentradas(){
 
 function recopilaEntrada(a, b, n) {
   var cad = ''
-  var cssprev = '<u><b>'
-  var cssend = '</b></u>'
+  var cssprev = '<span style="color:green">'
+  var cssend = '</span>'
+  var cssprevConductor = '<span style="color:green"><u><b>'
+  var cssendConductor = '</b></u></span>'
   if (n == 0) {
     return ''
   }
-  cad += '(' + n + ')<br>'
+  //cad += '(' + n + ')<br>'
+ 
   var css0 = '';
   var css1 = ''
   for (var i = 0; i < e[a][b].length; i++) {
     css0 = '';
     css1 = ''
     if (usuario[e[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprev;
+      css0 = cssprevConductor;
+      css1 = cssendConductor
+    }else{
+	  css0 = cssprev;
       css1 = cssend
-    }
+	}
     cad += css0 + usuario[e[a][b][i]].nombre + css1 + '<br>'
   }
+  //cad += '</div>';
   return cad
 }
 
 function recopilaSalida(a, b, n) {
   var cad = ''
-  var cssprev = '<u><b>'
-  var cssend = '</u></u>'
+  var cssprev = '<span style="color:red">'
+  var cssend = '</span>'
+  var cssprevConductor = '<span style="color:red"><u><b>'
+  var cssendConductor = '</b></u></span>'
   if (n == 0) {
     return ''
   }
-  cad += '(' + n + ')<br>'
+  //cad += '(' + n + ')<br>'
+  cad += '<div style="color:red">'
   var css0 = '';
   var css1 = ''
   for (var i = 0; i < s[a][b].length; i++) {
     css0 = '';
     css1 = ''
      if (usuario[s[a][b][i]][diasn[a]].usacoche) {
-       css0 = cssprev;
-       css1 = cssend
-    }
+      css0 = cssprevConductor;
+      css1 = cssendConductor
+    }else{
+	  css0 = cssprev;
+      css1 = cssend
+	}
     cad += css0 + usuario[s[a][b][i]].nombre + css1 + '<br>'
   }
+  cad += '</div>';
   return cad
 }
 
@@ -470,25 +484,47 @@ function buscaConductoresEntrada(){
 function llenaTabla(){
   var nsomos = 0;
   for (var a = 1; a < 6; a++) {
+	// ENTRADAS
     nsomos = e[a][1].length
     cad = recopilaEntrada(a, 1, nsomos)
-    $('#' + diass[a] + '1').html(cad)
+    $('#' + diass[a] + '1').append(cad)
+	
     nsomos = e[a][2].length
     cad = recopilaEntrada(a, 2, nsomos)
-    $('#' + diass[a] + '2').html(cad)
+    $('#' + diass[a] + '2').append(cad)
+	
     nsomos = e[a][3].length
     cad = recopilaEntrada(a, 3, nsomos)
-    $('#' + diass[a] + '3').html(cad)
-
+    $('#' + diass[a] + '3').append(cad)
+	
+	 nsomos = e[a][4].length
+    cad = recopilaEntrada(a, 4, nsomos)
+    $('#' + diass[a] + '4').append(cad)
+	
+	 nsomos = e[a][5].length
+    cad = recopilaEntrada(a, 5, nsomos)
+    $('#' + diass[a] + '5').append(cad)
+	
+	 nsomos = e[a][6].length
+    cad = recopilaEntrada(a, 6, nsomos)
+    $('#' + diass[a] + '6').append(cad)
+	
+	// SALIDAS
     nsomos = s[a][4].length
     cad = recopilaSalida(a, 4, nsomos)
-    $('#' + diass[a] + '4').html(cad)
+    $('#' + diass[a] + '4').append(cad)
+	
     nsomos = s[a][5].length
     cad = recopilaSalida(a, 5, nsomos)
-    $('#' + diass[a] + '5').html(cad)
+    $('#' + diass[a] + '5').append(cad)
+	
     nsomos = s[a][6].length
     cad = recopilaSalida(a, 6, nsomos)
-    $('#' + diass[a] + '6').html(cad)
+    $('#' + diass[a] + '6').append(cad)
+	
+	 nsomos = s[a][7].length
+    cad = recopilaSalida(a, 7, nsomos)
+    $('#' + diass[a] + '7').append(cad)
 
   }
 }
