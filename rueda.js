@@ -234,12 +234,20 @@ usuario.push({
 
 
 
+/*
+///////////////
+HTML ids usados
+en la tabla
+l1 m1 x1 j1 v1
+l2 m2 x2 j2 v2
+l3 m3 x3 j3 v3
+l4 m4 x4 j4 v4
+l5 m5 x5 j5 v5
+l6 m6 x6 j6 v6
+///////////////
+*/
 
-
-
-
-
-
+// VARIABLES DE ENTRADA  e[0]..e[6] 
 var e = []
 e[0] = [
   [],
@@ -312,6 +320,7 @@ e[6] = [
   []
 ]
 
+// VARIABLES DE SALIDA  s[0]..s[6] 
 var s = []
 s[0] = [
   [],
@@ -375,43 +384,28 @@ s[5] = [
 ]
 
 
-for (var a = 0; a < usuario.length; a++) {
-  e[1][usuario[a].lunes.entrada].push(a)
-  s[1][usuario[a].lunes.salida].push(a)
-  e[2][usuario[a].martes.entrada].push(a)
-  s[2][usuario[a].martes.salida].push(a)
-  e[3][usuario[a].miercoles.entrada].push(a)
-  s[3][usuario[a].miercoles.salida].push(a)
-  e[4][usuario[a].jueves.entrada].push(a)
-  s[4][usuario[a].jueves.salida].push(a)
-  e[5][usuario[a].viernes.entrada].push(a)
-  s[5][usuario[a].viernes.salida].push(a)
-}
-var cad = ''
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
-var nsomos = 0;
-for (var a = 1; a < 6; a++) {
-  nsomos = e[a][1].length
-  cad = recopilaEntrada(a, 1, nsomos)
-  $('#' + diass[a] + '1').html(cad)
-  nsomos = e[a][2].length
-  cad = recopilaEntrada(a, 2, nsomos)
-  $('#' + diass[a] + '2').html(cad)
-  nsomos = e[a][3].length
-  cad = recopilaEntrada(a, 3, nsomos)
-  $('#' + diass[a] + '3').html(cad)
+var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
 
-  nsomos = s[a][4].length
-  cad = recopilaSalida(a, 4, nsomos)
-  $('#' + diass[a] + '4').html(cad)
-  nsomos = s[a][5].length
-  cad = recopilaSalida(a, 5, nsomos)
-  $('#' + diass[a] + '5').html(cad)
-  nsomos = s[a][6].length
-  cad = recopilaSalida(a, 6, nsomos)
-  $('#' + diass[a] + '6').html(cad)
-
+function llenaSalidasYentradas(){
+	for (var a = 0; a < usuario.length; a++) {
+		e[1][usuario[a].lunes.entrada].push(a)
+		s[1][usuario[a].lunes.salida].push(a)
+	 
+		e[2][usuario[a].martes.entrada].push(a)
+		s[2][usuario[a].martes.salida].push(a)
+	  
+		e[3][usuario[a].miercoles.entrada].push(a)
+	  	s[3][usuario[a].miercoles.salida].push(a)
+	  
+		e[4][usuario[a].jueves.entrada].push(a)
+	  	s[4][usuario[a].jueves.salida].push(a)
+	  	
+		e[5][usuario[a].viernes.entrada].push(a)
+	  	s[5][usuario[a].viernes.salida].push(a)
+	}
 }
+
 
 function recopilaEntrada(a, b, n) {
   var cad = ''
@@ -426,8 +420,7 @@ function recopilaEntrada(a, b, n) {
   for (var i = 0; i < e[a][b].length; i++) {
     css0 = '';
     css1 = ''
-    if (n == 1) {
-      usuario[e[a][b][i]].usacoche = true;
+    if (usuario[e[a][b][i]][diasn[a]].usacoche) {
       css0 = cssprev;
       css1 = cssend
     }
@@ -449,10 +442,9 @@ function recopilaSalida(a, b, n) {
   for (var i = 0; i < s[a][b].length; i++) {
     css0 = '';
     css1 = ''
-    if (n == 1) {
-      usuario[s[a][b][i]].usacoche = true;
-      css0 = cssprev;
-      css1 = cssend
+     if (usuario[s[a][b][i]][diasn[a]].usacoche) {
+       css0 = cssprev;
+       css1 = cssend
     }
     cad += css0 + usuario[s[a][b][i]].nombre + css1 + '<br>'
   }
@@ -460,11 +452,50 @@ function recopilaSalida(a, b, n) {
 }
 
 
-/*  cad = s[2][6]
-$('#m6').html(cad)
-for(var a=3;a<7;a++){
- cad=''
- cad+=s[a]
- $('#l'+a).html(cad)
- }  
- */
+function buscaConductoresEntrada(){
+  var nsomos = 0;
+  for (var a = 0; a < e.length; a++) {
+	for (var b = 0; b < e[a].length; b++) {
+          	for (var c = 0; c < e[a][b].length; c++) {
+           		if(e[a][b].length==1) {
+    				usuario[e[a][b][c]][diasn[a]].usacoche=true
+				
+	   		}		
+    		}
+  	}
+  }	
+
+}
+
+
+function llenaTabla(){
+  var nsomos = 0;
+  for (var a = 1; a < 6; a++) {
+    nsomos = e[a][1].length
+    cad = recopilaEntrada(a, 1, nsomos)
+    $('#' + diass[a] + '1').html(cad)
+    nsomos = e[a][2].length
+    cad = recopilaEntrada(a, 2, nsomos)
+    $('#' + diass[a] + '2').html(cad)
+    nsomos = e[a][3].length
+    cad = recopilaEntrada(a, 3, nsomos)
+    $('#' + diass[a] + '3').html(cad)
+
+    nsomos = s[a][4].length
+    cad = recopilaSalida(a, 4, nsomos)
+    $('#' + diass[a] + '4').html(cad)
+    nsomos = s[a][5].length
+    cad = recopilaSalida(a, 5, nsomos)
+    $('#' + diass[a] + '5').html(cad)
+    nsomos = s[a][6].length
+    cad = recopilaSalida(a, 6, nsomos)
+    $('#' + diass[a] + '6').html(cad)
+
+  }
+}
+
+$(document).ready(function(){
+	llenaSalidasYentradas()
+	buscaConductoresEntrada()
+	llenaTabla()
+});
