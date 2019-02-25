@@ -1,4 +1,17 @@
+/*
+///////////////
+HTML ids usados
+en la tabla
 
+l1 m1 x1 j1 v1
+l2 m2 x2 j2 v2
+l3 m3 x3 j3 v3
+l4 m4 x4 j4 v4
+l5 m5 x5 j5 v5
+l6 m6 x6 j6 v6
+
+///////////////
+*/
 var usuario = []
 usuario.push({
   nombre: 'Juan',
@@ -127,9 +140,9 @@ usuario.push({
     usacoche: false
   },
   miercoles: {
-    entrada: ,
-    salida: ,
-    usacoche: 
+    entrada: 1,
+    salida: 6,
+    usacoche: false
   },
   jueves: {
     entrada: 2,
@@ -185,7 +198,7 @@ usuario.push({
   },
   miercoles: {
     entrada: 1,
-    salida: 6,
+    salida: 7,
     usacoche: false
   },
   jueves: {
@@ -223,29 +236,11 @@ usuario.push({
     usacoche: false
   },
   viernes: {
-    entrada: ,
+    entrada: 1,
     salida: 6,
     usacoche: false
   },
 })
-
-
-
-
-
-
-/*
-///////////////
-HTML ids usados
-en la tabla
-l1 m1 x1 j1 v1
-l2 m2 x2 j2 v2
-l3 m3 x3 j3 v3
-l4 m4 x4 j4 v4
-l5 m5 x5 j5 v5
-l6 m6 x6 j6 v6
-///////////////
-*/
 
 // VARIABLES DE ENTRADA  e[0]..e[6] 
 var e = []
@@ -383,6 +378,17 @@ s[5] = [
   []
 ]
 
+s[6] = [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+]
+
 
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
 var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
@@ -403,6 +409,9 @@ function llenaSalidasYentradas(){
 	  	
 		e[5][usuario[a].viernes.entrada].push(a)
 	  	s[5][usuario[a].viernes.salida].push(a)
+
+		e[6][usuario[a].viernes.entrada].push(a)
+	  	s[6][usuario[a].viernes.salida].push(a)
 	}
 }
 
