@@ -387,7 +387,7 @@ s[5] = [
   []
 ]
 
-
+var usuariosYviajes=[]
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
 var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
 
@@ -411,6 +411,7 @@ function llenaSalidasYentradas(){
 	  	s[5][usuario[a].viernes.salida].push(a)
 	}
 }
+
 
 
 function recopilaEntrada(a, b, num) {
@@ -588,11 +589,32 @@ function llenaUsuarios(){
 		for(var i=0;i<usuario[a].viajes; i++){
 			v+='<i class="zmdi zmdi-car"></i>'
 		}
-		cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(a+1)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[a].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuario[a].viajes+')</div></td></tr>'
+		usuariosYviajes.push({id:a,viajes:usuario[a].viajes})
+		cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(a)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[a].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a)+'">'+v+' ('+usuario[a].viajes+')</div></td></tr>'
 	}
 	cad+='</table>'
 	 $('#usuarios').html(cad)
 }
+
+function llenaUsuariosOrden(){
+	var cad='<table width="50%" border="0px">'
+	for (var a = 0; a < usuariosYviajes.length; a++) {
+		var v=''
+		for(var i=0;i<usuariosYviajes[a].viajes; i++){
+			v+='<i class="zmdi zmdi-car"></i>'
+		}
+		cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(usuariosYviajes[a].id)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+')</div></td></tr>'
+	}
+	cad+='</table>'
+	 $('#usuarios').html(cad)
+}
+
+function ordenaSegunViajes() {
+  usuariosYviajes.sort(function(a, b){return a.viajes - b.viajes});
+  llenaUsuariosOrden();
+}
+
+
 
 /*
 // Primera ley :-) Usan coche los conductores que van solos en la entrada o en la salida.
@@ -606,4 +628,5 @@ $(document).ready(function(){
 	buscaConductoresSolosSalida()
 	llenaTabla()
 	llenaUsuarios()
+	ordenaSegunViajes()
 });
