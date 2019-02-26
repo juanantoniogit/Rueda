@@ -407,11 +407,15 @@ function llenaSalidasYentradas(){
 
 
 function recopilaEntrada(a, b, n) {
-  var cad = ''
+  var ncoches=Math.ceil(e[a][b].length/4);
+  var s=''
+  if(ncoches>1){s='s'}
+  var asignados=0;
+  var cad = '(' + e[a][b].length  + ' personas necesitan '+ Math.ceil(e[a][b].length/4)+' coche'+s+' )<br>'
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
-  var cssprevConductor = '<span style="color:green"><u><b>'
-  var cssendConductor = '</b></u></span>'
+  var cssprevConductor = '<span style="color:green"><b>'
+  var cssendConductor = '</b></span>'
   if (n == 0) {
     return ''
   }
@@ -423,8 +427,10 @@ function recopilaEntrada(a, b, n) {
     css0 = '';
     css1 = ''
     if (usuario[e[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
+	  asignados++;
+	  
     }else{
 	  css0 = cssprev;
       css1 = cssend
@@ -432,6 +438,16 @@ function recopilaEntrada(a, b, n) {
     cad += css0 + usuario[e[a][b][i]].nombre + css1 + '<br>'
   }
   //cad += '</div>';
+  var ss=''
+  if(asignados>1){ss='s'}
+  var necesitan=ncoches-asignados
+  var sss=''
+  if(necesitan>1){sss='s'}
+  if(necesitan<=0){
+	cad+='COMPLETO <br>'
+  }else{
+	cad += 'Hay '+ asignados+' coche'+ss+'. Se necesita '+(ncoches-asignados)+' coche'+ss+' m&aacute;s)<br>'
+  }
   return cad
 }
 
@@ -439,8 +455,8 @@ function recopilaSalida(a, b, n) {
   var cad = ''
   var cssprev = '<span style="color:red">'
   var cssend = '</span>'
-  var cssprevConductor = '<span style="color:red"><u><b>'
-  var cssendConductor = '</b></u></span>'
+  var cssprevConductor = '<span style="color:red"><b>'
+  var cssendConductor = '</b></span>'
   if (n == 0) {
     return ''
   }
@@ -452,7 +468,7 @@ function recopilaSalida(a, b, n) {
     css0 = '';
     css1 = ''
      if (usuario[s[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
     }else{
 	  css0 = cssprev;
@@ -546,6 +562,11 @@ function llenaTabla(){
 
   }
 }
+/*
+// Primera ley :-) Usan coche los conductores que van solos en la entrada o en la salida.
+// Segunda ley :-) Cada hora de salida tiene que tener los coches suficientes.
+		buscaNumCochesEnCadaHora()
+*/
 
 $(document).ready(function(){
 	llenaSalidasYentradas()
