@@ -1,5 +1,6 @@
 <html><head><title></title>
 <link rel=stylesheet href="rueda.css"></link>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 <script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -12,14 +13,12 @@
 <body>
 <div id="titulo">
 	RUEDA
-  <script>
-  <script>
-var f = new Date();
-document.write( " | " + f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | ");
-var d = new Date();
-document.write(d.getHours() + " : " + d.getMinutes());
-</script>
-
+ <script>
+	var f = new Date();
+	document.write( "&nbsp;&nbsp;&nbsp;&nbsp; Hora actual:  " + f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | ");
+	var d = new Date();
+	document.write(d.getHours() + " : " + d.getMinutes()  + ' &nbsp;&nbsp;&nbsp;&nbsp;Modificado: '+ document.lastModified);
+  </script>
 </div>
 <table class="data-table" cellpadding="4px" cellpadding="4px" width="95%">
   <tr>
@@ -103,6 +102,7 @@ document.write(d.getHours() + " : " + d.getMinutes());
     <td id="v7"></td>
 </tr>	
 </table>
-
+<br>
+<div id="usuarios"></div>
 </body>
 </html>
