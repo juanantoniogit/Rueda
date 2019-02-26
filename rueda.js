@@ -1,8 +1,8 @@
 /*
 ///////////////
 HTML ids usados
-en la tabla
 
+En la tabla
 l1 m1 x1 j1 v1
 l2 m2 x2 j2 v2
 l3 m3 x3 j3 v3
@@ -10,6 +10,11 @@ l4 m4 x4 j4 v4
 l5 m5 x5 j5 v5
 l6 m6 x6 j6 v6
 l7 m7 x7 j7 v7
+
+En la lista de usuarios
+nviajes+numUsuario
+
+
 ///////////////
 */
 var usuario = []
@@ -382,12 +387,14 @@ s[5] = [
   []
 ]
 
-
+var usuariosYviajes=[]
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
 var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
 
 function llenaSalidasYentradas(){
+
 	for (var a = 0; a < usuario.length; a++) {
+		usuario[a].viajes=0;
 		e[1][usuario[a].lunes.entrada].push(a)
 		s[1][usuario[a].lunes.salida].push(a)
 	 
@@ -406,13 +413,22 @@ function llenaSalidasYentradas(){
 }
 
 
-function recopilaEntrada(a, b, n) {
-  var cad = ''
+
+function recopilaEntrada(a, b, num) {
+  var ncoches=Math.ceil(e[a][b].length/4);
+  var s='',n=''
+  if(ncoches>1){s='s';n='n'}
+  var asignados=0;
+  var sp='',np=''
+  var personas=e[a][b].length
+  if(personas>1){sp='s';np='n'}
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(e[a][b].length/4)+' coche'+s+' )<br>'
+  var cad=''
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
-  var cssprevConductor = '<span style="color:green"><u><b>'
-  var cssendConductor = '</b></u></span>'
-  if (n == 0) {
+  var cssprevConductor = '<span style="color:green"><b>'
+  var cssendConductor = '</b></span>'
+  if (num == 0) {
     return ''
   }
   //cad += '(' + n + ')<br>'
@@ -423,8 +439,10 @@ function recopilaEntrada(a, b, n) {
     css0 = '';
     css1 = ''
     if (usuario[e[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
+	  asignados++;
+	  
     }else{
 	  css0 = cssprev;
       css1 = cssend
@@ -432,15 +450,29 @@ function recopilaEntrada(a, b, n) {
     cad += css0 + usuario[e[a][b][i]].nombre + css1 + '<br>'
   }
   //cad += '</div>';
-  return cad
+  var cad02=''
+  var ss='', nn=''
+  if(asignados>1 || asignados==0){ss='s'; nn='n'}
+  
+  var necesitan=ncoches-asignados
+  var sss='', nnn=''
+  if(necesitan>1){sss='s'; nnn='n'}
+  if(necesitan<=0){
+	cad02+='<i class="zmdi zmdi-check"></i>'
+	cad01='';
+  }else{
+	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
+  }
+  
+  return cad01+cad+cad02
 }
 
 function recopilaSalida(a, b, n) {
   var cad = ''
   var cssprev = '<span style="color:red">'
   var cssend = '</span>'
-  var cssprevConductor = '<span style="color:red"><u><b>'
-  var cssendConductor = '</b></u></span>'
+  var cssprevConductor = '<span style="color:red"><b>'
+  var cssendConductor = '</b></span>'
   if (n == 0) {
     return ''
   }
@@ -452,7 +484,7 @@ function recopilaSalida(a, b, n) {
     css0 = '';
     css1 = ''
      if (usuario[s[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
     }else{
 	  css0 = cssprev;
@@ -472,6 +504,8 @@ function buscaConductoresSolosEntrada(){
           	for (var c = 0; c < e[a][b].length; c++) {
            		if(e[a][b].length==1) {
     				usuario[e[a][b][c]][diasn[a]].usacoche=true
+					usuario[e[a][b][c]].viajes++
+					
 				}		
     		}
   	}
@@ -487,6 +521,7 @@ function buscaConductoresSolosSalida(){
           	for (var c = 0; c < s[a][b].length; c++) {
            		if(s[a][b].length==1) {
     				marca.push(a+','+b+','+c+','+ s[a][b][c])
+					usuario[s[a][b][c]].viajes++
 				}		
     		}
   	}
@@ -547,9 +582,51 @@ function llenaTabla(){
   }
 }
 
+function llenaUsuarios(){
+	var cad='<table width="50%" border="0px">'
+	for (var a = 0; a < usuario.length; a++) {
+		var v=''
+		for(var i=0;i<usuario[a].viajes; i++){
+			v+='<i class="zmdi zmdi-car"></i>'
+		}
+		usuariosYviajes.push({id:a,viajes:usuario[a].viajes})
+		cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(a)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[a].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a)+'">'+v+' ('+usuario[a].viajes+')</div></td></tr>'
+	}
+	cad+='</table>'
+	 $('#usuarios').html(cad)
+}
+
+function llenaUsuariosOrden(){
+	var cad='<table width="50%" border="0px">'
+	for (var a = 0; a < usuariosYviajes.length; a++) {
+		var v=''
+		for(var i=0;i<usuariosYviajes[a].viajes; i++){
+			v+='<i class="zmdi zmdi-car"></i>'
+		}
+		cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(usuariosYviajes[a].id)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+')</div></td></tr>'
+	}
+	cad+='</table>'
+	 $('#usuarios').html(cad)
+}
+
+function ordenaSegunViajes() {
+  usuariosYviajes.sort(function(a, b){return a.viajes - b.viajes});
+  llenaUsuariosOrden();
+}
+
+
+
+/*
+// Primera ley :-) Usan coche los conductores que van solos en la entrada o en la salida.
+// Segunda ley :-) Cada hora de salida tiene que tener los coches suficientes.
+		buscaNumCochesEnCadaHora()
+*/
+
 $(document).ready(function(){
 	llenaSalidasYentradas()
 	buscaConductoresSolosEntrada()
 	buscaConductoresSolosSalida()
 	llenaTabla()
+	llenaUsuarios()
+	ordenaSegunViajes()
 });
