@@ -406,13 +406,20 @@ function llenaSalidasYentradas(){
 }
 
 
-function recopilaEntrada(a, b, n) {
-  var cad = ''
+function recopilaEntrada(a, b, num) {
+  var ncoches=Math.ceil(e[a][b].length/4);
+  var s='',n=''
+  if(ncoches>1){s='s';n='n'}
+  var asignados=0;
+  var sp='',np=''
+  var personas=e[a][b].length
+  if(personas>1){sp='s';np='n'}
+  var cad = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(e[a][b].length/4)+' coche'+s+' )<br>'
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
-  var cssprevConductor = '<span style="color:green"><u><b>'
-  var cssendConductor = '</b></u></span>'
-  if (n == 0) {
+  var cssprevConductor = '<span style="color:green"><b>'
+  var cssendConductor = '</b></span>'
+  if (num == 0) {
     return ''
   }
   //cad += '(' + n + ')<br>'
@@ -423,8 +430,10 @@ function recopilaEntrada(a, b, n) {
     css0 = '';
     css1 = ''
     if (usuario[e[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
+	  asignados++;
+	  
     }else{
 	  css0 = cssprev;
       css1 = cssend
@@ -432,6 +441,17 @@ function recopilaEntrada(a, b, n) {
     cad += css0 + usuario[e[a][b][i]].nombre + css1 + '<br>'
   }
   //cad += '</div>';
+  var ss='', nn=''
+  if(asignados>1 || asignados==0){ss='s'; nn='n'}
+  
+  var necesitan=ncoches-asignados
+  var sss='', nnn=''
+  if(necesitan>1){sss='s'; nnn='n'}
+  if(necesitan<=0){
+	cad+='COMPLETO <br>'
+  }else{
+	cad += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
+  }
   return cad
 }
 
@@ -439,8 +459,8 @@ function recopilaSalida(a, b, n) {
   var cad = ''
   var cssprev = '<span style="color:red">'
   var cssend = '</span>'
-  var cssprevConductor = '<span style="color:red"><u><b>'
-  var cssendConductor = '</b></u></span>'
+  var cssprevConductor = '<span style="color:red"><b>'
+  var cssendConductor = '</b></span>'
   if (n == 0) {
     return ''
   }
@@ -452,7 +472,7 @@ function recopilaSalida(a, b, n) {
     css0 = '';
     css1 = ''
      if (usuario[s[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
     }else{
 	  css0 = cssprev;
@@ -546,6 +566,11 @@ function llenaTabla(){
 
   }
 }
+/*
+// Primera ley :-) Usan coche los conductores que van solos en la entrada o en la salida.
+// Segunda ley :-) Cada hora de salida tiene que tener los coches suficientes.
+		buscaNumCochesEnCadaHora()
+*/
 
 $(document).ready(function(){
 	llenaSalidasYentradas()
