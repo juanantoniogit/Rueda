@@ -423,7 +423,7 @@ function recopilaEntrada(a, b, n) {
     css0 = '';
     css1 = ''
     if (usuario[e[a][b][i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor;
+      css0 = cssprevConductor+' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
     }else{
 	  css0 = cssprev;
@@ -546,6 +546,11 @@ function llenaTabla(){
 
   }
 }
+/*
+// Primera ley :-) Usan coche los conductores que van solos en la entrada o en la salida.
+// Segunda ley :-) Cada hora de salida tiene que tener los coches suficientes.
+		buscaNumCochesEnCadaHora()
+*/
 
 $(document).ready(function(){
 	llenaSalidasYentradas()
