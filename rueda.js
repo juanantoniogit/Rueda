@@ -508,6 +508,7 @@ function recopilaSalida(a, b, num) {
      if (usuario[sa[a][b].personas[i]][diasn[a]].usacoche) {
       css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
+	  asignados++;
     }else{
 	  css0 = cssprev;
       css1 = cssend
@@ -578,6 +579,7 @@ function buscaConductoresSolosSalida(){
 
 function buscaCochePara(i,j,nlista){
 	 var nsomos = 0;
+	 usuario[en[i][j].personas[nlista]].viajes=0
 	 if(en[i][j].personas.length==0) {return true}
 	 
 	 if(en[i][j].personas.length==1) {
@@ -596,9 +598,8 @@ function buscaCochePara(i,j,nlista){
 					
 				}
     				//usuario[en[a][b][c]][diasn[a]].usacoche=true
-  	
   }	
-	return false
+  return false
 }
 
 function llenaCelda(m,n){
@@ -713,17 +714,16 @@ $(document).ready(function(){
 	buscaConductoresSolosEntrada()
 	buscaConductoresSolosSalida()
 	llenaTabla()
+	
 	llenaUsuarios()
 	ordenaSegunViajes()
-	
+	/*
 	var dia=1;
 	var hora=1;
 	var n=asignaCoche(dia,hora)
 	//console.log(''+t+' '+n)
-	if(n==0){
-		console.log('completo'+dia+' '+hora)
-	}else{
-		var n=asignaCoche(dia,hora)
+	while(n==0){
+		n=asignaCoche(dia,hora)
 		console.log('completo'+dia+' '+hora)
 	}
 	
@@ -731,27 +731,13 @@ $(document).ready(function(){
 	hora=1;
 	var n=asignaCoche(dia,hora)
 	//console.log(''+t+' '+n)
-	if(n==0){
-		console.log('completo'+dia+' '+hora)
-	}else{
-		var n=asignaCoche(dia,hora)
+	while(n==0){
+		n=asignaCoche(dia,hora)
 		console.log('completo'+dia+' '+hora)
 	}
 	
-	/*
-	var dia=1, hora=1;
-	for(var i=1;i<=5;i++){
-			for(var j=1;j<=3;j++){
-				dia=i;hora=j;
-				for(var a=0;a<usuariosYviajes.length;a++){
-					var s=buscaCochePara(hora,dia,usuariosYviajes[a].id)
-					if(s){break}
-				}
-				llenaCelda(dia,hora)
-				llenaUsuarios()
-				ordenaSegunViajes()
-		}
-	}
+	
+	
 	
 	*/
 	
