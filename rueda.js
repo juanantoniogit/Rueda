@@ -251,9 +251,9 @@ usuario.push({
 })
 
 
-// VARIABLES DE ENTRADA  e[0]..e[6] 
-var e = []
-e[0] = [
+// VARIABLES DE ENTRADA  en[0]..e[6] 
+var en = []
+en[0] = [
   [],
   [],
   [],
@@ -263,7 +263,7 @@ e[0] = [
   [],
   []
 ]
-e[1] = [
+en[1] = [
   [],
   [],
   [],
@@ -273,7 +273,7 @@ e[1] = [
   [],
   []
 ]
-e[2] = [
+en[2] = [
   [],
   [],
   [],
@@ -283,7 +283,7 @@ e[2] = [
   [],
   []
 ]
-e[3] = [
+en[3] = [
   [],
   [],
   [],
@@ -293,7 +293,7 @@ e[3] = [
   [],
   []
 ]
-e[4] = [
+en[4] = [
   [],
   [],
   [],
@@ -303,7 +303,7 @@ e[4] = [
   [],
   []
 ]
-e[5] = [
+en[5] = [
   [],
   [],
   [],
@@ -313,7 +313,7 @@ e[5] = [
   [],
   []
 ]
-e[6] = [
+en[6] = [
   [],
   [],
   [],
@@ -324,9 +324,9 @@ e[6] = [
   []
 ]
 
-// VARIABLES DE SALIDA  s[0]..s[6] 
-var s = []
-s[0] = [
+// VARIABLES DE SALIDA  sa[0]..sa[6] 
+var sa = []
+sa[0] = [
   [],
   [],
   [],
@@ -336,7 +336,7 @@ s[0] = [
   [],
   []
 ]
-s[1] = [
+sa[1] = [
   [],
   [],
   [],
@@ -346,7 +346,7 @@ s[1] = [
   [],
   []
 ]
-s[2] = [
+sa[2] = [
   [],
   [],
   [],
@@ -356,7 +356,7 @@ s[2] = [
   [],
   []
 ]
-s[3] = [
+sa[3] = [
   [],
   [],
   [],
@@ -366,7 +366,7 @@ s[3] = [
   [],
   []
 ]
-s[4] = [
+sa[4] = [
   [],
   [],
   [],
@@ -376,7 +376,7 @@ s[4] = [
   [],
   []
 ]
-s[5] = [
+sa[5] = [
   [],
   [],
   [],
@@ -386,6 +386,17 @@ s[5] = [
   [],
   []
 ]
+
+for(var a=0;a<en.length;a++){
+	for(var b=0;b<en[a].length;b++){	
+	en[a][b]={personas:[],tengoCoches:0,necesitoCoches:0,check:false}
+	}
+}
+for(var a=0;a<sa.length;a++){
+	for(var b=0;b<sa[a].length;b++){	
+	sa[a][b]={personas:[],tengoCoches:0,necesitoCoches:0,check:false}
+	}
+}
 
 var usuariosYviajes=[]
 var diass = ['', 'l', 'm', 'x', 'j', 'v']
@@ -395,34 +406,34 @@ function llenaSalidasYentradas(){
 
 	for (var a = 0; a < usuario.length; a++) {
 		usuario[a].viajes=0;
-		e[1][usuario[a].lunes.entrada].push(a)
-		s[1][usuario[a].lunes.salida].push(a)
-	 
-		e[2][usuario[a].martes.entrada].push(a)
-		s[2][usuario[a].martes.salida].push(a)
-	  
-		e[3][usuario[a].miercoles.entrada].push(a)
-	  	s[3][usuario[a].miercoles.salida].push(a)
-	  
-		e[4][usuario[a].jueves.entrada].push(a)
-	  	s[4][usuario[a].jueves.salida].push(a)
-	  	
-		e[5][usuario[a].viernes.entrada].push(a)
-	  	s[5][usuario[a].viernes.salida].push(a)
+	    en[1][usuario[a].lunes.entrada].personas.push(a)
+		sa[1][usuario[a].lunes.salida].personas.push(a)
+	   
+		en[2][usuario[a].martes.entrada].personas.push(a)
+		sa[2][usuario[a].martes.salida].personas.push(a)
+
+		en[3][usuario[a].miercoles.entrada].personas.push(a)
+	  	sa[3][usuario[a].miercoles.salida].personas.push(a)
+		   
+    	en[4][usuario[a].jueves.entrada].personas.push(a)
+	  	sa[4][usuario[a].jueves.salida].personas.push(a)
+	  		  
+		en[5][usuario[a].viernes.entrada].personas.push(a)
+	  	sa[5][usuario[a].viernes.salida].personas.push(a)
 	}
 }
 
 
 
 function recopilaEntrada(a, b, num) {
-  var ncoches=Math.ceil(e[a][b].length/4);
+  var ncoches=Math.ceil(en[a][b].personas.length/4);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
-  var personas=e[a][b].length
+  var personas=en[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(e[a][b].length/4)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/4)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
@@ -435,10 +446,10 @@ function recopilaEntrada(a, b, num) {
  
   var css0 = '';
   var css1 = ''
-  for (var i = 0; i < e[a][b].length; i++) {
+  for (var i = 0; i < en[a][b].personas.length; i++) {
     css0 = '';
     css1 = ''
-    if (usuario[e[a][b][i]][diasn[a]].usacoche) {
+    if (usuario[en[a][b].personas[i]][diasn[a]].usacoche) {
       css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
 	  asignados++;
@@ -447,20 +458,25 @@ function recopilaEntrada(a, b, num) {
 	  css0 = cssprev;
       css1 = cssend
 	}
-    cad += css0 + usuario[e[a][b][i]].nombre + css1 + '<br>'
+    cad += css0 + usuario[en[a][b].personas[i]].nombre + css1 + '<br>'
   }
   //cad += '</div>';
   var cad02=''
   var ss='', nn=''
-  if(asignados>1 || asignados==0){ss='s'; nn='n'}
-  
+  if(asignados>1 || asignados==0){
+	  ss='s'; nn='n'
+	  
+  }
+  en[a][b].tengoCoches=ncoches;
   var necesitan=ncoches-asignados
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
 	cad02+='<i class="zmdi zmdi-check"></i>'
 	cad01='';
+	en[a][b].necesitoCoches=0;
   }else{
+	en[a][b].necesitoCoches=necesitan;
 	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
   }
   
@@ -480,17 +496,17 @@ function recopilaSalida(a, b, n) {
   cad += '<div style="color:red">'
   var css0 = '';
   var css1 = ''
-  for (var i = 0; i < s[a][b].length; i++) {
+  for (var i = 0; i < sa[a][b].personas.length; i++) {
     css0 = '';
     css1 = ''
-     if (usuario[s[a][b][i]][diasn[a]].usacoche) {
+     if (usuario[sa[a][b].personas[i]][diasn[a]].usacoche) {
       css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
       css1 = cssendConductor
     }else{
 	  css0 = cssprev;
       css1 = cssend
 	}
-    cad += css0 + usuario[s[a][b][i]].nombre + css1 + '<br>'
+    cad += css0 + usuario[sa[a][b].personas[i]].nombre + css1 + '<br>'
   }
   cad += '</div>';
   return cad
@@ -499,12 +515,12 @@ function recopilaSalida(a, b, n) {
 
 function buscaConductoresSolosEntrada(){
   var nsomos = 0;
-  for (var a = 0; a < e.length; a++) {
-	for (var b = 0; b < e[a].length; b++) {
-          	for (var c = 0; c < e[a][b].length; c++) {
-           		if(e[a][b].length==1) {
-    				usuario[e[a][b][c]][diasn[a]].usacoche=true
-					usuario[e[a][b][c]].viajes++
+  for (var a = 0; a < en.length; a++) {
+	for (var b = 0; b < en[a].length; b++) {
+          	for (var c = 0; c < en[a][b].personas.length; c++) {
+           		if(en[a][b].personas.length==1) {
+    				usuario[en[a][b].personas[c]][diasn[a]].usacoche=true
+					usuario[en[a][b].personas[c]].viajes++
 					
 				}		
     		}
@@ -516,12 +532,12 @@ function buscaConductoresSolosEntrada(){
 function buscaConductoresSolosSalida(){
   var nsomos = 0;
   var marca=[]
-  for (var a = 0; a < s.length; a++) {
-	for (var b = 0; b < s[a].length; b++) {
-          	for (var c = 0; c < s[a][b].length; c++) {
-           		if(s[a][b].length==1) {
-    				marca.push(a+','+b+','+c+','+ s[a][b][c])
-					usuario[s[a][b][c]].viajes++
+  for (var a = 0; a < sa.length; a++) {
+	for (var b = 0; b < sa[a].length; b++) {
+          	for (var c = 0; c < sa[a][b].personas.length; c++) {
+           		if(sa[a][b].personas.length==1) {
+    				marca.push(a+','+b+','+c+','+ sa[a][b].personas[c])
+					usuario[sa[a][b].personas[c]].viajes++
 				}		
     		}
   	}
@@ -535,19 +551,24 @@ function buscaConductoresSolosSalida(){
 
 function buscaCochePara(i,j,nlista){
 	 var nsomos = 0;
-     for (var c = 0; c < e[i][j].length; c++) {
+	 if(en[i][j].personas.length==0) {return true}
+	 
+	 if(en[i][j].personas.length==1) {
+    				usuario[en[i][j].personas[nlista]][diasn[i]].usacoche=true
+					usuario[en[i][j].personas[nlista]].viajes++
+					return true
+				}		
+     for (var c = 0; c < en[i][j].personas.length; c++) {
 		     //for (var d = 0; d < usuariosYviajes.length; d++){
-           		if(usuariosYviajes[nlista].id==e[i][j][c]){
-					usuario[e[i][j][c]][diasn[i]].usacoche=true
-					usuario[e[i][j][c]].viajes++
+           		if(usuariosYviajes[nlista].id==en[i][j].personas[c]){
+					usuario[en[i][j].personas[c]][diasn[i]].usacoche=true
+					en[i][j].tengoCoches++
+					usuario[en[i][j].personas[c]].viajes++
 					return true
 					break;
 					
 				}
-    				//usuario[e[a][b][c]][diasn[a]].usacoche=true
-					
-			
-			
+    				//usuario[en[a][b][c]][diasn[a]].usacoche=true
   	
   }	
 	return false
@@ -555,7 +576,7 @@ function buscaCochePara(i,j,nlista){
 
 function llenaCelda(m,n){
 	
-	 var nsomos = e[m][n].length
+	 var nsomos = en[m][n].personas.length
     cad = recopilaEntrada(m, n, nsomos)
     $('#' + diass[m] +''+ n).html(cad)
 }
@@ -564,44 +585,44 @@ function llenaTabla(){
   var nsomos = 0;
   for (var a = 1; a < 6; a++) {
 	// ENTRADAS
-    nsomos = e[a][1].length
+    nsomos = en[a][1].personas.length
     cad = recopilaEntrada(a, 1, nsomos)
     $('#' + diass[a] + '1').append(cad)
 	
-    nsomos = e[a][2].length
+    nsomos = en[a][2].personas.length
     cad = recopilaEntrada(a, 2, nsomos)
     $('#' + diass[a] + '2').append(cad)
 	
-    nsomos = e[a][3].length
+    nsomos = en[a][3].personas.length
     cad = recopilaEntrada(a, 3, nsomos)
     $('#' + diass[a] + '3').append(cad)
 	
-	 nsomos = e[a][4].length
+	 nsomos = en[a][4].personas.length
     cad = recopilaEntrada(a, 4, nsomos)
     $('#' + diass[a] + '4').append(cad)
 	
-	 nsomos = e[a][5].length
+	 nsomos = en[a][5].personas.length
     cad = recopilaEntrada(a, 5, nsomos)
     $('#' + diass[a] + '5').append(cad)
 	
-	 nsomos = e[a][6].length
+	 nsomos = en[a][6].personas.length
     cad = recopilaEntrada(a, 6, nsomos)
     $('#' + diass[a] + '6').append(cad)
 	
 	// SALIDAS
-    nsomos = s[a][4].length
+    nsomos = sa[a][4].personas.length
     cad = recopilaSalida(a, 4, nsomos)
     $('#' + diass[a] + '4').append(cad)
 	
-    nsomos = s[a][5].length
+    nsomos = sa[a][5].personas.length
     cad = recopilaSalida(a, 5, nsomos)
     $('#' + diass[a] + '5').append(cad)
 	
-    nsomos = s[a][6].length
+    nsomos = sa[a][6].personas.length
     cad = recopilaSalida(a, 6, nsomos)
     $('#' + diass[a] + '6').append(cad)
 	
-	 nsomos = s[a][7].length
+	 nsomos = sa[a][7].personas.length
     cad = recopilaSalida(a, 7, nsomos)
     $('#' + diass[a] + '7').append(cad)
 
@@ -651,6 +672,15 @@ function ordenaSegunViajes() {
 		buscaNumCochesEnCadaHora()
 */
 
+function asignaCoche(dia,hora){
+	var s=buscaCochePara(hora,dia,usuariosYviajes[a].id)
+		llenaCelda(dia,hora)
+		llenaUsuarios()
+		ordenaSegunViajes()
+		var t=en[dia][hora].tengoCoches
+		var n=en[dia][hora].necesitoCoches
+		return n
+}
 $(document).ready(function(){
 	llenaSalidasYentradas()
 	buscaConductoresSolosEntrada()
@@ -659,96 +689,43 @@ $(document).ready(function(){
 	llenaUsuarios()
 	ordenaSegunViajes()
 	
+	var dia=1;
+	var hora=1;
+	var n=asignaCoche(dia,hora)
+	//console.log(''+t+' '+n)
+	if(n==0){
+		console.log('completo'+dia+' '+hora)
+	}else{
+		var n=asignaCoche(dia,hora)
+		console.log('completo'+dia+' '+hora)
+	}
 	
-	//console.log(usuario[usuariosYviajes[1].id].nombre)
+	dia=2; 
+	hora=1;
+	var n=asignaCoche(dia,hora)
+	//console.log(''+t+' '+n)
+	if(n==0){
+		console.log('completo'+dia+' '+hora)
+	}else{
+		var n=asignaCoche(dia,hora)
+		console.log('completo'+dia+' '+hora)
+	}
+	
+	/*
 	var dia=1, hora=1;
-	
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(hora,dia,usuariosYviajes[a].id)
-		if(s){break}
+	for(var i=1;i<=5;i++){
+			for(var j=1;j<=3;j++){
+				dia=i;hora=j;
+				for(var a=0;a<usuariosYviajes.length;a++){
+					var s=buscaCochePara(hora,dia,usuariosYviajes[a].id)
+					if(s){break}
+				}
+				llenaCelda(dia,hora)
+				llenaUsuarios()
+				ordenaSegunViajes()
+		}
 	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
 	
-	
-	dia=1; hora=2;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-	
-	dia=2; hora=1;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-	
-		dia=3; hora=2;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-		dia=4; hora=1;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-		dia=4; hora=2;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-		dia=5; hora=1;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-	
-	dia=5; hora=1;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-	
-	dia=5; hora=2;
-	for(var a=0;a<usuariosYviajes.length;a++){
-		var s=buscaCochePara(dia,hora,usuariosYviajes[a].id)
-		if(s){break}
-	}
-	llenaCelda(dia,hora)
-	llenaUsuarios()
-	ordenaSegunViajes()
-	
-	
-	
+	*/
 	
 });
