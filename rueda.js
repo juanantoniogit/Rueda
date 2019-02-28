@@ -20,6 +20,156 @@ nviajes+numUsuario
 var usuario = []
 
 usuario.push({
+  nombre: 'Luisa',
+  lunes: {
+    entrada: 1,
+    salida: 5,
+    usacoche: false
+  },
+  martes: {
+    entrada: 1,
+    salida: 5,
+    usacoche: false
+  },
+  miercoles: {
+    entrada: 1,
+    salida: 4,
+    usacoche: false
+  },
+  jueves: {
+    entrada: 2,
+    salida: 5,
+    usacoche: false
+  },
+  viernes: {
+    entrada: 1,
+    salida: 5,
+    usacoche: false
+  }
+})
+
+
+usuario.push({
+  nombre: 'Andres',
+  lunes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  },
+  martes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  },
+  miercoles: {
+    entrada: 2,
+    salida: 6,
+    usacoche: false
+  },
+  jueves: {
+    entrada: 2,
+    salida: 6,
+    usacoche: false
+  },
+  viernes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  }
+})
+
+
+usuario.push({
+  nombre: 'Magda',
+  lunes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  },
+  martes: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  },
+  miercoles: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  },
+  jueves: {
+    entrada: 2,
+    salida: 6,
+    usacoche: false
+  },
+  viernes: {
+    entrada: 2,
+    salida: 6,
+    usacoche: false
+  }
+})
+
+
+usuario.push({
+  nombre: 'Angeles',
+  lunes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  },
+  martes: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  },
+  miercoles: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  },
+  jueves: {
+    entrada: 1,
+    salida: 5,
+    usacoche: false
+  },
+  viernes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  }
+})
+
+
+usuario.push({
+  nombre: 'Angel',
+  lunes: {
+    entrada: 1,
+    salida: 4,
+    usacoche: false
+  },
+  martes: {
+    entrada: 1,
+    salida: 5,
+    usacoche: false
+  },
+  miercoles: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  },
+  jueves: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  },
+  viernes: {
+    entrada: 3,
+    salida: 6,
+    usacoche: false
+  }
+})
+
+
+usuario.push({
   nombre: 'Juan',
   lunes: {
     entrada: 2,
@@ -200,13 +350,13 @@ usuario.push({
     usacoche: false
   },
   martes: {
-    entrada: 6,
+    entrada: 3,
     salida: 7,
     usacoche: false
   },
   miercoles: {
     entrada: 1,
-    salida: 7,
+    salida: 6,
     usacoche: false
   },
   jueves: {
@@ -826,10 +976,11 @@ $(document).ready(function(){
 	
  var dia=0;
  var completo=false
+ var revisiones = 5;
  
   dia=1; 
   completo=false
-	for(var a=0;a<2;a++){
+	for(var a=0;a<revisiones;a++){
 		completo=diaEstaCompleto(dia) 
 		console.log(completo+' '+a)	 
 		if(completo==false){
@@ -851,7 +1002,7 @@ $(document).ready(function(){
  
 	dia=2
    completo=false
-	for(var a=0;a<2;a++){
+	for(var a=0;a<revisiones;a++){
 		completo=diaEstaCompleto(dia) 
 		console.log(completo+' '+a)	 
 		if(completo==false){
@@ -872,7 +1023,7 @@ $(document).ready(function(){
 
    dia=3;
     completo=false
-	for(var a=0;a<1;a++){
+	for(var a=0;a<revisiones;a++){
 		completo=diaEstaCompleto(dia) 
 		console.log(completo+' '+a)	 
 		if(completo==false){
@@ -892,7 +1043,7 @@ $(document).ready(function(){
 	}
   dia=4;
   completo=false
-	for(var a=0;a<4;a++){
+	for(var a=0;a<revisiones;a++){
 		completo=diaEstaCompleto(dia) 
 		console.log(completo+' '+a)	 
 		if(completo==false){
@@ -912,7 +1063,7 @@ $(document).ready(function(){
 	}
  dia=5;
 	 completo=false
-	for(var a=0;a<3;a++){
+	for(var a=0;a<revisiones;a++){
 		completo=diaEstaCompleto(dia) 
 		console.log(completo+' '+a)	 
 		if(completo==false){
