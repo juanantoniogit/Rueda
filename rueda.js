@@ -832,6 +832,16 @@ $(document).ready(function(){
 		console.log('No es ideoneo, debes buscar otro')
 	}
 	
+	var dia=2;
+	var b=buscaConductoresDia(dia)
+	if(b[2].includes(b[0])){
+		console.log('es ideoneo'+' '+b[2].join(' '))
+		var aqueh=aqueHoraEntraSale(dia,b[0])
+	    console.log(aqueh.join(' '))
+	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+	} else{
+		console.log('No es ideoneo, debes buscar otro')
+	}
 	
 	var dia=3;
 	var b=buscaConductoresDia(dia)
@@ -865,7 +875,26 @@ $(document).ready(function(){
 	} else{
 		console.log('No es ideoneo, debes buscar otro')
 	}
-	
+var dia=4;
+	var b=buscaConductoresDia(dia)
+	if(b[2].includes(b[0])){
+		console.log('es ideoneo'+' '+b[2].join(' '))
+		var aqueh=aqueHoraEntraSale(dia,b[0])
+	    console.log(aqueh.join(' '))
+	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+	} else{
+		console.log('No es ideoneo, debes buscar otro')
+	}
+var dia=4;
+	var b=buscaConductoresDia(dia)
+	if(b[2].includes(b[0])){
+		console.log('es ideoneo'+' '+b[2].join(' '))
+		var aqueh=aqueHoraEntraSale(dia,b[0])
+	    console.log(aqueh.join(' '))
+	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+	} else{
+		console.log('No es ideoneo, debes buscar otro')
+	}	
 	
 	var dia=5;
 	var b=buscaConductoresDia(dia)
