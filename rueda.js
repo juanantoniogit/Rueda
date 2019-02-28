@@ -386,7 +386,16 @@ sa[5] = [
   [],
   []
 ]
-
+sa[6] = [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  []
+]
 for(var a=0;a<en.length;a++){
 	for(var b=0;b<en[a].length;b++){	
 	en[a][b]={personas:[],tengoCoches:0,necesitoCoches:0,check:false}
@@ -475,6 +484,7 @@ function recopilaEntrada(a, b, num) {
 	cad02+='<i class="zmdi zmdi-check"></i>'
 	cad01='';
 	en[a][b].necesitoCoches=0;
+	en[a][b].check=true;
   }else{
 	en[a][b].necesitoCoches=necesitan;
 	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
@@ -529,6 +539,7 @@ function recopilaSalida(a, b, num) {
 	cad02+='<i class="zmdi zmdi-check"></i>'
 	cad01='';
 	sa[a][b].necesitoCoches=0;
+	sa[a][b].check=true;
   }else{
 	sa[a][b].necesitoCoches=necesitan;
 	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
@@ -740,7 +751,6 @@ function quienHayLibre(dia,hora,ES){
 	return libres
 }
 function quienHayLibreHoy(dia){
-	
 		var libres=[]
 		for(var a=0;a<usuario.length;a++){
 			if(!usuario[a][diasn[dia]].usacoche){
@@ -766,6 +776,21 @@ function buscaConductoresDia(dia){
 function aqueHoraEntraSale(dia,user){
 	return [usuario[user][diasn[dia]].entrada,usuario[user][diasn[dia]].salida]
 }
+function diaEstaCompleto(dia){
+	var ce= false; 
+	var cs= false; 
+	for(var hora=1;hora<=7;hora++){
+		cs=sa[dia][hora].check
+		ce=en[dia][hora].check
+		if(!cs||!ce){
+			return false;
+		}
+	}
+	return true
+}
+function horaEstaCompleta(hora){
+	
+}
 function asignaCocheDiaHora(user,dia,hora,horaSalida){
 	    usuario[user][diasn[dia]].usacoche=true
 		usuario[user].viajes++
@@ -779,7 +804,7 @@ function asignaCocheDiaHora(user,dia,hora,horaSalida){
 		return n
 }
 
-function asignaConductorDiaHora02(dia,hora){
+function asignaConductorDiaHora02X(dia,hora){
 	var s=buscaCochePara(hora,dia,usuariosYviajes[0].id)
 		llenaCelda(dia,hora)
 		llenaUsuarios()
@@ -799,135 +824,114 @@ $(document).ready(function(){
 	llenaUsuarios()
 	ordenaSegunViajes()
 	
-	var dia=1;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}
+ var dia=0;
+ var completo=false
+ 
+  dia=1; 
+  completo=false
+	for(var a=0;a<2;a++){
+		completo=diaEstaCompleto(dia) 
+		console.log(completo+' '+a)	 
+		if(completo==false){
+			var b=buscaConductoresDia(dia)
+			if(b[2].includes(b[0])){
+				console.log('es ideoneo'+' '+b[2].join(' '))
+				var aqueh=aqueHoraEntraSale(dia,b[0])
+				console.log(aqueh.join(' '))
+				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+			} else{
+				console.log('No es ideoneo, debes buscar otro')
+			}
+	   }else{
+		   break
+	   }
     
-	var dia=1;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
 	}
 	
-	var dia=2;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
+ 
+	dia=2
+   completo=false
+	for(var a=0;a<2;a++){
+		completo=diaEstaCompleto(dia) 
+		console.log(completo+' '+a)	 
+		if(completo==false){
+			var b=buscaConductoresDia(dia)
+			if(b[2].includes(b[0])){
+				console.log('es ideoneo'+' '+b[2].join(' '))
+				var aqueh=aqueHoraEntraSale(dia,b[0])
+				console.log(aqueh.join(' '))
+				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+			} else{
+				console.log('No es ideoneo, debes buscar otro')
+			}
+	   }else{
+		   break
+	   }
+    
 	}
-	
-	var dia=2;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
+
+   dia=3;
+    completo=false
+	for(var a=0;a<1;a++){
+		completo=diaEstaCompleto(dia) 
+		console.log(completo+' '+a)	 
+		if(completo==false){
+			var b=buscaConductoresDia(dia)
+			if(b[2].includes(b[0])){
+				console.log('es ideoneo'+' '+b[2].join(' '))
+				var aqueh=aqueHoraEntraSale(dia,b[0])
+				console.log(aqueh.join(' '))
+				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+			} else{
+				console.log('No es ideoneo, debes buscar otro')
+			}
+	   }else{
+		   break
+	   }
+    
 	}
-	
-	var dia=3;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
+  dia=4;
+  completo=false
+	for(var a=0;a<4;a++){
+		completo=diaEstaCompleto(dia) 
+		console.log(completo+' '+a)	 
+		if(completo==false){
+			var b=buscaConductoresDia(dia)
+			if(b[2].includes(b[0])){
+				console.log('es ideoneo'+' '+b[2].join(' '))
+				var aqueh=aqueHoraEntraSale(dia,b[0])
+				console.log(aqueh.join(' '))
+				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+			} else{
+				console.log('No es ideoneo, debes buscar otro')
+			}
+	   }else{
+		   break
+	   }
+    
 	}
-	
-	var dia=4;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
+ dia=5;
+	 completo=false
+	for(var a=0;a<3;a++){
+		completo=diaEstaCompleto(dia) 
+		console.log(completo+' '+a)	 
+		if(completo==false){
+			var b=buscaConductoresDia(dia)
+			if(b[2].includes(b[0])){
+				console.log('es ideoneo'+' '+b[2].join(' '))
+				var aqueh=aqueHoraEntraSale(dia,b[0])
+				console.log(aqueh.join(' '))
+				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+			} else{
+				console.log('No es ideoneo, debes buscar otro')
+			}
+	   }else{
+		   break
+	   }
+    
 	}
-	
-	var dia=4;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}
-var dia=4;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}
-var dia=4;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}	
-	
-	var dia=5;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}
+
 	
 	
-	var dia=5;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}
-	
-	var dia=5;
-	var b=buscaConductoresDia(dia)
-	if(b[2].includes(b[0])){
-		console.log('es ideoneo'+' '+b[2].join(' '))
-		var aqueh=aqueHoraEntraSale(dia,b[0])
-	    console.log(aqueh.join(' '))
-	    asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
-	} else{
-		console.log('No es ideoneo, debes buscar otro')
-	}
 	
 });
