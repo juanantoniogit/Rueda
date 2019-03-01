@@ -548,12 +548,12 @@ sa[6] = [
 ]
 for(var a=0;a<en.length;a++){
 	for(var b=0;b<en[a].length;b++){	
-	en[a][b]={personas:[],tengoCoches:0,asignados:0,necesitoCoches:0,check:false}
+	en[a][b]={personas:[],tengoCoches:0,asignados:0,factor:0,necesitoCoches:0,check:false}
 	}
 }
 for(var a=0;a<sa.length;a++){
 	for(var b=0;b<sa[a].length;b++){	
-	sa[a][b]={personas:[],tengoCoches:0,asignados:0,necesitoCoches:0,check:false}
+	sa[a][b]={personas:[],tengoCoches:0,asignados:0,factor:0,necesitoCoches:0,check:false}
 	}
 }
 
@@ -624,15 +624,20 @@ function recopilaEntrada(a, b, num) {
   var ss='', nn=''
   if(asignados>1 || asignados==0){
 	  ss='s'; nn='n'
-	  
   }
   en[a][b].tengoCoches=ncoches;
   en[a][b].asignados=asignados
+  var todos=todosConCoche(a,b,'entrada')
+  if(todos.correcto){
+	  console.log('Estan todos el ' +diasn[a]+' a `hora '+b )
+  }else{
+	  //console.log('NO Estan todos ' +a+' '+b)
+  }
   var necesitan=ncoches-asignados
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'
+	cad02+='<i class="zmdi zmdi-check"></i>'+ ' '+ todos.factor
 	cad01='';
 	en[a][b].necesitoCoches=0;
 	en[a][b].check=true;
@@ -683,11 +688,19 @@ function recopilaSalida(a, b, num) {
 	  
   }
   sa[a][b].tengoCoches=ncoches;
+  sa[a][b].asignados=asignados;
+  var todos=todosConCoche(a,b,'salida')
+  if(todos.correcto){
+	 console.log('Estan todos el ' +diasn[a]+' a `hora '+b )
+  }else{
+	  //console.log('NO Estan todos ' +a+' '+b)
+  }
+  
   var necesitan=ncoches-asignados
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'
+	cad02+='<i class="zmdi zmdi-check"></i>'+ ' '+ todos.factor
 	cad01='';
 	sa[a][b].necesitoCoches=0;
 	sa[a][b].check=true;
@@ -711,7 +724,7 @@ function buscaConductoresSolosEntrada(){
            		if(en[a][b].personas.length==1) {
     				usuario[en[a][b].personas[c]][diasn[a]].usacoche=true
 					usuario[en[a][b].personas[c]].viajes++
-					
+					en[a][b].asignados++;
 				}		
     		}
   	}
@@ -728,6 +741,7 @@ function buscaConductoresSolosSalida(){
            		if(sa[a][b].personas.length==1) {
     				marca.push(a+','+b+','+c+','+ sa[a][b].personas[c])
 					usuario[sa[a][b].personas[c]].viajes++
+					sa[a][b].asignados++;
 				}		
     		}
   	}
@@ -855,7 +869,8 @@ function llenaUsuariosOrden(){
 
 	}
 	cad+='</table><br>'
-	 $('#usuarios').prepend(cad)
+	 //$('#usuarios').prepend(cad)
+	 $('#usuarios').html(cad)
 }
 
 function ordenaSegunViajes() {
@@ -1058,15 +1073,13 @@ var enLista=0
 function llena(dia){
 		completo=diaEstaCompleto(dia) 
 		//console.log(completo+' '+a)	 
-		
 		if(completo==false){
 			var b=buscaConductoresDia(dia,enLista)
 				if(b[2].includes(b[0])){
 				//console.log('es idoneo'+' '+b[2].join(' '))
 				var aqueh=aqueHoraEntraSale(dia,b[0])
 				//console.log(aqueh.join(' '))
-				var todos=todosConCoche(dia,b[0])
-				if(todos){console.log('Estan todos ' +b[0]+' '+dia)}
+				
 				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
 				//console.log(b[3].join(' ')+' se queda en el pueblo')
 			} else{
@@ -1078,17 +1091,90 @@ function llena(dia){
 
 
 
-function todosConCoche(dia,hora){
+function todosConCoche(dia,hora,ES){
 	var cavenEnCoche = 4
-	var numCochesAsignados = en[dia][hora].asignados
+	var numCochesAsignados=0;
 	var numUsuariosEstaHora = 1
-	
-	var r = numCochesAsignados*numUsuariosEstaHora/cavenEnCoche
+	if(ES=='entrada'){
+		numCochesAsignados = en[dia][hora].asignados
+		numUsuariosEstaHora = en[dia][hora].personas.length
+	}
+	if(ES=='salida'){
+		numCochesAsignados = sa[dia][hora].asignados
+		numUsuariosEstaHora = sa[dia][hora].personas.length
+	}
+	var r = numCochesAsignados * numUsuariosEstaHora / cavenEnCoche
+    //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
+	if(ES=='entrada'){
+		en[dia][hora].factor=r
+	}
+	if(ES=='salida'){
+		sa[dia][hora].factor=r
+	}
 	if (r>=1){
-	return true
+		return  {correcto:true,factor:r}
 	}
 	else{
-	return false}
+		return {correcto:false,factor:r}
+	}
+}
+
+
+function quitaCoche(dia){
+	//BuscaEntradasconFactorAlto
+	var horasEntradaFactorAlto=[]
+	for(var hora=1;hora<=7;hora++){
+		if(en[dia][hora].factor>1){horasEntradaFactorAlto.push(hora)}
+	}
+	var horasSalidaFactorAlto=[]
+	for(var hora=1;hora<=7;hora++){
+		if(sa[dia][hora].factor>1){horasSalidaFactorAlto.push(hora)}
+	}
+	//QuienEsElUsuarioUltimo (el que más viajes hace?)
+	var elQueMasViajesHaceEs = usuariosYviajes[usuariosYviajes.length-1].id
+	//llevaCocheEsteUsuarioEstedia?
+	var llevaCoche=usuario[elQueMasViajesHaceEs][diasn[dia]].usacoche
+	if(llevaCoche && horasEntradaFactorAlto.length>0){
+			//vamosAquitarseloSiPodemos
+	//revisaTodasLasHorasDeEntradaDeEsteDiaConFactorAlto-SiEstaElUsuario+llevaCohe-EntoncesGuardaLaHora
+	//revisaTodasLasHorasDeSalidaDeEsteDiaConFactorAlto-SiEstaElUsuario+llevaCohe-EntoncesGuardaLaHora
+	//oMejor--miraHoraDeEntradaDelUsuarioYdeSalidaYcompruebaSiLasDosLLevanFactorAlto
+	     var horaEntrada=usuario[elQueMasViajesHaceEs][diasn[dia]].entrada
+		 var horaSalida=usuario[elQueMasViajesHaceEs][diasn[dia]].salida
+		 var esPosibleEnlaEntrada=false
+		 var esPosibleEnlaSalida=false
+		 for(var a=0;a<horasEntradaFactorAlto.length;a++){
+			if(horasEntradaFactorAlto[a]==horaEntrada){esPosibleEnlaEntrada=true; break}
+		}
+		for(var a=0;a<horasSalidaFactorAlto.length;a++){
+			if(horasSalidaFactorAlto[a]==horaSalida){esPosibleEnlaSalida=true; break}
+		}
+		if(esPosibleEnlaEntrada && esPosibleEnlaSalida){
+			//VamosAquitarUnCoche HURRA!!!
+			//AverComoSeHaceEsto!!?????
+			//PrimeroPonerFalseLaVariable usacoche yVolverAReescribrirAverQuePasa
+			usuario[elQueMasViajesHaceEs][diasn[dia]].usacoche=false
+			usuario[elQueMasViajesHaceEs].viajes--
+			llenaTabla();
+		    llenaUsuarios()
+		    ordenaSegunViajes()
+			return true
+			//:-D
+			
+		}else{
+			console.log('No lleva coche. Guay! prueba otro día')
+			return false 
+			
+			//  :-(  PruebaConOtroDia
+		}
+	
+	}else{
+		//niHayNingunCocheQueQuitar :-(
+		//podriamosCorrerLaMatrizUnPuestoYprobarConElSiguienteUsuario
+		//pero__EsMejorProbarConElSiguienteDiaDeLaSemana
+		console.log('Que pasa?')
+		return false
+	}
 }
 
 /////////////////// END UTILIDADES
@@ -1104,11 +1190,10 @@ $(document).ready(function(){
 	
  var dia=1;
  var completo=false
- $(document).click(function(){
-	 //for(var a =0; a<30;a++){
+ //$(document).click(function(){
+	 for(var a =0; a<30;a++){
 	 if(dia<6){
 		 llena(dia)
-
 		  completo=diaEstaCompleto(dia) 
 		  var quedanHoras=queHorasNoEstanCheck(dia)
 		  var quedanPersonas=quienNoVuelve(dia)
@@ -1120,10 +1205,12 @@ $(document).ready(function(){
 		//asignaCocheDiaHora(quedanPersonas[0],dia,usuario[quedanPersonas[0]].entrada,quedanHoras[0])
 		 if(completo){dia++; enLista=0}
 	 }
-	// }
- });
+   }
+ //});
 
-
+quitaCoche(1)
+quitaCoche(1)
+quitaCoche(5)
 	
 	
 });
