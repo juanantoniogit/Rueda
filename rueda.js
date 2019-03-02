@@ -247,11 +247,14 @@ function reuneIgualesDia(dia){
    } 
    var cad='<ul><li>',cad1=''
    var estalleno=false;
+   var preh='';var posh=''
    for(var a=0;a<igualesDia[dia].length;a++){
 	   
 	  for(var b=0;b<igualesDia[dia][a].length;b++){ 
 	   if(igualesDia[dia][a].length>1 ){
-	     cad+=usuario[igualesDia[dia][a][b]].nombre+', '
+		   preh='';posh=''
+		   if(usuario[igualesDia[dia][a][b]][diasn[dia]].usacoche){preh='<u>';posh='</u>'}
+	     cad+= preh+ usuario[igualesDia[dia][a][b]].nombre+posh+', '
 		 estalleno=true
 	   }else{
 		   if(igualesDia[dia][a].length==1 ){
@@ -603,10 +606,7 @@ $(document).ready(function(){
 	llenaSalidasYentradas()
 	///
 	
-	// CUMPLE LA TERCERA LEY
-	for(var dia =1; dia<=5;dia++){
-	reuneIgualesDia(dia)
-	}
+
 	// CUMPLE LA PRIMERA LEY
 	buscaConductoresSolosEntrada()
 	buscaConductoresSolosSalida()
@@ -700,6 +700,12 @@ intercambiaCochesUsuariosDia(0,7,1)
 llenaTabla();
 llenaUsuarios()
 ordenaSegunViajes()
+
+
+// CUMPLE LA TERCERA LEY
+for(var dia =1; dia<=5;dia++){
+	reuneIgualesDia(dia)
+}
 
 /*
 
