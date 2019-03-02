@@ -237,7 +237,7 @@ usuario.push({
   }
 })
 usuario.push({
-  nombre: 'M. Carmen',
+  nombre: 'M.Carmen',
   lunes: {
     entrada: 1,
     salida: 6,
@@ -324,7 +324,7 @@ usuario.push({
 })
 
 usuario.push({
-  nombre: 'M. Jose',
+  nombre: 'M.Jose',
   lunes: {
     entrada: 1,
     salida: 6,

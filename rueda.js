@@ -248,13 +248,14 @@ function reuneIgualesDia(dia){
    var cad='<ul><li>',cad1=''
    var estalleno=false;
    var preh='';var posh=''
+   var contCoches=0;
    for(var a=0;a<igualesDia[dia].length;a++){
-	   
+	   contCoches=0
 	  for(var b=0;b<igualesDia[dia][a].length;b++){ 
 	   if(igualesDia[dia][a].length>1 ){
 		   preh='';posh=''
-		   if(usuario[igualesDia[dia][a][b]][diasn[dia]].usacoche){preh='<u>';posh='</u>'}
-	     cad+= preh+ usuario[igualesDia[dia][a][b]].nombre+posh+', '
+		   if(usuario[igualesDia[dia][a][b]][diasn[dia]].usacoche){contCoches++; preh='<span style="font-weight:500;color:#000;">';posh='</span>'}
+	     cad+= preh+ ''+usuario[igualesDia[dia][a][b]].nombre+''+posh+', '
 		 estalleno=true
 	   }else{
 		   if(igualesDia[dia][a].length==1 ){
@@ -264,8 +265,10 @@ function reuneIgualesDia(dia){
 	   }
 	   
 	  }
+	  if(contCoches>1){}
 	  if(estalleno){
 		  cad = cad.slice(0, -2);
+		  if(contCoches>1){cad+=' <b style="white-space: nowrap;"><i class="zmdi zmdi-car"></i><i class="zmdi zmdi-car"></i></b>'}
 		  cad+='</li><li>'}
    }
     cad = cad.slice(0, -4);
