@@ -466,9 +466,8 @@ function buscaConductoresSolosSalida(){
 
 
 /////////////////////////
-
 // UTILIDADES PRINCIPALES
-
+/////////////////////////
 
 function llenaTabla(){
   var nsomos = 0;
@@ -544,14 +543,20 @@ function llenaUsuarios(){
 }
 
 function llenaUsuariosOrden(){
-	var cad='<table width="30%" border="0px">'
+	var cad='<table width="40%" border="0px">'
 	for (var a = 0; a < usuariosYviajes.length; a++) {
 		var v=''
+		var diast=''
 		for(var i=0;i<usuariosYviajes[a].viajes; i++){
 			v+='<i class="zmdi zmdi-car"></i>'
 		}
+		for(var j=1;j<=5; j++){
+		if(usuario[usuariosYviajes[a].id][diasn[j]].usacoche){
+			diast+=diass[j]+'';
+		}
+		}
 		//cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(usuariosYviajes[a].id)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+')</div></td></tr>'
-	    cad+='<tr><td style="width:30%; border-style:solid; border-width:0px;text-align:left;">'+usuariosYviajes[a].id+'<i class="zmdi zmdi-account"></i>  '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:70%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+')</div></td></tr>'
+	    cad+='<tr><td style="width:30%; border-style:solid; border-width:0px;text-align:left;">'+usuariosYviajes[a].id+'<i class="zmdi zmdi-account"></i>  '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:70%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+') '+diast+'</div></td></tr>'
 
 	}
 	cad+='</table><br>'
@@ -638,9 +643,39 @@ $(document).ready(function(){
  
  
  //FILTRO ARTESANAL :-)
- //A partir de aquí NECESITA UN LAVADO
+ //A partir de aquí OPTIMIZAR Y UN LAVADO
 
+quitaCoche(1)
+llenaTabla();
+llenaUsuarios()
+ordenaSegunViajes()
  
+quitaCocheUsuarioDia(6,2)
+llenaTabla();
+llenaUsuarios()
+ordenaSegunViajes()
+
+quitaCocheUsuarioDia(0,5)
+llenaTabla();
+llenaUsuarios()
+ordenaSegunViajes()
+
+quitaCocheUsuarioDia(1,1)
+llenaTabla();
+llenaUsuarios()
+ordenaSegunViajes()
+
+quitaCocheUsuarioDia(9,5)
+llenaTabla();
+llenaUsuarios()
+ordenaSegunViajes()
+
+quitaCocheUsuarioDia(7,5)
+llenaTabla();
+llenaUsuarios()
+ordenaSegunViajes()
+ 
+/* 
 quitaCoche(1)
 llenaTabla();
 llenaUsuarios()
@@ -704,6 +739,7 @@ llenaTabla();
 llenaUsuarios()
 ordenaSegunViajes()
 
+*/
 
 // CUMPLE LA TERCERA LEY
 for(var dia =1; dia<=5;dia++){

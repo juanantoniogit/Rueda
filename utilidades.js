@@ -196,19 +196,22 @@ function todosConCoche(dia,hora,ES){
 		numCochesAsignados = sa[dia][hora].asignados
 		numUsuariosEstaHora = sa[dia][hora].personas.length
 	}
-	var r = numCochesAsignados * numUsuariosEstaHora / cavenEnCoche
+	var r=0;
+	if(numUsuariosEstaHora>0){
+		r = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
+	}
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
 	if(ES=='entrada'){
-		en[dia][hora].factor=r
+		en[dia][hora].factor=r.toFixed(2)
 	}
 	if(ES=='salida'){
-		sa[dia][hora].factor=r
+		sa[dia][hora].factor=r.toFixed(2)
 	}
 	if (r>=1){
-		return  {correcto:true,factor:r}
+		return  {correcto:true,factor:r.toFixed(2)}
 	}
 	else{
-		return {correcto:false,factor:r}
+		return {correcto:false,factor:r.toFixed(2)}
 	}
 }
 
@@ -222,16 +225,20 @@ function factorESalto(dia,entrada,salida){
 	
 		SnumCochesAsignados = sa[dia][salida].asignados
 		SnumUsuariosEstaHora = sa[dia][salida].personas.length
-	
-	var rE = EnumCochesAsignados * EnumUsuariosEstaHora / cavenEnCoche
-	var rS = SnumCochesAsignados * SnumUsuariosEstaHora / cavenEnCoche
+	var rS=0, rE=0
+	if(EnumUsuariosEstaHora>0){
+		rE = EnumCochesAsignados * cavenEnCoche / EnumUsuariosEstaHora
+	}
+	if(SnumUsuariosEstaHora>0){
+		rS = SnumCochesAsignados * cavenEnCocheSnumUsuariosEstaHora / SnumUsuariosEstaHora
+	}
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
 	
 	if (rS>=1 && sE>=1){
-		return  {correcto:true,factorE:rE,factorS:rS}
+		return  {correcto:true,factorE:rE.toFixed(2),factorS:rS.toFixed(2)}
 	}
 	else{
-		return {correcto:false,factorE:rE,factorS:rS}
+		return {correcto:false,factorE:rE.toFixed(2),factorS:rS.toFixed(2)}
 	}
 }
 
