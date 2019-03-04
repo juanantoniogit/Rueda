@@ -196,7 +196,7 @@ function todosConCoche(dia,hora,ES){
 		numCochesAsignados = sa[dia][hora].asignados
 		numUsuariosEstaHora = sa[dia][hora].personas.length
 	}
-	var r = numCochesAsignados * numUsuariosEstaHora / cavenEnCoche
+	var r = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
 	if(ES=='entrada'){
 		en[dia][hora].factor=r
