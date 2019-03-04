@@ -197,6 +197,10 @@ function todosConCoche(dia,hora,ES){
 		numUsuariosEstaHora = sa[dia][hora].personas.length
 	}
 	var r = numCochesAsignados * numUsuariosEstaHora / cavenEnCoche
+	//Si r > 1 hay huecos de subra en los coches
+	//Si r = 1 los coches van completos
+	//Si r < 1 faltan coches para llevar a todos los usuarios
+	
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
 	if(ES=='entrada'){
 		en[dia][hora].factor=r
