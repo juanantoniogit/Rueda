@@ -640,19 +640,28 @@ $(document).ready(function(){
 	
 		$(document).click(function(){	
 		//var us=en[clickDia][clickHora].personas
-		var us=quienHayLibreDiaHoraEnOrdenViajes(clickDia,clickHora,'entrada')
+		var us=quienHayLibreDiaHoraEnOrdenViajes(clickDia,clickHora,clickES[clickContES])
 		for(var u=0;u<us.length;u++){
-			 if(u<estadisticaDiaHora(clickDia,clickHora,'entrada').cochesTeorico){
-				ponCocheUsuarioDia(us[u].id,clickDia)
-				llenaTabla()
-				llenaUsuarios()
-				ordenaSegunViajes()
+			 if(u<estadisticaDiaHora(clickDia,clickHora,clickES[clickContES]).cochesTeorico){
+				if(estadisticaDiaHora(clickDia,clickHora,clickES[clickContES]).correcto=='faltan'){
+					ponCocheUsuarioDia(us[u].id,clickDia)
+					llenaTabla()
+					llenaUsuarios()
+					ordenaSegunViajes()
+					
+				}
+				
 			}
+			
 		}
+		tablaColor(clickDia,clickHora,clickES[clickContES])
 	
 		clickDia++
 		if(clickDia>5){clickDia=1;clickHora++;}
-		if(clickHora>7){clickHora=1;}
+		if(clickHora>7){
+			clickDia=1;clickHora=1;clickContES++;
+			if(clickContES>=clickES.length){clickContES=0}
+		}
 	
    })
 	
@@ -710,3 +719,15 @@ for(var dia =1; dia<=5;dia++){
 
 	var clickDia=1
 	var clickHora=1
+	var clickES=['entrada','salida']
+	var clickContES=0
+
+
+/*
+Prueba con esto
+	var clickDia=1
+	var clickHora=4
+	var clickES=['salida','entrada']
+	var clickContES=0
+*/	
+	

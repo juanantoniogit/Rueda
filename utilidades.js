@@ -515,6 +515,47 @@ function intercambiaCochesUsuariosDia(user1,user2,dia){
 	
 }
 
+function tablaColor(cdia,chora,ES){
+	for(var dia=1;dia<=5;dia++){
+	for(var hora=1;hora<=7;hora++){
+		if(ES=='entrada'){
+		if(en[dia][hora].factor>1){
+		 $('#'+diass[dia]+hora).css('background-color','#dfd')
+		}
+		if(en[dia][hora].factor==1){
+		 $('#'+diass[dia]+hora).css('background-color','#ddd')
+		}
+		if(en[dia][hora].factor<1){
+		 $('#'+diass[dia]+hora).css('background-color','#fdd')
+		}
+		}
+		if(ES=='salida'){
+		if(sa[dia][hora].factor>1){
+		 $('#'+diass[dia]+hora).css('background-color','#afd')
+		}
+		if(sa[dia][hora].factor==1){
+		 $('#'+diass[dia]+hora).css('background-color','#aaa')
+		}
+		if(sa[dia][hora].factor<1){
+		 $('#'+diass[dia]+hora).css('background-color','#add')
+		}
+		}
+		
+	}
+	$('#'+diass[cdia]+chora).css('background-color','#ff0')
+	}
+	var codias=0
+	for(var codia=1;codia<=5;codia++){
+	if(diaEstaCompleto(codia)){codias++}
+	}
+	if(codias==5){alert('!!!COMPLETADO :-D !!!');
+	  for(var dia=1;dia<=5;dia++){
+	for(var hora=1;hora<=7;hora++){
+		$('#'+diass[dia]+hora).css('background-color','#fff')
+	  }}
+	}
+}
+
 Array.prototype.stackR = function() {
     var j = this.pop();
     this.unshift(j)
