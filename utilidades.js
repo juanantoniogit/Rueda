@@ -31,6 +31,35 @@ function quienHayLibre(dia,hora,ES){
 }
 
 
+Array.prototype.allValuesSame = function() {
+    for(var i = 1; i < this.length; i++)
+    {
+        if(this[i].viajes !== this[0].viajes)
+            return false;
+    }
+    return true;
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+/////////////////////
 function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 	if(ES=='entrada'){
 		var libres=[]
@@ -51,9 +80,20 @@ function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 		}
 	}
 	//ordenaDeMenosAmas
-	 libres.sort(function(a, b){return a.viajes - b.viajes});
+	if(libres.allValuesSame() && libres.length>1){
+		libres = shuffle(libres)
+		alert('Todos tienen los mismos viajes: Mezcla aleatoria!')
+	}else{
+		libres.sort(function(a, b){return a.viajes - b.viajes});
+	}
 	return libres
 }
+
+/////////////////////////////////
+
+
+
+
 function quienNoVa(dia){
 	var noViajan=[]
 	for(var hora=1;hora<=6;hora++){
