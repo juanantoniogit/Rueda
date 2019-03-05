@@ -193,6 +193,12 @@ for (var a = 0; a < usuario.length; a++) {
 		usuario[a][diasn[3]].igualQue=[]
 		usuario[a][diasn[4]].igualQue=[]
 		usuario[a][diasn[5]].igualQue=[]
+		
+		//usuario[a][diasn[1]].usacoche=true
+		//usuario[a][diasn[2]].usacoche=true
+		//usuario[a][diasn[3]].usacoche=true
+		//usuario[a][diasn[4]].usacoche=true
+		//usuario[a][diasn[5]].usacoche=true
 }
 
 
@@ -343,13 +349,13 @@ function recopilaEntrada(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'+ ' libres:'+ todos.asientosLibres+' - '+ todos.factor
+	cad02+='<i class="zmdi zmdi-check"></i>'+ ' '+ todos.correcto +'  '+ todos.factor
 	cad01='';
 	en[a][b].necesitoCoches=0;
 	en[a][b].check=true;
   }else{
 	en[a][b].necesitoCoches=necesitan;
-	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'+ todos.asientosLibres+' - '+todos.factor
+	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'+ todos.correcto +'  '+todos.factor
   }
   
   return cad01+cad+cad02
@@ -406,13 +412,13 @@ function recopilaSalida(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i> libres:'+ todos.asientosLibres+' - '+ todos.factor
+	cad02+='<i class="zmdi zmdi-check"></i> '+ ''+' '+ todos.factor
 	cad01='';
 	sa[a][b].necesitoCoches=0;
 	sa[a][b].check=true;
   }else{
 	sa[a][b].necesitoCoches=necesitan;
-	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'+todos.asientosLibres+' - '+todos.factor
+	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'+''+'  '+todos.factor
   }
   
   return cad01+cad+cad02
@@ -425,12 +431,12 @@ function recopilaSalida(a, b, num) {
 // PRIMERA LEY
 //Primera ley :-) Usan coche los conductores que van solos en la entrada o en la salida.
 
-function buscaConductoresSolosEntrada(){
+function buscaConductoresSolosEntrada(cuantos){
   var nsomos = 0;
   for (var a = 0; a < en.length; a++) {
 	for (var b = 0; b < en[a].length; b++) {
           	for (var c = 0; c < en[a][b].personas.length; c++) {
-           		if(en[a][b].personas.length==1) {
+           		if(en[a][b].personas.length==cuantos) {
     				usuario[en[a][b].personas[c]][diasn[a]].usacoche=true
 					usuario[en[a][b].personas[c]].viajes++
 					en[a][b].asignados++;
@@ -441,13 +447,13 @@ function buscaConductoresSolosEntrada(){
 
 }
 
-function buscaConductoresSolosSalida(){
+function buscaConductoresSolosSalida(cuantos){
   var nsomos = 0;
   var marca=[]
   for (var a = 0; a < sa.length; a++) {
 	for (var b = 0; b < sa[a].length; b++) {
           	for (var c = 0; c < sa[a][b].personas.length; c++) {
-           		if(sa[a][b].personas.length==1) {
+           		if(sa[a][b].personas.length==cuantos) {
     				marca.push(a+','+b+','+c+','+ sa[a][b].personas[c])
 					usuario[sa[a][b].personas[c]].viajes++
 					sa[a][b].asignados++;
@@ -616,8 +622,12 @@ $(document).ready(function(){
 	
 
 	// CUMPLE LA PRIMERA LEY
-	buscaConductoresSolosEntrada()
-	buscaConductoresSolosSalida()
+	buscaConductoresSolosEntrada(1)
+	buscaConductoresSolosSalida(1)
+	//
+	
+	
+	
 	//
 	
 	//SHOW 1
@@ -625,10 +635,34 @@ $(document).ready(function(){
 	llenaUsuarios()
 	ordenaSegunViajes()
 	
+	
+
+	
+		$(document).click(function(){	
+		//var us=en[clickDia][clickHora].personas
+		var us=quienHayLibreDiaHoraEnOrdenViajes(clickDia,clickHora,'entrada')
+		for(var u=0;u<us.length;u++){
+			 if(u<estadisticaDiaHora(clickDia,clickHora,'entrada').cochesTeorico){
+				ponCocheUsuarioDia(us[u].id,clickDia)
+				llenaTabla()
+				llenaUsuarios()
+				ordenaSegunViajes()
+			}
+		}
+	
+		clickDia++
+		if(clickDia>5){clickDia=1;clickHora++;}
+		if(clickHora>7){clickHora=1;}
+	
+   })
+	
+	
+	
+	
 // EL PRINCIPAL: 
 //BUSCANCO COCHES NECESARIOS POR HORA SEGUN NUMERO DE USUSARIOS (SEGUNDA LEY)
 //Y ASIGNANDO COCHES  (POR DÍA)
-
+/*
  var dia=1;
  var completo=false
  //$(document).click(function(){
@@ -640,26 +674,15 @@ $(document).ready(function(){
 	 }
    }
    
- 
+ */
  
  //FILTRO ARTESANAL :-)
  //A partir de aquí OPTIMIZAR Y UN LAVADO
-quitaCocheUsuarioDia(2,3)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-quitaCocheUsuarioDia(0,5)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-quitaCocheUsuarioDia(1,1)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-quitaCocheDia(2)
+//quitaCocheUsuarioDia(2,3)
+//llenaTabla();
+//llenaUsuarios()
+//ordenaSegunViajes()
+//quitaCocheDia(2)
 
 
 /* 
@@ -685,3 +708,5 @@ for(var dia =1; dia<=5;dia++){
 
 });
 
+	var clickDia=1
+	var clickHora=1

@@ -29,6 +29,31 @@ function quienHayLibre(dia,hora,ES){
 	
 	return libres
 }
+
+
+function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
+	if(ES=='entrada'){
+		var libres=[]
+		for(var a=0;a<en[dia][hora].personas.length;a++){
+			if(!usuario[en[dia][hora].personas[a]][diasn[dia]].usacoche){
+				//libres.push({id:en[dia][hora].personas[a],nombre:usuario[en[dia][hora].personas[a]].nombre})
+				libres.push( {id:en[dia][hora].personas[a],viajes:usuario[en[dia][hora].personas[a]].viajes} )
+			}
+		}
+	}
+	if(ES=='salida'){
+		var libres=[]
+		for(var a=0;a<sa[dia][hora].personas.length;a++){
+			if(!usuario[sa[dia][hora].personas[a]][diasn[dia]].usacoche){
+				//libres.push({id:en[dia][hora].personas[a],nombre:usuario[en[dia][hora].personas[a]].nombre})
+				libres.push( {id:sa[dia][hora].personas[a],viajes:usuario[sa[dia][hora].personas[a]].viajes} )
+			}
+		}
+	}
+	//ordenaDeMenosAmas
+	 libres.sort(function(a, b){return a.viajes - b.viajes});
+	return libres
+}
 function quienNoVa(dia){
 	var noViajan=[]
 	for(var hora=1;hora<=6;hora++){
@@ -183,6 +208,18 @@ function asignaConductorDiaHora02X(dia,hora){
 }
 
 
+function ordenUsuariosPorUsacocheDiaHora(arr){
+	
+}
+
+function getUsuario(idUsuario){
+	/*
+	viajesSemana
+	*/
+	var viajesSemana=usuario[idUsuario].viajes
+	return {viajesSemana:viajesSemana}
+}
+
 
 function estadisticaDiaHora(dia,hora,ES){
 	/*
@@ -191,7 +228,7 @@ function estadisticaDiaHora(dia,hora,ES){
 	asignados
 	nUsuarios
 	cochesTeorico
-	sobranCoches
+	faltanCoches
 	asientosLibres
 	*/
 
@@ -214,7 +251,7 @@ function estadisticaDiaHora(dia,hora,ES){
 		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
 		cochesTeorico=Math.ceil(numUsuariosEstaHora/4)
 		asientosLibres=numCochesAsignados*cavenEnCoche-numUsuariosEstaHora
-		sobranCoches=Math.abs(cochesTeorico-numCochesAsignados)
+		faltanCoches=Math.abs(cochesTeorico-numCochesAsignados)
 	}
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
 	
@@ -224,13 +261,28 @@ function estadisticaDiaHora(dia,hora,ES){
 	if(ES=='salida'){
 		sa[dia][hora].factor=factor.toFixed(2)
 	}
-	if (factor>=1){
-		return  {correcto:true,factor:factor.toFixed(2),asignados:numCochesAsignados,nUsuarios:numUsuariosEstaHora,cochesTeorico:cochesTeorico,sobranCoches:sobranCoches,asientosLibres:asientosLibres}
-	}
-	else{
-		return {correcto:false,factor:factor.toFixed(2),asignados:numCochesAsignados,nUsuarios:numUsuariosEstaHora,cochesTeorico:cochesTeorico,sobranCoches:sobranCoches,asientosLibres:asientosLibres}
-	}
+     var correcto=''
+	if (factor>1){ correcto='huecos' }
+	if (factor==1){ correcto='completo' }
+	if (factor<1){ correcto='faltan' }
+	
+	//Si factor > 1 hay huecos de sobra en los coches
+	//Si factor = 1 los coches van completos
+	//Si factor < 1 faltan coches para llevar a todos los usuarios
+	
+		return  {
+		correcto:correcto,
+		factor:factor.toFixed(2),
+		asignados:numCochesAsignados,
+		nUsuarios:numUsuariosEstaHora,
+		cochesTeorico:cochesTeorico,
+		faltanCoches:faltanCoches,
+		asientosLibres:asientosLibres
+		}
+	
+	
 }
+
 
 function factorESalto(dia,entrada,salida){
 	var cavenEnCoche = 4
@@ -259,22 +311,22 @@ function factorESalto(dia,entrada,salida){
 	}
 }
 
-function buscaCochePara(i,j,nlista){
+function buscaCochePara(dia,hora,nlista){
 	 var nsomos = 0;
-	 usuario[en[i][j].personas[nlista]].viajes=0
-	 if(en[i][j].personas.length==0) {return true}
+	 usuario[en[dia][hora].personas[nlista]].viajes=0
+	 if(en[dia][hora].personas.length==0) {return true}
 	 
-	 if(en[i][j].personas.length==1) {
-    				usuario[en[i][j].personas[nlista]][diasn[i]].usacoche=true
-					usuario[en[i][j].personas[nlista]].viajes++
+	 if(en[dia][hora].personas.length==1) {
+    				usuario[en[dia][hora].personas[nlista]][diasn[dia]].usacoche=true
+					usuario[en[diahora].personas[nlista]].viajes++
 					return true
 				}		
-     for (var c = 0; c < en[i][j].personas.length; c++) {
+     for (var c = 0; c < en[dia][hora].personas.length; c++) {
 		     //for (var d = 0; d < usuariosYviajes.length; d++){
-           		if(usuariosYviajes[nlista].id==en[i][j].personas[c]){
-					usuario[en[i][j].personas[c]][diasn[i]].usacoche=true
-					en[i][j].tengoCoches++
-					usuario[en[i][j].personas[c]].viajes++
+           		if(usuariosYviajes[nlista].id==en[dia][hora].personas[c]){
+					usuario[en[dia][hora].personas[c]][diasn[dia]].usacoche=true
+					en[dia][hora].tengoCoches++
+					usuario[en[dia][hora].personas[c]].viajes++
 					return true
 					break;
 					
@@ -404,7 +456,7 @@ function quitaCocheDia00(dia){
 			//:-D
 			
 		}else{
-			console.log('No lleva coche. Guay! prueba otro dia')
+			//console.log('No lleva coche. Guay! prueba otro dia')
 			return false 
 			
 			//  :-(  PruebaConOtroDia
@@ -414,7 +466,7 @@ function quitaCocheDia00(dia){
 		//niHayNingunCocheQueQuitar :-(
 		//podriamosCorrerLaMatrizUnPuestoYprobarConElSiguienteUsuario
 		//pero__EsMejorProbarConElSiguienteDiaDeLaSemana
-		console.log('Que pasa?')
+		//console.log('Que pasa?')
 		return false
 	}
 }
