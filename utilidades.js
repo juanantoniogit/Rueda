@@ -184,7 +184,17 @@ function asignaConductorDiaHora02X(dia,hora){
 
 
 
-function todosConCoche(dia,hora,ES){
+function estadisticaDiaHora(dia,hora,ES){
+	/*
+	correcto
+	factor
+	asignados
+	nUsuarios
+	cochesTeorico
+	sobranCoches
+	asientosLibres
+	*/
+
 	var cavenEnCoche = 4
 	var numCochesAsignados=0;
 	var numUsuariosEstaHora = 1
@@ -196,22 +206,29 @@ function todosConCoche(dia,hora,ES){
 		numCochesAsignados = sa[dia][hora].asignados
 		numUsuariosEstaHora = sa[dia][hora].personas.length
 	}
-	var r=0;
+	var factor=0;
+	var cochesTeorico=0;
+	var asientosLibres=0;
+	var sobranCoches=0;
 	if(numUsuariosEstaHora>0){
-		r = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
+		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
+		cochesTeorico=Math.ceil(numUsuariosEstaHora/4)
+		asientosLibres=numCochesAsignados*cavenEnCoche-numUsuariosEstaHora
+		sobranCoches=Math.abs(cochesTeorico-numCochesAsignados)
 	}
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
+	
 	if(ES=='entrada'){
-		en[dia][hora].factor=r.toFixed(2)
+		en[dia][hora].factor=factor.toFixed(2)
 	}
 	if(ES=='salida'){
-		sa[dia][hora].factor=r.toFixed(2)
+		sa[dia][hora].factor=factor.toFixed(2)
 	}
-	if (r>=1){
-		return  {correcto:true,factor:r.toFixed(2)}
+	if (factor>=1){
+		return  {correcto:true,factor:factor.toFixed(2),asignados:numCochesAsignados,nUsuarios:numUsuariosEstaHora,cochesTeorico:cochesTeorico,sobranCoches:sobranCoches,asientosLibres:asientosLibres}
 	}
 	else{
-		return {correcto:false,factor:r.toFixed(2)}
+		return {correcto:false,factor:factor.toFixed(2),asignados:numCochesAsignados,nUsuarios:numUsuariosEstaHora,cochesTeorico:cochesTeorico,sobranCoches:sobranCoches,asientosLibres:asientosLibres}
 	}
 }
 
@@ -275,7 +292,75 @@ function llenaCelda(m,n){
 }
 
 
-function quitaCoche(dia){
+function coincidenEnDiaHoras(dia,horaEn,horaSa){
+	var personasEn=en[dia][horaEn].personas
+	var personasSa=sa[dia][horaSa].personas
+	//var intersection = personasEn.filter(x => personasSa.includes(x));
+	var coinciden= personasEn.filter(a => personasSa.some(b => a === b))
+	return coinciden
+	
+}
+function llevanCocheDia(arr,dia){
+	var llevan=[]
+	for(var a=0;a<arr.length;a++){
+		if(usuario[arr[a]][diasn[dia]].usacoche){
+			llevan.push(arr[a])
+			}
+	}
+	return llevan
+}
+
+
+function quitaCocheDia(dia){
+	//RecopilaDatosEntradaYSalida
+	//+
+	//aQueHorasDeEntradaYsalidaSobranCoches?
+
+	/*
+	estadisticaDiaHora(dia,hora,'entrada||salida')
+	correcto
+	factor
+	asignados
+	nUsuarios
+	cochesTeorico
+	sobranCoches
+	asientosLibres
+	*/
+	var datosEntrada=[]
+	var sobranEn=[]
+	for(var hora=1;hora<=7;hora++){
+		datosEntrada.push(estadisticaDiaHora(dia,hora,'entrada'))
+		sobranEn.push({sobran:datosEntrada[datosEntrada.length-1].sobranCoches,hora:hora})
+	}
+	var datosSalida=[]
+	var sobranSa=[]
+	for(var hora=1;hora<=7;hora++){
+		datosSalida.push(estadisticaDiaHora(dia,hora,'salida'))
+		sobranSa.push({sobran:datosSalida[datosSalida.length-1].sobranCoches,hora:hora})
+	}
+	
+	
+	//ordenaDeMasAmenosLosCochesSobrantesDeEntradaYsalida
+	 sobranEn.sort(function(a, b){return b.sobran - a.sobran});
+	 sobranSa.sort(function(a, b){return b.sobran - a.sobran});
+	 //LasHorasQueMasCochesSobranSon
+	 var horaEn=sobranEn[0].hora
+	 var horaSa=sobranSa[0].hora
+	 //alert(sobranHoraEn+' '+sobranHoraSa)
+	 //BuscaUsuariosQueCoincidanYllevenCoche
+	 var coinciden=coincidenEnDiaHoras(dia,horaEn,horaSa)
+	 //BuscaLosQueLLeanCocheEnEsasDosHoras
+	 var llevanCoche=llevanCocheDia(coinciden,dia)
+	 //alert(llevanCoche.toSource())
+	 quitaCocheUsuarioDia(llevanCoche[0],dia)
+     llenaTabla();
+     llenaUsuarios()
+     ordenaSegunViajes()
+	
+}
+
+
+function quitaCocheDia00(dia){
 	//BuscaEntradasconFactorAlto
 	var horasEntradaFactorAlto=[]
 	for(var hora=1;hora<=7;hora++){

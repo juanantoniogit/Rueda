@@ -31,36 +31,6 @@ usuario.push({
 
 
 usuario.push({
-  nombre: 'Andres',
-  lunes: {
-    entrada: 3,
-    salida: 6,
-    usacoche: false
-  },
-  martes: {
-    entrada: 3,
-    salida: 6,
-    usacoche: false
-  },
-  miercoles: {
-    entrada: 2,
-    salida: 6,
-    usacoche: false
-  },
-  jueves: {
-    entrada: 2,
-    salida: 6,
-    usacoche: false
-  },
-  viernes: {
-    entrada: 3,
-    salida: 6,
-    usacoche: false
-  }
-})
-
-
-usuario.push({
   nombre: 'Magda',
   lunes: {
     entrada: 3,

@@ -333,7 +333,7 @@ function recopilaEntrada(a, b, num) {
   }
   en[a][b].tengoCoches=ncoches;
   en[a][b].asignados=asignados
-  var todos=todosConCoche(a,b,'entrada')
+  var todos=estadisticaDiaHora(a,b,'entrada')
   if(todos.correcto){
 	  console.log('Estan todos el ' +diasn[a]+' a `hora '+b )
   }else{
@@ -343,13 +343,13 @@ function recopilaEntrada(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'+ ' '+ todos.factor
+	cad02+='<i class="zmdi zmdi-check"></i>'+ ' libres:'+ todos.asientosLibres+' - '+ todos.factor
 	cad01='';
 	en[a][b].necesitoCoches=0;
 	en[a][b].check=true;
   }else{
 	en[a][b].necesitoCoches=necesitan;
-	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
+	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'+ todos.asientosLibres+' - '+todos.factor
   }
   
   return cad01+cad+cad02
@@ -395,7 +395,7 @@ function recopilaSalida(a, b, num) {
   }
   sa[a][b].tengoCoches=ncoches;
   sa[a][b].asignados=asignados;
-  var todos=todosConCoche(a,b,'salida')
+  var todos=estadisticaDiaHora(a,b,'salida')
   if(todos.correcto){
 	 console.log('Estan todos el ' +diasn[a]+' a hora '+b )
   }else{
@@ -406,13 +406,13 @@ function recopilaSalida(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'+ ' '+ todos.factor
+	cad02+='<i class="zmdi zmdi-check"></i> libres:'+ todos.asientosLibres+' - '+ todos.factor
 	cad01='';
 	sa[a][b].necesitoCoches=0;
 	sa[a][b].check=true;
   }else{
 	sa[a][b].necesitoCoches=necesitan;
-	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'
+	cad02 += 'Hay '+ asignados+' coche'+ss+'. Se necesita'+nnn+' '+(ncoches-asignados)+' coche'+sss+' m&aacute;s<br>'+todos.asientosLibres+' - '+todos.factor
   }
   
   return cad01+cad+cad02
@@ -644,13 +644,7 @@ $(document).ready(function(){
  
  //FILTRO ARTESANAL :-)
  //A partir de aquí OPTIMIZAR Y UN LAVADO
-
-quitaCoche(1)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
- 
-quitaCocheUsuarioDia(6,2)
+quitaCocheUsuarioDia(2,3)
 llenaTabla();
 llenaUsuarios()
 ordenaSegunViajes()
@@ -665,79 +659,17 @@ llenaTabla();
 llenaUsuarios()
 ordenaSegunViajes()
 
-quitaCocheUsuarioDia(9,5)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
+quitaCocheDia(2)
 
-quitaCocheUsuarioDia(7,5)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
- 
+
 /* 
-quitaCoche(1)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-quitaCoche(1)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-
-quitaCoche(5)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-for(var b=0;b<5;b++){
-//$(document).click(function(){
-	usuariosYviajes.stackR()
-	llenaUsuariosOrden()
-}//)
-
-quitaCoche(2)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
+quitaCocheDia(3)
+quitaCocheUsuarioDia(6,2)
 for(var b=0;b<3;b++){
 //$(document).click(function(){
 	usuariosYviajes.stackR()
 	llenaUsuariosOrden()
 }//)
-quitaCoche(5)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-for(var b=0;b<2;b++){
-//$(document).click(function(){
-	usuariosYviajes.stackR()
-	llenaUsuariosOrden()
-}//)
-quitaCocheUsuarioDia(8,5)
-
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-
-quitaCocheUsuarioDia(0,1)
-
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-ponCocheUsuarioDia(7,1)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
-
-intercambiaCochesUsuariosDia(0,7,1)
-llenaTabla();
-llenaUsuarios()
-ordenaSegunViajes()
 
 */
 
