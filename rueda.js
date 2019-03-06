@@ -638,8 +638,9 @@ $(document).ready(function(){
 	
 
 	
-		$(document).click(function(){	
+		//$(document).click(function(){	
 		//var us=en[clickDia][clickHora].personas
+    for(var a=0;a<80;a++){
 		var us=quienHayLibreDiaHoraEnOrdenViajes(clickDia,clickHora,clickES[clickContES])
 		for(var u=0;u<us.length;u++){
 			 if(u<estadisticaDiaHora(clickDia,clickHora,clickES[clickContES]).cochesTeorico){
@@ -654,8 +655,8 @@ $(document).ready(function(){
 			}
 			
 		}
-		tablaColor(clickDia,clickHora,clickES[clickContES])
-	
+		var t=tablaColor(clickDia,clickHora,clickES[clickContES])
+	 if(t)break
 		clickDia++
 		if(clickDia>5){clickDia=1;clickHora++;}
 		if(clickHora>7){
@@ -663,8 +664,8 @@ $(document).ready(function(){
 			if(clickContES>=clickES.length){clickContES=0}
 		}
 	
-   })
-	
+   //})
+	}
 	
 	
 	

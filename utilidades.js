@@ -82,7 +82,7 @@ function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 	//ordenaDeMenosAmas
 	if(libres.allValuesSame() && libres.length>1){
 		libres = shuffle(libres)
-		alert('Todos tienen los mismos viajes: Mezcla aleatoria!')
+		//alert('Todos tienen los mismos viajes: Mezcla aleatoria!')
 	}else{
 		libres.sort(function(a, b){return a.viajes - b.viajes});
 	}
@@ -588,11 +588,15 @@ function tablaColor(cdia,chora,ES){
 	for(var codia=1;codia<=5;codia++){
 	if(diaEstaCompleto(codia)){codias++}
 	}
-	if(codias==5){alert('!!!COMPLETADO :-D !!!');
+	if(codias==5){
+		//alert('!!!COMPLETADO :-D !!!'); 
+		//return false;
 	  for(var dia=1;dia<=5;dia++){
 	for(var hora=1;hora<=7;hora++){
 		$('#'+diass[dia]+hora).css('background-color','#fff')
 	  }}
+	}else{
+	 //return true
 	}
 }
 
