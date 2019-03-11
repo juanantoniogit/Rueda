@@ -82,8 +82,9 @@ function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 	//ordenaDeMenosAmas
 	if(libres.allValuesSame() && libres.length>1){
 		libres = shuffle(libres)
-		//alert('Todos tienen los mismos viajes: Mezcla aleatoria!')
+		$('#info').html('Todos tienen los mismos viajes: Mezcla aleatoria!')
 	}else{
+		$('#info').html('');
 		libres.sort(function(a, b){return a.viajes - b.viajes});
 	}
 	return libres
@@ -91,6 +92,26 @@ function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 
 /////////////////////////////////
 
+
+
+function llena(dia){
+		completo=diaEstaCompleto(dia) 
+		//console.log(completo+' '+a)	 
+		if(completo==false){
+			var b=buscaConductoresDia(dia,enLista)
+				if(b[2].includes(b[0])){
+				//console.log('es idoneo'+' '+b[2].join(' '))
+				var aqueh=aqueHoraEntraSale(dia,b[0])
+				//console.log(aqueh.join(' '))
+				
+				asignaCocheDiaHora(b[0],dia,aqueh[0],aqueh[1])
+				//console.log(b[3].join(' ')+' se queda en el pueblo')
+			} else{
+				//enLista++
+				//console.log('No es idoneo, debes buscar otro')
+			}
+		}	
+}
 
 
 
@@ -376,6 +397,67 @@ function buscaCochePara(dia,hora,nlista){
   return false
 }
 
+/////////////////////////
+// TERCERA LEY
+// Tercera ley :-) Los que tienen la misma hora de entrada y salida se pueden intercambiar, o pueden suplirse
+
+function reuneIgualesDia(dia){
+	var ESuser=[0,0]
+	igualesDia[dia]=[]
+	var contIguales=0;
+		for (var n = 0; n < usuario.length; n++) {
+			ESuser=[usuario[n][diasn[dia]].entrada,usuario[n][diasn[dia]].salida]
+			for (var b = 0; b < usuario.length; b++) {
+				if(ESuser[0]==usuario[b][diasn[dia]].entrada  &&  ESuser[1]==usuario[b][diasn[dia]].salida){
+					if(b!=n){
+						usuario[n][diasn[dia]].igualQue.push(b)
+					}
+				}
+			}
+		}
+   for (var n = 0; n < usuario.length; n++) {
+	   igualesDia[dia].push(usuario[n][diasn[dia]].igualQue.clone())
+   } 
+   var cad='<ul><li>',cad1=''
+   var estalleno=false;
+   var preh='';var posh=''
+   var contCoches=0;
+   for(var a=0;a<igualesDia[dia].length;a++){
+	   contCoches=0
+	  for(var b=0;b<igualesDia[dia][a].length;b++){ 
+	   if(igualesDia[dia][a].length>1 ){
+		   preh='';posh=''
+		   if(usuario[igualesDia[dia][a][b]][diasn[dia]].usacoche){contCoches++; preh='<span style="font-weight:500;color:#000;">';posh='</span>'}
+	     cad+= preh+ ''+usuario[igualesDia[dia][a][b]].nombre+''+posh+', '
+		 estalleno=true
+	   }else{
+		   if(igualesDia[dia][a].length==1 ){
+				cad1+= usuario[igualesDia[dia][a][b]].nombre+', '
+		   }
+		   estalleno=false
+	   }
+	   
+	  }
+	  if(contCoches>1){}
+	  if(estalleno){
+		  cad = cad.slice(0, -2);
+		  if(contCoches>1){cad+=' <b style="white-space: nowrap;"><i class="zmdi zmdi-car"></i><i class="zmdi zmdi-car"></i></b>'}
+		  cad+='</li><li>'}
+   }
+    cad = cad.slice(0, -4);
+	var t=''
+	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
+   $('#R'+dia).html(cad+'</ul>'+ t)
+  
+   //Solo Firefox
+   //console.log(igualesDia[dia].toSource())
+}
+
+
+// FIN TERCERA LEY
+
+
+
 function llenaCelda(m,n){
 	
 	 var nsomos = en[m][n].personas.length
@@ -555,6 +637,14 @@ function intercambiaCochesUsuariosDia(user1,user2,dia){
 	
 }
 
+function borraInfo(){
+ setTimeout(
+  function() 
+  {
+    $('#info').hide();
+  }, 5000);
+}
+
 function tablaColor(cdia,chora,ES){
 	for(var dia=1;dia<=5;dia++){
 	for(var hora=1;hora<=7;hora++){
@@ -589,14 +679,13 @@ function tablaColor(cdia,chora,ES){
 	if(diaEstaCompleto(codia)){codias++}
 	}
 	if(codias==5){
-		//alert('!!!COMPLETADO :-D !!!'); 
-		//return false;
+
+		$('#info').html('!!!COMPLETADO :-D !!!');
+		borraInfo()
 	  for(var dia=1;dia<=5;dia++){
 	for(var hora=1;hora<=7;hora++){
 		$('#'+diass[dia]+hora).css('background-color','#fff')
 	  }}
-	}else{
-	 //return true
 	}
 }
 
