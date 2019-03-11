@@ -645,6 +645,15 @@ function borraInfo(){
   }, 5000);
 }
 
+function todoBlanco(){
+	$('#info').html('!!!COMPLETADO :-D !!!');
+	borraInfo()
+	for(var dia=1;dia<=5;dia++){
+		for(var hora=1;hora<=7;hora++){
+			$('#'+diass[dia]+hora).css('background-color','#fff')
+		}
+	 }
+}
 function tablaColor(cdia,chora,ES){
 	for(var dia=1;dia<=5;dia++){
 	for(var hora=1;hora<=7;hora++){
@@ -680,12 +689,7 @@ function tablaColor(cdia,chora,ES){
 	}
 	if(codias==5){
 
-		$('#info').html('!!!COMPLETADO :-D !!!');
-		borraInfo()
-	  for(var dia=1;dia<=5;dia++){
-	for(var hora=1;hora<=7;hora++){
-		$('#'+diass[dia]+hora).css('background-color','#fff')
-	  }}
+	  todoBlanco();
 	}
 }
 
