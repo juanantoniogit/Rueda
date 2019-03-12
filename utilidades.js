@@ -31,33 +31,6 @@ function quienHayLibre(dia,hora,ES){
 }
 
 
-Array.prototype.allValuesSame = function() {
-    for(var i = 1; i < this.length; i++)
-    {
-        if(this[i].viajes !== this[0].viajes)
-            return false;
-    }
-    return true;
-}
-
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
-
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
 
 /////////////////////
 function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
@@ -82,9 +55,9 @@ function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 	//ordenaDeMenosAmas
 	if(libres.allValuesSame() && libres.length>1){
 		libres = shuffle(libres)
-		$('#info').html('Todos tienen los mismos viajes: Mezcla aleatoria!')
+		//$('#info').html('Todos tienen los mismos viajes: Mezcla aleatoria!')
 	}else{
-		$('#info').html('');
+		//$('#info').html('');
 		libres.sort(function(a, b){return a.viajes - b.viajes});
 	}
 	return libres
@@ -95,7 +68,7 @@ function quienHayLibreDiaHoraEnOrdenViajes(dia,hora,ES){
 
 
 function llena(dia){
-		completo=diaEstaCompleto(dia) 
+		var completo=diaEstaCompleto(dia) 
 		//console.log(completo+' '+a)	 
 		if(completo==false){
 			var b=buscaConductoresDia(dia,enLista)
@@ -646,7 +619,11 @@ function borraInfo(){
 }
 
 function todoBlanco(){
-	$('#info').html('!!!COMPLETADO :-D !!!');
+	if(completo){
+		$('#info').html('<h1>!!!COMPLETADO!!!</h1>');
+	}else{
+		$('#info').html('<h1>NO COMPLETADO. SinAsignar:'+horasSinAsignar+'</h1>');
+	}
 	borraInfo()
 	for(var dia=1;dia<=5;dia++){
 		for(var hora=1;hora<=7;hora++){
@@ -692,6 +669,38 @@ function tablaColor(cdia,chora,ES){
 	  todoBlanco();
 	}
 }
+
+
+///////////////
+
+Array.prototype.allValuesSame = function() {
+    for(var i = 1; i < this.length; i++)
+    {
+        if(this[i].viajes !== this[0].viajes)
+            return false;
+    }
+    return true;
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 
 Array.prototype.stackR = function() {
     var j = this.pop();

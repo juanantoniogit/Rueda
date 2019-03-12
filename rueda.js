@@ -290,7 +290,7 @@ function recopilaEntrada(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'+ ' '+ todos.correcto +'  '+ todos.factor
+	cad02+='<i class="zmdi zmdi-check"></i>'+ '   '+ todos.factor
 	cad01='';
 	en[a][b].necesitoCoches=0;
 	en[a][b].check=true;
@@ -525,36 +525,41 @@ function ordenaSegunViajes() {
 var posES={dia:1,hora:1, cont:0, ES:['entrada','salida']} 
 var nVueltas=0
 var nFilas=7, nColumnas=5;
-var totalHoras=nFilas*nColumnas; //35 const 
+var totalHoras=nFilas*nColumnas*2; //35 const 
 var horasSinAsignar = totalHoras
 var horasAsignadasVuelta=0
 var horasSinAsignarPrevia=totalHoras;
 var asignaAlAzar=false
-
+var completo=false
 
 function pasaSiguiente(){
   var cierto=false;
-  var completo=false;
   var hsa=35;
    posES.dia++
 		if(posES.dia>5){posES.dia=1;posES.hora++;}
 		if(posES.hora>7){
 			cierto=true;
 			posES.dia=1;posES.hora=1;
-			//posES.cont++;
+			posES.cont++;
 			nVueltas++
-			var s=nHorasEntradaCheck()
+			var s=nHorasEScheck()
 			horasSinAsignar=totalHoras-s
 			
 			horasAsignadasVuelta= horasSinAsignarPrevia-horasSinAsignar
 			horasSinAsignarPrevia=horasSinAsignar;
 			if(posES.cont>=posES.ES.length){posES.cont=0}
-			$('#info').html('<h2>VUELTA: '+nVueltas+';   SinAsignar:'+horasSinAsignar+'; AsignadasEnUltimaVuelta:'+horasAsignadasVuelta+'</h2>')
+			//$('#info').html('<h2>VUELTA: '+nVueltas+';   SinAsignar:'+horasSinAsignar+'; AsignadasEnUltimaVuelta:'+horasAsignadasVuelta+'</h2>')
 			if(horasAsignadasVuelta==0){ asignaAlAzar=true; }else{ asignaAlAzar=false; }
-			if(horasSinAsignar<=0){todoBlanco(); completo=true}
+			if(horasSinAsignar<=0){
+				    llenaTabla()
+					llenaUsuarios()
+					ordenaSegunViajes()
+					todoBlanco()
+				    completo=true;
+		  }
 		}
 		
-  return {ultimaDeLaSemana:cierto,completo:completo}
+  return {ultimaDeLaSemana:cierto}
 }
 
 function factor(dia,hora,ES){
@@ -634,30 +639,54 @@ function esUnicoMenorUsuarios(dia,hora,ES,userLibres){
 	return {cierto:cierto,id:id}	
 }
 
-function necesitamosCocheEnTuSalida(dia,hora,userLibres){
+function necesitamosCocheEnTuEntradaOsalida(dia,hora,userLibres,ES){
 	var cierto=false
 	var ids=[];
-	var horaSalidaUsuario=0
-	var personasSalida=[]
+	var horaESusuario=0
+	var personasES=[]
 	var numero=0
-	for(var a=0;a<userLibres.length;a++){
-		horaSalidaUsuario=usuario[userLibres[a].id][diasn[dia]].salida
-		userLibres[a].horaSalida=horaSalidaUsuario;
-	    userLibres[a].factor=sa[dia][horaSalidaUsuario].factor
-		
+	if(ES=='entrada'){
+		for(var a=0;a<userLibres.length;a++){
+			horaESusuario=usuario[userLibres[a].id][diasn[dia]].salida
+			userLibres[a].horaES=horaESusuario;
+			userLibres[a].factor=sa[dia][horaESusuario].factor
+			
+		}
+		userLibres.sort(function(a, b){return a.factor - b.factor});
+		if(userLibres[0].factor!=userLibres[1].factor && userLibres[0].factor<1){
+			cierto=true
+			ids[0]={id:userLibres[0].id,factorES:factor,nViajes:userLibres[0].nViajes}
+			ids[1]={id:userLibres[1].id,factorES:factor,nViajes:userLibres[1].nViajes}
+			numero=1
+		}
+		if(userLibres[0].factor==userLibres[1].factor && userLibres[0].factor<1){
+			cierto=true
+			ids[0]={id:userLibres[0].id,factorES:factor,nViajes:userLibres[0].nViajes}
+			ids[1]={id:userLibres[1].id,factorES:factor,nViajes:userLibres[1].nViajes}
+			numero=2
+		}
 	}
-	userLibres.sort(function(a, b){return a.factor - b.factor});
-	if(userLibres[0].factor!=userLibres[1].factor && userLibres[0].factor<1){
-		cierto=true
-		ids[0]={id:userLibres[0].id,factorSalida:factor}
-		ids[1]={id:userLibres[1].id,factorSalida:factor}
-		numero=1
-	}
-	if(userLibres[0].factor==userLibres[1].factor && userLibres[0].factor<1){
-		cierto=true
-		ids[0]={id:userLibres[0].id,factorSalida:factor}
-		ids[1]={id:userLibres[1].id,factorSalida:factor}
-		numero=2
+
+	if(ES=='salida'){
+		for(var a=0;a<userLibres.length;a++){
+			horaESusuario=usuario[userLibres[a].id][diasn[dia]].entrada
+			userLibres[a].horaES=horaESusuario;
+			userLibres[a].factor=en[dia][horaESusuario].factor
+			
+		}
+		userLibres.sort(function(a, b){return a.factor - b.factor});
+		if(userLibres[0].factor!=userLibres[1].factor && userLibres[0].factor<1){
+			cierto=true
+			ids[0]={id:userLibres[0].id,factorES:factor,nViajes:userLibres[0].nViajes}
+			ids[1]={id:userLibres[1].id,factorES:factor,nViajes:userLibres[1].nViajes}
+			numero=1
+		}
+		if(userLibres[0].factor==userLibres[1].factor && userLibres[0].factor<1){
+			cierto=true
+			ids[0]={id:userLibres[0].id,factorES:factor,nViajes:userLibres[0].nViajes}
+			ids[1]={id:userLibres[1].id,factorES:factor,nViajes:userLibres[1].nViajes}
+			numero=2
+		}
 	}
 	return {numero:numero,ids:ids}	
 }
@@ -665,13 +694,17 @@ function necesitamosCocheEnTuSalida(dia,hora,userLibres){
 function esLaUltima(){
 	
 }
-function nHorasEntradaCheck(){
+function nHorasEScheck(){
 	var estanCheck=0
 	for(var dia=1;dia<=5;dia++){
 		for(var hora=1;hora<=7;hora++){
-			if(en[dia][hora].check){
+			if(en[dia][hora].check ){
 				estanCheck++
 			}
+			if(sa[dia][hora].check ){
+				estanCheck++
+			}
+			
 		}
 	}
 	return estanCheck
@@ -686,6 +719,7 @@ function conduceUsuario(user,dia,hora,ES){
 		sa[dia][horaSalidaUsuario].asignados++;
 		en[dia][hora].factor=factor(dia,hora,'entrada')
 		sa[dia][hora].factor=factor(dia,horaSalidaUsuario,'salida')
+		en[dia][hora].check=true
 		
 	}
 	if(ES=='salida'){
@@ -694,9 +728,10 @@ function conduceUsuario(user,dia,hora,ES){
 		sa[dia][hora].asignados++;
 		en[dia][hora].factor=factor(dia,horaEntradaUsuario,'entrada')
 		sa[dia][hora].factor=factor(dia,hora,'salida')
+		sa[dia][hora].check=true
 	}
-	var s=nHorasEntradaCheck()
-	horasSinAsignar=totalHoras-s
+	//var s=nHorasEScheck()
+	//horasSinAsignar=totalHoras-s
 	//horasAsignadasVuelta++
 	return true
 		   
@@ -758,7 +793,7 @@ function evaluaDiaHora(dia, hora, ES) {
             numero: 0,
             ids: []
           }
-         ncets= necesitamosCocheEnTuSalida(dia, hora, nvu.usuariosLibres)
+         ncets= necesitamosCocheEnTuEntradaOsalida(dia, hora, nvu.usuariosLibres,ES)
           if (ncets.numero == 1) {
 
             return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
@@ -767,6 +802,7 @@ function evaluaDiaHora(dia, hora, ES) {
           if (ncets.numero > 1) {
 
 			  if(asignaAlAzar){
+				ncets.ids = shuffle(ncets.ids)
 				return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
 			  }else{
 				return {evaluacion:'dudas', id:-1};
@@ -775,8 +811,16 @@ function evaluaDiaHora(dia, hora, ES) {
           }
 		  //estoTieneSentido? n
 		  if (ncets.numero == 0) {
-			return {evaluacion:'dudas', id:-1};
-
+			//return {evaluacion:'dudas', id:-1};
+			 if(asignaAlAzar){
+				nvu.usuariosLibres= shuffle(nvu.usuariosLibres)
+				
+				//nvu.usuariosLibres.sort(function(a, b){return a.nViajes - b.nViajes});
+			   //return {evaluacion:'asignarUsuario', id: nvu.usuariosLibres[0].id};
+			   return {evaluacion:'dudas', id:-1};
+			 }else{
+				 return {evaluacion:'dudas', id:-1};
+			 }
           }
         }
       }
@@ -820,8 +864,8 @@ $(document).ready(function(){
 	
 
 	// CUMPLE LA PRIMERA LEY
-	buscaConductoresSolosEntrada(1)
-	buscaConductoresSolosSalida(1)
+	//buscaConductoresSolosEntrada(1)
+	//buscaConductoresSolosSalida(1)
 	//
 	
 	
@@ -832,18 +876,20 @@ $(document).ready(function(){
 	llenaTabla()
 	llenaUsuarios()
 	ordenaSegunViajes()
+	 //$('#info').html('<h1>BUSCANDO COINCIDENCIAS.... SinAsignar: '+horasSinAsignar+'</h1>');
+	var maxNumEval=1400
+//while(!completo){
+	for(var nEvaluaciones=0;nEvaluaciones<maxNumEval;nEvaluaciones++){
+	
+	//$(document).click(function(){	
 	
 	
-
-	
-	$(document).click(function(){	
-		
 		// ESQUEMA
 	var quePasa = {evaluacion:'',id:-1};
 		quePasa = evaluaDiaHora(posES.dia, posES.hora, posES.ES[posES.cont]);
 		
 		if(quePasa.evaluacion=="yaAsignada"){
-			$('#info').html(quePasa.evaluacion+' SinAsignar:'+horasSinAsignar);
+			//$('#info').html(quePasa.evaluacion+' SinAsignar:'+horasSinAsignar);
 			
 		}
 		if(quePasa.evaluacion=='enBlanco'){
@@ -859,112 +905,50 @@ $(document).ready(function(){
 					//horasAsignadasVuelta++
 				}
 			}
-		   var s=nHorasEntradaCheck()
-			horasSinAsignar=totalHoras-s
+		   //var s=nHorasEScheck()
+			//horasSinAsignar=totalHoras-s
 			//horasAsignadasVuelta++
-			$('#info').html(quePasa.evaluacion+' SinAsignar:'+horasSinAsignar);
+			//$('#info').html(quePasa.evaluacion+' SinAsignar:'+horasSinAsignar);
 		
 		}
 		
 		if(quePasa.evaluacion=="asignarUsuario"){
 		
 			conduceUsuario(quePasa.id, posES.dia, posES.hora, posES.ES[posES.cont])
-			$('#info').html('Asignado '+ usuario[quePasa.id].nombre+' Sin asignar: ' +horasSinAsignar);
+			//$('#info').html('Asignado '+ usuario[quePasa.id].nombre+' Sin asignar: ' +horasSinAsignar);
 		}
 		
 		if(quePasa.evaluacion=="dudas"){
-			$('#info').html('DUDAS...!???? '+horasSinAsignar);
+			//$('#info').html('DUDAS...!???? '+horasSinAsignar);
+			var color01=355-(255*nEvaluaciones/maxNumEval)
 			
+			 $('#'+ diass[posES.dia]+posES.hora).css('background-color','rgb('+color01+','+color01+','+color01+')')
 		}
 		
-		if(estadisticaDiaHora(posES.dia,posES.hora,posES.ES[posES.cont]).correcto=='faltan'){
-					tablaColor(posES.dia,posES.hora,posES.ES[posES.cont])
-					llenaTabla()
-					llenaUsuarios()
-					ordenaSegunViajes()
+		//if(estadisticaDiaHora(posES.dia,posES.hora,posES.ES[posES.cont]).correcto=='completo'){
+					//tablaColor(posES.dia,posES.hora,posES.ES[posES.cont])
+			if(completo){		
+					//completo=true
+					// llenaTabla()
+					// llenaUsuarios()
+					// ordenaSegunViajes()
+					// todoBlanco()
 					
-					
+		}else{
+			 
 		}
-		
+		//$('#info').html('<h1>BUSCANDO COINCIDENCIAS.... SinAsignar:'+horasSinAsignar+'</h1>');
 		var ps = {ultimaDeLaSemana:false }
 		ps = pasaSiguiente();
 		if(!ps.ultimaPorEvaluar){
 		}
 		
-		/*
-		var us=quienHayLibreDiaHoraEnOrdenViajes(posES.dia,posES.hora,posES.ES[posES.cont])
-			for(var u=0;u<us.length;u++){
-			 if(u<estadisticaDiaHora(posES.dia,posES.hora,posES.ES[posES.cont]).cochesTeorico){
-				if(estadisticaDiaHora(posES.dia,posES.hora,posES.ES[posES.cont]).correcto=='faltan'){
-					ponCocheUsuarioDia(us[u].id,posES.dia)
-					llenaTabla()
-					llenaUsuarios()
-					ordenaSegunViajes()
-					
-				}
-				
-			}
-			
-		}
-		tablaColor(posES.dia,posES.hora,posES.ES[posES.cont])
+	} //end while
 	
-		pasaSiguiente()
-		*/
-	
-   })
-	
-	
-	
-	
-// EL PRINCIPAL: 
-//BUSCANCO COCHES NECESARIOS POR HORA SEGUN NUMERO DE USUSARIOS (SEGUNDA LEY)
-//Y ASIGNANDO COCHES  (POR DÍA)
-/*
- var dia=1;
- var completo=false
- //$(document).click(function(){
-	 for(var a =0; a<30;a++){
-	 if(dia<6){
-		 llena(dia)
-		  completo=diaEstaCompleto(dia) 
-		  if(completo){dia++; enLista=0}
-	 }
-   }
-   
- */
- 
- //FILTRO ARTESANAL :-)
- //A partir de aquí OPTIMIZAR Y UN LAVADO
-//quitaCocheUsuarioDia(2,3)
-//llenaTabla();
-//llenaUsuarios()
-//ordenaSegunViajes()
-//quitaCocheDia(2)
-
-
-/* 
-quitaCocheDia(3)
-quitaCocheUsuarioDia(6,2)
-for(var b=0;b<3;b++){
-//$(document).click(function(){
-	usuariosYviajes.stackR()
-	llenaUsuariosOrden()
-}//)
-
-*/
-
-/* IMPORTANTE no borrar
-// CUMPLE LA TERCERA LEY
-
-for(var dia =1; dia<=5;dia++){
-	reuneIgualesDia(dia)
-}
-
-
-
-*/
-
-
+		llenaTabla()
+		 llenaUsuarios()
+		ordenaSegunViajes()
+		//todoBlanco()
   });
 
 
