@@ -6,11 +6,12 @@
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			  crossorigin="anonymous">
 </script>
-<script src="rueda.js">
-</script>
-
+<script src="datos.js"></script>
+<script src="utilidades.js"></script>
+<script src="rueda.js"></script>
 </head>
 <body>
+<div class="fixed" id="info"></div>
 <div id="titulo">
 	RUEDA
  <script>
@@ -93,16 +94,173 @@
     <td id="j6"></td>
     <td id="v6"></td>
   </tr>
- <tr>
+  <tr>
     <td class="hora">De a</td>
     <td id="l7"></td>
     <td id="m7"></td>
     <td id="x7"></td>
     <td id="j7"></td>
     <td id="v7"></td>
-</tr>	
+  </tr>
+
 </table>
 <br>
 <div id="usuarios"></div>
+<pre>
+
+
+</pre>
+<table border="0" style="" width="95%">
+<tr><td  style="border-width:0px;border-style:solid"> Entradas
+<table class="data-table" cellpadding="4px" cellpadding="4px" width="85%">
+    <tr>
+    <th class="hora"></th>
+    <th>L</th>
+    <th>M</th>
+    <th>X</th>
+    <th>J</th>
+    <th>V</th>
+  </tr>
+   <tr>
+    <td class="hora">1</td>
+    <td id="l1chte"></td>
+    <td id="m1chte"></td>
+    <td id="x1chte"></td>
+    <td id="j1chte"></td>
+    <td id="v1chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">2</td>
+    <td id="l2chte"></td>
+    <td id="m2chte"></td>
+    <td id="x2chte"></td>
+    <td id="j2chte"></td>
+    <td id="v2chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">3</td>
+    <td id="l3chte"></td>
+    <td id="m3chte"></td>
+    <td id="x3chte"></td>
+    <td id="j3chte"></td>
+    <td id="v3chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">4</td>
+    <td id="l4chte"></td>
+    <td id="m4chte"></td>
+    <td id="x4chte"></td>
+    <td id="j4chte"></td>
+    <td id="v4chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">5</td>
+    <td id="l5chte"></td>
+    <td id="m5chte"></td>
+    <td id="x5chte"></td>
+    <td id="j5chte"></td>
+    <td id="v5chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">6</td>
+    <td id="l6chte"></td>
+    <td id="m6chte"></td>
+    <td id="x6chte"></td>
+    <td id="j6chte"></td>
+    <td id="v6chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">7</td>
+    <td id="l7chte"></td>
+    <td id="m7chte"></td>
+    <td id="x7chte"></td>
+    <td id="j7chte"></td>
+    <td id="v7chte"></td>
+  </tr>
+</table>
+</td><td style="border-width:0px;border-style:solid">Salidas
+<table class="data-table" cellpadding="4px" cellpadding="4px" width="85%">
+ <tr>
+    <th class="hora"></th>
+    <th>L</th>
+    <th>M</th>
+    <th>X</th>
+    <th>J</th>
+    <th>V</th>
+  </tr>
+   <tr>
+    <td class="hora">1</td>
+    <td id="l1chts"></td>
+    <td id="m1chts"></td>
+    <td id="x1chts"></td>
+    <td id="j1chts"></td>
+    <td id="v1chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">2</td>
+    <td id="l2chts"></td>
+    <td id="m2chts"></td>
+    <td id="x2chts"></td>
+    <td id="j2chts"></td>
+    <td id="v2chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">3</td>
+    <td id="l3chts"></td>
+    <td id="m3chts"></td>
+    <td id="x3chts"></td>
+    <td id="j3chts"></td>
+    <td id="v3chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">4</td>
+    <td id="l4chts"></td>
+    <td id="m4chts"></td>
+    <td id="x4chts"></td>
+    <td id="j4chts"></td>
+    <td id="v4chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">5</td>
+    <td id="l5chts"></td>
+    <td id="m5chts"></td>
+    <td id="x5chts"></td>
+    <td id="j5chts"></td>
+    <td id="v5chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">6</td>
+    <td id="l6chts"></td>
+    <td id="m6chts"></td>
+    <td id="x6chts"></td>
+    <td id="j6chts"></td>
+    <td id="v6chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">7</td>
+    <td id="l7chts"></td>
+    <td id="m7chts"></td>
+    <td id="x7chts"></td>
+    <td id="j7chts"></td>
+    <td id="v7chts"></td>
+  </tr>
+</table>
+</td></tr></table>
+El nivel de gris indica m&aacute;s dudas para resolver esa hora
+<pre>
+
+
+</pre>
+<table>
+ <tr style="background-color:#fafafa;">
+    <td class="hora" style="text-align:left;">COINCIDENCIAS<br><font size="-1px"><p>Conductores en negrita.<br> <br></font></p></td>
+    <td id="R1" style="text-align:left;color:#777;"></td>
+    <td id="R2" style="text-align:left;color:#777;"></td>
+    <td id="R3" style="text-align:left;color:#777;"></td>
+    <td id="R4" style="text-align:left;color:#777;"></td>
+    <td id="R5" style="text-align:left;color:#777;"></td>
+  </tr>
+ </table> 
+ <div class="fixed"></div>
 </body>
 </html>
