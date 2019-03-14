@@ -414,13 +414,14 @@ function reuneIgualesDia(dia){
 	  if(contCoches>1){}
 	  if(estalleno){
 		  cad = cad.slice(0, -2);
-		  if(contCoches>1){cad+=' <b style="white-space: nowrap;"><i class="zmdi zmdi-car"></i><i class="zmdi zmdi-car"></i></b>'}
+		  if(contCoches>1){cad+=' <b style="white-space: nowrap;">&#x1f697;&#x1f697;</b>'}
 		  cad+='</li><li>'}
    }
     cad = cad.slice(0, -4);
 	var t=''
 	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
-   $('#R'+dia).html(cad+'</ul>'+ t)
+   //$('#R'+dia).html(cad+'</ul>'+ t)
+    document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
   
    //Solo Firefox
    //console.log(igualesDia[dia].toSource())
@@ -435,7 +436,8 @@ function llenaCelda(m,n){
 	
 	 var nsomos = en[m][n].personas.length
     cad = recopilaEntrada(m, n, nsomos)
-    $('#' + diass[m] +''+ n).html(cad)
+    //$('#' + diass[m] +''+ n).html(cad)
+	 document.getElementById(diass[m] +''+ n).innerHTML =cad;
 }
 
 
@@ -614,20 +616,27 @@ function borraInfo(){
  setTimeout(
   function() 
   {
-    $('#info').hide();
+   // $('#info').hide();
+	document.getElementById('info').style.visibility = 'hidden'
+
   }, 5000);
 }
 
 function todoBlanco(){
 	if(completo){
-		$('#info').html('<h1>!!!COMPLETADO!!!</h1>');
+		//$('#info').html('<h1>!!!COMPLETADO!!!</h1>');
+		document.getElementById('info').innerHTML='<h1>!!!COMPLETADO!!!</h1>'
+		
 	}else{
-		$('#info').html('<h1>NO COMPLETADO. SinAsignar:'+horasSinAsignar+'</h1>');
+		//$('#info').html('<h1>NO COMPLETADO. SinAsignar:'+horasSinAsignar+'</h1>');
+		document.getElementById('info').innerHTML='<h1>NO COMPLETADO. SinAsignar:'+horasSinAsignar+'</h1>'
+		
 	}
 	borraInfo()
 	for(var dia=1;dia<=5;dia++){
 		for(var hora=1;hora<=7;hora++){
-			$('#'+diass[dia]+hora).css('background-color','#fff')
+			//$('#'+diass[dia]+hora).css('background-color','#fff')
+			document.getElementById('info').style.backgroundColor = '#fff'
 		}
 	 }
 }
@@ -636,29 +645,36 @@ function tablaColor(cdia,chora,ES){
 	for(var hora=1;hora<=7;hora++){
 		if(ES=='entrada'){
 		if(en[dia][hora].factor>1){
-		 $('#'+diass[dia]+hora).css('background-color','#dfd')
+		 //$('#'+diass[dia]+hora).css('background-color','#dfd')
+		 document.getElementById(+diass[dia]+hora).style.backgroundColor = '#dfd'
 		}
 		if(en[dia][hora].factor==1){
-		 $('#'+diass[dia]+hora).css('background-color','#ddd')
+		 //$('#'+diass[dia]+hora).css('background-color','#ddd')
+		 document.getElementById(+diass[dia]+hora).style.backgroundColor = '#ddd'
 		}
 		if(en[dia][hora].factor<1){
-		 $('#'+diass[dia]+hora).css('background-color','#fdd')
+		 //$('#'+diass[dia]+hora).css('background-color','#fdd')
+		 document.getElementById(+diass[dia]+hora).style.backgroundColor = '#fdd'
 		}
 		}
 		if(ES=='salida'){
 		if(sa[dia][hora].factor>1){
-		 $('#'+diass[dia]+hora).css('background-color','#afd')
+		 //$('#'+diass[dia]+hora).css('background-color','#afd')
+		 document.getElementById(+diass[dia]+hora).style.backgroundColor = '#afd'
 		}
 		if(sa[dia][hora].factor==1){
-		 $('#'+diass[dia]+hora).css('background-color','#aaa')
+		 //$('#'+diass[dia]+hora).css('background-color','#aaa')
+		 document.getElementById(+diass[dia]+hora).style.backgroundColor = '#aaa'
 		}
 		if(sa[dia][hora].factor<1){
-		 $('#'+diass[dia]+hora).css('background-color','#add')
+		 //$('#'+diass[dia]+hora).css('background-color','#add')
+		 document.getElementById(+diass[dia]+hora).style.backgroundColor = '#add'
 		}
 		}
 		
 	}
-	$('#'+diass[cdia]+chora).css('background-color','#ff0')
+	//$('#'+diass[cdia]+chora).css('background-color','#ff0')
+	document.getElementById(+diass[dia]+chora).style.backgroundColor = '#ff0'
 	}
 	var codias=0
 	for(var codia=1;codia<=5;codia++){
