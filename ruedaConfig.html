@@ -1,0 +1,331 @@
+<html><head><title></title>
+<link rel=stylesheet href="rueda.css"></link>
+
+<style>
+.buttonHorasE{  
+    height:17px;
+    width:17px;
+font-size:9px;
+}
+.buttonHorasS{  height:17px;
+    width:17px;font-size:9px;}
+.verde{ background-color:#9fa;}
+.rosa{ background-color:#f9f;}
+</style>
+<script
+			  src="https://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous">
+</script>
+
+<script src="datos.js"></script>
+
+</head>
+<body>
+<div class="fixed" id="info"></div>
+<div id="titulo">
+	CONFIGURAR RUEDA   
+
+<div class="tabla">
+
+<div class="fila">
+<div class="col1"><a href="index.html">INDICE</a></div>
+<div class="col2"><a href="rueda.html">REPARTO</a></div>
+</div>
+</div>
+
+	<table border="0" style="border-width:0px;border-style:solid;" width="95%"><tr>
+	<td width="20%" style="text-align:right;border-width:0px;border-style:solid;" valign="middle"><h2><pre><button id="userMenos"><</button>  <button id="userMas">></button><span>   NOMBRE USUARIO </span></h2></pre></td>
+	<td width="10%" style="text-align:left;border-width:0px;border-style:solid;" valign="middle"><input type="text" id="nombre" style="margin-left:30px;padding:8px;font-size:20px;font-weight:700;"></td>
+	<td width="70%" style="text-align;:left;border-width:0px;border-style:solid;" ><div id="nombresUsuarios"></div></td>
+	</tr></table>
+ <script>
+   </script>
+</div>
+<table class="data-table" cellpadding="4px" cellpadding="4px" width="95%">
+  <tr>
+    <th class="hora"></th>
+    <th>Lunes</th>
+    <th>Martes</th>
+    <th>Mi&eacute;rcoles</th>
+    <th>Jueves</th>
+    <th>Viernes</th>
+  </tr>
+  <tr>
+    <td class="hora">ENTRA a</td>
+    <td id="1E"></td>
+    <td id="2E"></td>
+    <td id="3E"></td>
+    <td id="4E"></td>
+    <td id="5E"></td>
+  </tr>
+   <tr>
+    <td class="hora">SALE a</td>
+    <td id="1S"></td>
+    <td id="2S"></td>
+    <td id="3S"></td>
+    <td id="4S"></td>
+    <td id="5S"></td>
+  </tr>
+</table>
+<br>
+<div id=""><button>BORRAR</button></div>
+<pre>
+
+
+</pre>
+<table border="0" style="" width="95%">
+<tr><td  style="border-width:0px;border-style:solid"> Entradas
+<table class="data-table" cellpadding="4px" cellpadding="4px" width="85%">
+    <tr>
+    <th class="hora"></th>
+    <th>L</th>
+    <th>M</th>
+    <th>X</th>
+    <th>J</th>
+    <th>V</th>
+  </tr>
+   <tr>
+    <td class="hora">1</td>
+    <td id="l1chte"></td>
+    <td id="m1chte"></td>
+    <td id="x1chte"></td>
+    <td id="j1chte"></td>
+    <td id="v1chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">2</td>
+    <td id="l2chte"></td>
+    <td id="m2chte"></td>
+    <td id="x2chte"></td>
+    <td id="j2chte"></td>
+    <td id="v2chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">3</td>
+    <td id="l3chte"></td>
+    <td id="m3chte"></td>
+    <td id="x3chte"></td>
+    <td id="j3chte"></td>
+    <td id="v3chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">4</td>
+    <td id="l4chte"></td>
+    <td id="m4chte"></td>
+    <td id="x4chte"></td>
+    <td id="j4chte"></td>
+    <td id="v4chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">5</td>
+    <td id="l5chte"></td>
+    <td id="m5chte"></td>
+    <td id="x5chte"></td>
+    <td id="j5chte"></td>
+    <td id="v5chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">6</td>
+    <td id="l6chte"></td>
+    <td id="m6chte"></td>
+    <td id="x6chte"></td>
+    <td id="j6chte"></td>
+    <td id="v6chte"></td>
+  </tr>
+  <tr>
+    <td class="hora">7</td>
+    <td id="l7chte"></td>
+    <td id="m7chte"></td>
+    <td id="x7chte"></td>
+    <td id="j7chte"></td>
+    <td id="v7chte"></td>
+  </tr>
+</table>
+</td><td style="border-width:0px;border-style:solid">Salidas
+<table class="data-table" cellpadding="4px" cellpadding="4px" width="85%">
+ <tr>
+    <th class="hora"></th>
+    <th>L</th>
+    <th>M</th>
+    <th>X</th>
+    <th>J</th>
+    <th>V</th>
+  </tr>
+   <tr>
+    <td class="hora">1</td>
+    <td id="l1chts"></td>
+    <td id="m1chts"></td>
+    <td id="x1chts"></td>
+    <td id="j1chts"></td>
+    <td id="v1chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">2</td>
+    <td id="l2chts"></td>
+    <td id="m2chts"></td>
+    <td id="x2chts"></td>
+    <td id="j2chts"></td>
+    <td id="v2chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">3</td>
+    <td id="l3chts"></td>
+    <td id="m3chts"></td>
+    <td id="x3chts"></td>
+    <td id="j3chts"></td>
+    <td id="v3chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">4</td>
+    <td id="l4chts"></td>
+    <td id="m4chts"></td>
+    <td id="x4chts"></td>
+    <td id="j4chts"></td>
+    <td id="v4chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">5</td>
+    <td id="l5chts"></td>
+    <td id="m5chts"></td>
+    <td id="x5chts"></td>
+    <td id="j5chts"></td>
+    <td id="v5chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">6</td>
+    <td id="l6chts"></td>
+    <td id="m6chts"></td>
+    <td id="x6chts"></td>
+    <td id="j6chts"></td>
+    <td id="v6chts"></td>
+  </tr>
+  <tr>
+    <td class="hora">7</td>
+    <td id="l7chts"></td>
+    <td id="m7chts"></td>
+    <td id="x7chts"></td>
+    <td id="j7chts"></td>
+    <td id="v7chts"></td>
+  </tr>
+</table>
+</td></tr></table>
+<br>
+<div id=""><button>INSERTAR</button></div>
+<textarea id="codigo" style="width:97%">
+
+</textarea>
+ <div class="fixed"></div>
+ 
+ <script>
+var nDiasSemena=5
+var nHorasEntrada=7
+var nHorasSalida=7
+ var diass = ['', 'l', 'm', 'x', 'j', 'v']
+var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
+var nombreUsuario='User'
+var contUsuarios=0;
+
+function limpia(){
+for(var diasSemana=1; diasSemana <=nDiasSemena; diasSemana++){
+			
+			for(var horasEntrada=1; horasEntrada <=nHorasEntrada; horasEntrada++){
+				
+				$('#'+diass[diasSemana]+horasEntrada+'chte').html(' ')
+			}
+			
+			for(var horasSalida=1; horasSalida <=nHorasSalida; horasSalida++){
+				
+					$('#'+diass[diasSemana]+horasSalida+'chts').html(' ')
+			}
+	}
+}
+
+
+
+function rellenaBotones(n){
+	if(n<0){
+		var cad='';
+		for(var diasSemana=1; diasSemana <=nDiasSemena; diasSemana++){
+			cad=''
+			for(var horasEntrada=1; horasEntrada <=nHorasEntrada; horasEntrada++){
+				cad+='<button class="buttonHorasE" id="hE'+horasEntrada+'_'+diasSemana+'">'+horasEntrada+'</button>'
+			}
+			$('#'+diasSemana+'E').html(cad)
+			 cad=''
+			for(var horasSalida=1; horasSalida <=nHorasSalida; horasSalida++){
+				cad+='<button class="buttonHorasS" id="hS'+horasSalida+'_'+diasSemana+'">'+horasSalida+'</button>'
+			}
+			$('#'+diasSemana+'S').html(cad)
+			
+		}
+	}else{
+		var cad='',cad1='';cad2='';
+		 var entrada=0, salida=0;
+		var buttColorClase=''
+		nombreUsuario=usuario[n].nombre
+		$('#nombre').val(nombreUsuario)
+		//alert(nombreUsuario)
+		for(var diasSemana=1; diasSemana <=nDiasSemena; diasSemana++){
+			//ENTRADAS
+			cad=''
+			$('#'+diasSemana+'E').html('')
+			for(var horasEntrada=1; horasEntrada <=nHorasEntrada; horasEntrada++){
+				
+				cad1='<button class="buttonHorasE' 
+				cad2='" id="hE'+horasEntrada+'_'+diasSemana+'">'+horasEntrada+'</button>'
+				entrada=usuario[n][diasn[diasSemana]].entrada
+				if(entrada==horasEntrada){
+					cad1+=' verde'
+					$('#'+diass[diasSemana]+horasEntrada+'chte').html(nombreUsuario)
+				}
+				$('#'+diasSemana+'E').append(cad1+cad2)
+			}
+			//SALIDAS
+			
+			$('#'+diasSemana+'S').html('')
+			for(var horasSalida=1; horasSalida <=nHorasSalida; horasSalida++){
+				cad1='<button class="buttonHorasS' 
+				cad2='" id="hS'+horasSalida+'_'+diasSemana+'">'+horasSalida+'</button>'
+				//cad='<button class="buttonHorasS" id="hS'+horasSalida+'_'+diasSemana+'">'+horasSalida+'</button>'
+				salida=usuario[n][diasn[diasSemana]].salida
+				if(salida==horasSalida){
+					cad1+=' rosa'
+					$('#'+diass[diasSemana]+horasSalida+'chts').html(nombreUsuario)
+					
+				}
+				$('#'+diasSemana+'S').append(cad1+cad2)
+			}
+
+			
+		}
+		
+	}	
+}
+
+function escribirCodigo(){
+	//$('#codigo').val(usuario.toSource())
+	$('#codigo').val(JSON.stringify(usuario))
+}
+
+$(document).ready(function(){
+	escribirCodigo()
+	rellenaBotones(contUsuarios)
+		$('#userMas').click(function(){
+		   contUsuarios++
+		   if(contUsuarios>=usuario.length){contUsuarios=usuario.length-1}
+		   limpia()
+		   rellenaBotones(contUsuarios)
+		}) 
+		$('#userMenos').click(function(){
+		   contUsuarios--
+		   if(contUsuarios<0){contUsuarios=0}
+		   limpia()
+		   rellenaBotones(contUsuarios)
+		}) 
+})
+
+
+ </script>
+</body>
+</html>
