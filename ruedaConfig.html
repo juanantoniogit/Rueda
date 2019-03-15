@@ -17,7 +17,7 @@
 <div id="titulo">
 	CONFIGURAR RUEDA    
 	<table border="0" style="border-width:0px;border-style:solid;" width="95%"><tr>
-	<td width="20%" style="text-align:right;border-width:0px;border-style:solid;" valign="middle"><h2><pre><button id="userMas"><</button>  <button id="userMenos">></button><span>   NOMBRE USUARIO </span></h2></pre></td>
+	<td width="20%" style="text-align:right;border-width:0px;border-style:solid;" valign="middle"><h2><pre><button id="userMenos"><</button>  <button id="userMas">></button><span>   NOMBRE USUARIO </span></h2></pre></td>
 	<td width="10%" style="text-align:left;border-width:0px;border-style:solid;" valign="middle"><input type="text" id="nombre" style="margin-left:30px;padding:8px;font-size:20px;font-weight:700;"></td>
 	<td width="70%" style="text-align;:left;border-width:0px;border-style:solid;" ><div id="nombresUsuarios"></div></td>
 	</tr></table>
@@ -204,6 +204,24 @@ var nHorasSalida=7
  var diass = ['', 'l', 'm', 'x', 'j', 'v']
 var diasn = ['', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']
 var nombreUsuario='User'
+var contUsuarios=0;
+
+function limpia(){
+for(var diasSemana=1; diasSemana <=nDiasSemena; diasSemana++){
+			
+			for(var horasEntrada=1; horasEntrada <=nHorasEntrada; horasEntrada++){
+				
+				$('#'+diass[diasSemana]+horasEntrada+'chte').html(' ')
+			}
+			
+			for(var horasSalida=1; horasSalida <=nHorasSalida; horasSalida++){
+				
+					$('#'+diass[diasSemana]+horasSalida+'chts').html(' ')
+			}
+	}
+}
+
+
 
 function rellenaBotones(n){
 	if(n<0){
@@ -252,8 +270,19 @@ function rellenaBotones(n){
 
 
 $(document).ready(function(){
-
-     rellenaBotones(0)
+     rellenaBotones(contUsuarios)
+		$('#userMas').click(function(){
+		   contUsuarios++
+		   if(contUsuarios>=usuario.length){contUsuarios=usuario.length-1}
+		   limpia()
+		   rellenaBotones(contUsuarios)
+		}) 
+		$('#userMenos').click(function(){
+		   contUsuarios--
+		   if(contUsuarios<0){contUsuarios=0}
+		   limpia()
+		   rellenaBotones(contUsuarios)
+		}) 
 })
 
 
