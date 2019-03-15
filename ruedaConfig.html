@@ -1,8 +1,17 @@
 <html><head><title></title>
 <link rel=stylesheet href="rueda.css"></link>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-
+<style>
+.buttonHorasE{  
+    height:17px;
+    width:17px;
+font-size:9px;
+}
+.buttonHorasS{  height:17px;
+    width:17px;font-size:9px;}
+.verde{ background-color:#9fa;}
+.rosa{ background-color:#f9f;}
+</style>
 <script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -194,7 +203,9 @@
 </td></tr></table>
 <br>
 <div id=""><button>INSERTAR</button></div>
+<textarea id="codigo" style="width:97%">
 
+</textarea>
  <div class="fixed"></div>
  
  <script>
@@ -240,37 +251,57 @@ function rellenaBotones(n){
 			
 		}
 	}else{
-		var cad=''; var entrada=0, salida=0;
+		var cad='',cad1='';cad2='';
+		 var entrada=0, salida=0;
+		var buttColorClase=''
 		nombreUsuario=usuario[n].nombre
 		$('#nombre').val(nombreUsuario)
 		//alert(nombreUsuario)
 		for(var diasSemana=1; diasSemana <=nDiasSemena; diasSemana++){
+			//ENTRADAS
 			cad=''
+			$('#'+diasSemana+'E').html('')
 			for(var horasEntrada=1; horasEntrada <=nHorasEntrada; horasEntrada++){
-				cad+='<button class="buttonHorasE" id="hE'+horasEntrada+'_'+diasSemana+'">'+horasEntrada+'</button>'
+				
+				cad1='<button class="buttonHorasE' 
+				cad2='" id="hE'+horasEntrada+'_'+diasSemana+'">'+horasEntrada+'</button>'
 				entrada=usuario[n][diasn[diasSemana]].entrada
 				if(entrada==horasEntrada){
-				$('#'+diass[diasSemana]+horasEntrada+'chte').html(nombreUsuario)
+					cad1+=' verde'
+					$('#'+diass[diasSemana]+horasEntrada+'chte').html(nombreUsuario)
 				}
+				$('#'+diasSemana+'E').append(cad1+cad2)
 			}
-			$('#'+diasSemana+'E').html(cad)
-			 cad=''
+			//SALIDAS
+			
+			$('#'+diasSemana+'S').html('')
 			for(var horasSalida=1; horasSalida <=nHorasSalida; horasSalida++){
-				cad+='<button class="buttonHorasS" id="hS'+horasSalida+'_'+diasSemana+'">'+horasSalida+'</button>'
+				cad1='<button class="buttonHorasS' 
+				cad2='" id="hS'+horasSalida+'_'+diasSemana+'">'+horasSalida+'</button>'
+				//cad='<button class="buttonHorasS" id="hS'+horasSalida+'_'+diasSemana+'">'+horasSalida+'</button>'
 				salida=usuario[n][diasn[diasSemana]].salida
 				if(salida==horasSalida){
+					cad1+=' rosa'
 					$('#'+diass[diasSemana]+horasSalida+'chts').html(nombreUsuario)
+					
 				}
+				$('#'+diasSemana+'S').append(cad1+cad2)
 			}
-			$('#'+diasSemana+'S').html(cad)
+
+			
 		}
 		
 	}	
 }
 
+function escribirCodigo(){
+	//$('#codigo').val(usuario.toSource())
+	$('#codigo').val(JSON.stringify(usuario))
+}
 
 $(document).ready(function(){
-     rellenaBotones(contUsuarios)
+	escribirCodigo()
+	rellenaBotones(contUsuarios)
 		$('#userMas').click(function(){
 		   contUsuarios++
 		   if(contUsuarios>=usuario.length){contUsuarios=usuario.length-1}
