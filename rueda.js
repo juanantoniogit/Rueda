@@ -166,7 +166,21 @@ sa[6] = [
   [],
   []
 ]
+/////TABLA META
+/////VIAJES SEMANA // VIAJES META
+var numUsuarios=usuario.length;
+var maxDiasSemana=5;
+var META=[
+{viajesSemana:0, meta:0},
+{viajesSemana:1, meta:0},
+{viajesSemana:2, meta:1},
+{viajesSemana:3, meta:1},
+{viajesSemana:4, meta:1},
+{viajesSemana:5, meta:2}
+]
 
+
+//////
 for(var a=0;a<en.length;a++){
 	for(var b=0;b<en[a].length;b++){	
 	en[a][b]={personas:[],tengoCoches:0,asignados:0,factor:0,necesitoCoches:0,check:false}
@@ -187,24 +201,26 @@ var enLista=0
 
 
 for (var a = 0; a < usuario.length; a++) {
-		usuario[a].viajes=0;
-		usuario[a][diasn[1]].igualQue=[]
-		usuario[a][diasn[2]].igualQue=[]
-		usuario[a][diasn[3]].igualQue=[]
-		usuario[a][diasn[4]].igualQue=[]
-		usuario[a][diasn[5]].igualQue=[]
-		
-		//usuario[a][diasn[1]].usacoche=true
-		//usuario[a][diasn[2]].usacoche=true
-		//usuario[a][diasn[3]].usacoche=true
-		//usuario[a][diasn[4]].usacoche=true
-		//usuario[a][diasn[5]].usacoche=true
+	usuario[a].viajes=0;
+	for(var b=1;b<=maxDiasSemana;b++){
+		usuario[a][diasn[b]].igualQue=[]
+	}
 }
 
+function numDiasQueViajaUsuario(a){
+		var cont=0;
+		for(var b=1;b<=maxDiasSemana;b++){
+			if(usuario[a][diasn[b]].entrada>0){cont++}
+		}
+		return cont
+}
 
 function llenaSalidasYentradas(){
+	var n=0;
 	for (var a = 0; a < usuario.length; a++) {
 		usuario[a].viajes=0;
+		n=numDiasQueViajaUsuario(a)
+		usuario[a].meta=META[n].meta
 	    en[1][usuario[a].lunes.entrada].personas.push(a)
 		sa[1][usuario[a].lunes.salida].personas.push(a)
 	   
@@ -876,7 +892,11 @@ function evaluaDiaHora(dia, hora, ES) {
         esumu = esUnicoMenorUsuarios(dia, hora, ES, nvu.usuariosLibres)
         if (esumu.cierto) {
 
-          return {evaluacion:'asignarUsuario', id:esumu.id}
+          if(usuario[esumu.id].viajes<usuario[esumu.id].meta){
+			  return {evaluacion:'asignarUsuario', id:esumu.id}
+			}else{
+				    return {evaluacion:'dudas', id:-1};
+			}  
 
         } else {
 
@@ -886,15 +906,21 @@ function evaluaDiaHora(dia, hora, ES) {
           }
          ncets= necesitamosCocheEnTuEntradaOsalida(dia, hora, nvu.usuariosLibres,ES)
           if (ncets.numero == 1) {
-
-            return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
-
+			if(usuario[ncets.ids[0].id].viajes<usuario[ncets.ids[0].id].meta){
+					return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
+			}else{
+				    return {evaluacion:'dudas', id:-1};
+			}
           }
           if (ncets.numero > 1) {
 
-			  if(asignaAlAzar){
+			  if(asignaAlAzar ){
 				ncets.ids = shuffle(ncets.ids)
-				return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
+				if(usuario[ncets.ids[0].id].viajes<usuario[ncets.ids[0].id].meta){
+					return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
+				}else{
+					return {evaluacion:'dudas', id:-1};
+				}
 			  }else{
 				return {evaluacion:'dudas', id:-1};
 			  }
@@ -905,9 +931,12 @@ function evaluaDiaHora(dia, hora, ES) {
 			//return {evaluacion:'dudas', id:-1};
 			 if(asignaAlAzar){
 				nvu.usuariosLibres= shuffle(nvu.usuariosLibres)
-				
 				//nvu.usuariosLibres.sort(function(a, b){return a.nViajes - b.nViajes});
-			  return {evaluacion:'asignarUsuario', id: nvu.usuariosLibres[0].id};
+				if( usuario[nvu.usuariosLibres[0].id].viajes < usuario[nvu.usuariosLibres[0].id].meta  && nvu.usuariosLibres.length>0){
+					return {evaluacion:'asignarUsuario', id: nvu.usuariosLibres[0].id }
+				}else{
+					return {evaluacion:'dudas', id:-1};
+				}
 			   //return {evaluacion:'dudas', id:-1};
 			 }else{
 				 return {evaluacion:'dudas', id:-1};
@@ -971,7 +1000,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	llenaUsuarios()
 	ordenaSegunViajes()
 	 //$('#info').html('<h1>BUSCANDO COINCIDENCIAS.... SinAsignar: '+horasSinAsignar+'</h1>');
-	var maxNumEval=totalHoras*6
+	var maxNumEval=totalHoras*12
 //while(!completo){
 	for(var nEvaluaciones=0;nEvaluaciones<maxNumEval;nEvaluaciones++){
 	
@@ -1050,7 +1079,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 		llenaTabla()
 		 llenaUsuarios()
 		ordenaSegunViajes()
-		resumenCheck()
+		//resumenCheck()
 		//todoBlanco()
   });
 

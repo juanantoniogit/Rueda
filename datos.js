@@ -1,6 +1,35 @@
 var usuario = []
 
 usuario.push({
+  nombre: 'Pedro_D',
+  lunes: {
+    entrada: 0,
+    salida: 0,
+    usacoche: false
+  },
+  martes: {
+    entrada: 0,
+    salida: 0,
+    usacoche: false
+  },
+  miercoles: {
+    entrada: 1,
+    salida: 5,
+    usacoche: false
+  },
+  jueves: {
+    entrada: 2,
+    salida: 6,
+    usacoche: false
+  },
+  viernes: {
+    entrada: 1,
+    salida: 6,
+    usacoche: false
+  }
+})
+
+usuario.push({
   nombre: 'Luisa',
   lunes: {
     entrada: 1,
@@ -321,7 +350,7 @@ usuario.push({
     usacoche: false
   }
 })
-
+/*
 usuario.push({
   nombre: 'Rita',
   lunes: {
@@ -351,3 +380,4 @@ usuario.push({
   }
 })
 
+*/
