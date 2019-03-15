@@ -166,7 +166,21 @@ sa[6] = [
   [],
   []
 ]
+/////TABLA META
+/////VIAJES SEMANA // VIAJES META
+var numUsuarios=usuario.length;
+var maxDiasSemana=5;
+var META=[
+{viajesSemana:0, meta:0},
+{viajesSemana:1, meta:0},
+{viajesSemana:2, meta:1},
+{viajesSemana:3, meta:1},
+{viajesSemana:4, meta:1},
+{viajesSemana:5, meta:2}
+]
 
+
+//////
 for(var a=0;a<en.length;a++){
 	for(var b=0;b<en[a].length;b++){	
 	en[a][b]={personas:[],tengoCoches:0,asignados:0,factor:0,necesitoCoches:0,check:false}
@@ -187,24 +201,26 @@ var enLista=0
 
 
 for (var a = 0; a < usuario.length; a++) {
-		usuario[a].viajes=0;
-		usuario[a][diasn[1]].igualQue=[]
-		usuario[a][diasn[2]].igualQue=[]
-		usuario[a][diasn[3]].igualQue=[]
-		usuario[a][diasn[4]].igualQue=[]
-		usuario[a][diasn[5]].igualQue=[]
-		
-		//usuario[a][diasn[1]].usacoche=true
-		//usuario[a][diasn[2]].usacoche=true
-		//usuario[a][diasn[3]].usacoche=true
-		//usuario[a][diasn[4]].usacoche=true
-		//usuario[a][diasn[5]].usacoche=true
+	usuario[a].viajes=0;
+	for(var b=1;b<=maxDiasSemana;b++){
+		usuario[a][diasn[b]].igualQue=[]
+	}
 }
 
+function numDiasQueViajaUsuario(a){
+		var cont=0;
+		for(var b=1;b<=maxDiasSemana;b++){
+			if(usuario[a][diasn[b]].entrada>0){cont++}
+		}
+		return cont
+}
 
 function llenaSalidasYentradas(){
+	var n=0;
 	for (var a = 0; a < usuario.length; a++) {
 		usuario[a].viajes=0;
+		n=numDiasQueViajaUsuario(a)
+		usuario[a].meta=META[n].meta
 	    en[1][usuario[a].lunes.entrada].personas.push(a)
 		sa[1][usuario[a].lunes.salida].personas.push(a)
 	   
@@ -262,7 +278,9 @@ function recopilaEntrada(a, b, num) {
     css0 = '';
     css1 = ''
     if (usuario[en[a][b].personas[i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
+      //css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
+	  css0 = cssprevConductor +'   &#x1f697;';
+	  
       css1 = cssendConductor
 	  asignados++;
 	  
@@ -290,7 +308,8 @@ function recopilaEntrada(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i>'+ '   '+ todos.factor
+	//cad02+='<i class="zmdi zmdi-check"></i>'+ '   '+ todos.factor
+	cad02+='&#10004;'+ '   '+ todos.factor
 	cad01='';
 	en[a][b].necesitoCoches=0;
 	en[a][b].check=true;
@@ -325,7 +344,7 @@ function recopilaSalida(a, b, num) {
     css0 = '';
     css1 = ''
      if (usuario[sa[a][b].personas[i]][diasn[a]].usacoche) {
-      css0 = cssprevConductor +' <i class="zmdi zmdi-car"></i> ';
+      css0 = cssprevConductor +'  &#x1f697;';
       css1 = cssendConductor
 	  asignados++;
     }else{
@@ -353,7 +372,8 @@ function recopilaSalida(a, b, num) {
   var sss='', nnn=''
   if(necesitan>1){sss='s'; nnn='n'}
   if(necesitan<=0){
-	cad02+='<i class="zmdi zmdi-check"></i> '+ ''+' '+ todos.factor
+	//cad02+='<i class="zmdi zmdi-check"></i> '+ ''+' '+ todos.factor
+	cad02+='&#10004;'+ '   '+ todos.factor
 	cad01='';
 	sa[a][b].necesitoCoches=0;
 	sa[a][b].check=true;
@@ -419,57 +439,75 @@ function buscaConductoresSolosSalida(cuantos){
 function llenaTabla(){
   var nsomos = 0;
   for (var a = 1; a < 6; a++) {
-	  $('#' + diass[a] + '1').html(' ')
+	 /* $('#' + diass[a] + '1').html(' ')
 	  $('#' + diass[a] + '2').html(' ')
 	  $('#' + diass[a] + '3').html(' ')
 	  $('#' + diass[a] + '4').html(' ')
 	  $('#' + diass[a] + '5').html(' ')
 	  $('#' + diass[a] + '6').html(' ')
 	  $('#' + diass[a] + '7').html(' ')
+	  */
+	  document.getElementById(diass[a] + '1').innerHTML =' ';
+	  document.getElementById(diass[a] + '2').innerHTML =' ';
+	  document.getElementById(diass[a] + '3').innerHTML =' ';
+	  document.getElementById(diass[a] + '4').innerHTML =' ';
+	  document.getElementById(diass[a] + '5').innerHTML =' ';
+	  document.getElementById(diass[a] + '6').innerHTML =' ';
+	  document.getElementById(diass[a] + '7').innerHTML =' ';
   }
   for (var a = 1; a < 6; a++) {
 	// ENTRADAS
     nsomos = en[a][1].personas.length
     cad = recopilaEntrada(a, 1, nsomos)
-    $('#' + diass[a] + '1').append(cad)
+    //$('#' + diass[a] + '1').append(cad)
+	document.getElementById(diass[a] + '1').insertAdjacentHTML( 'beforeend', cad );
 	
     nsomos = en[a][2].personas.length
     cad = recopilaEntrada(a, 2, nsomos)
-    $('#' + diass[a] + '2').append(cad)
+    //$('#' + diass[a] + '2').append(cad)
+	document.getElementById(diass[a] + '2').insertAdjacentHTML( 'beforeend', cad );
 	
     nsomos = en[a][3].personas.length
     cad = recopilaEntrada(a, 3, nsomos)
-    $('#' + diass[a] + '3').append(cad)
+    //$('#' + diass[a] + '3').append(cad)
+	document.getElementById(diass[a] + '3').insertAdjacentHTML( 'beforeend', cad );
 	
 	 nsomos = en[a][4].personas.length
     cad = recopilaEntrada(a, 4, nsomos)
-    $('#' + diass[a] + '4').append(cad)
+    //$('#' + diass[a] + '4').append(cad)
+	document.getElementById(diass[a] + '4').insertAdjacentHTML( 'beforeend', cad );
 	
 	 nsomos = en[a][5].personas.length
     cad = recopilaEntrada(a, 5, nsomos)
-    $('#' + diass[a] + '5').append(cad)
+    //$('#' + diass[a] + '5').append(cad)
+	document.getElementById(diass[a] + '5').insertAdjacentHTML( 'beforeend', cad );
 	
 	 nsomos = en[a][6].personas.length
     cad = recopilaEntrada(a, 6, nsomos)
-    $('#' + diass[a] + '6').append(cad)
+   //$('#' + diass[a] + '6').append(cad)
+   document.getElementById(diass[a] + '6').insertAdjacentHTML( 'beforeend', cad );
 	
 	
 	// SALIDAS
     nsomos = sa[a][4].personas.length
     cad = recopilaSalida(a, 4, nsomos)
-    $('#' + diass[a] + '4').append(cad)
+    //$('#' + diass[a] + '4').append(cad)
+	document.getElementById(diass[a] + '4').insertAdjacentHTML( 'beforeend', cad );
 	
     nsomos = sa[a][5].personas.length
     cad = recopilaSalida(a, 5, nsomos)
-    $('#' + diass[a] + '5').append(cad)
+    //$('#' + diass[a] + '5').append(cad)
+	document.getElementById(diass[a] + '5').insertAdjacentHTML( 'beforeend', cad );
 	
     nsomos = sa[a][6].personas.length
     cad = recopilaSalida(a, 6, nsomos)
-    $('#' + diass[a] + '6').append(cad)
+    //$('#' + diass[a] + '6').append(cad)
+	document.getElementById(diass[a] + '6').insertAdjacentHTML( 'beforeend', cad );
 	
 	 nsomos = sa[a][7].personas.length
     cad = recopilaSalida(a, 7, nsomos)
-    $('#' + diass[a] + '7').append(cad)
+    //$('#' + diass[a] + '7').append(cad)
+	document.getElementById(diass[a] + '7').insertAdjacentHTML( 'beforeend', cad );
 
   }
 }
@@ -480,7 +518,7 @@ function llenaUsuarios(){
 	for (var a = 0; a < usuario.length; a++) {
 		var v=''
 		for(var i=0;i<usuario[a].viajes; i++){
-			v+='<i class="zmdi zmdi-car"></i>'
+			v+='&#x1f697;'
 		}
 		usuariosYviajes.push({id:a,viajes:usuario[a].viajes})
 		//cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(a)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[a].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a)+'">'+v+' ('+usuario[a].viajes+')</div></td></tr>'
@@ -495,7 +533,7 @@ function llenaUsuariosOrden(){
 		var v=''
 		var diast=''
 		for(var i=0;i<usuariosYviajes[a].viajes; i++){
-			v+='<i class="zmdi zmdi-car"></i>'
+			v+='&#x1f697;'
 		}
 		for(var j=1;j<=5; j++){
 		if(usuario[usuariosYviajes[a].id][diasn[j]].usacoche){
@@ -503,12 +541,13 @@ function llenaUsuariosOrden(){
 		}
 		}
 		//cad+='<tr><td style="width:10%;border-style:solid; border-width:0px;text-align:left;">'+(usuariosYviajes[a].id)+'</td><td style="width:50%; border-style:solid; border-width:0px;text-align:left;"><i class="zmdi zmdi-account"></i> '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:30%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+')</div></td></tr>'
-	    cad+='<tr><td style="width:30%; border-style:solid; border-width:0px;text-align:left;">'+usuariosYviajes[a].id+'<i class="zmdi zmdi-account"></i>  '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:70%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+') '+diast+'</div></td></tr>'
+	    cad+='<tr><td style="width:30%; border-style:solid; border-width:0px;text-align:left;">'+usuariosYviajes[a].id+' &#x1f464;  '+usuario[usuariosYviajes[a].id].nombre+ '</td><td style="width:70%;border-style:solid; border-width:0px;text-align:left;"><div id="nviajes'+(a+1)+'">'+v+' ('+usuariosYviajes[a].viajes+') '+diast+'</div></td></tr>'
 
 	}
 	cad+='</table><br>'
 	 //$('#usuarios').prepend(cad)
-	 $('#usuarios').html(cad)
+	 //$('#usuarios').html(cad)
+	 document.getElementById('usuarios').innerHTML=cad;
 }
 
 function ordenaSegunViajes() {
@@ -720,18 +759,25 @@ function resumenCheck(){
 		for(var hora=1;hora<en[dia].length;hora++){	
 			if(en[dia][hora].check==true){
 				if(en[dia][hora].personas.length>0){
-					$('#'+diass[dia]+hora+'chte').html('1')
+					//$('#'+diass[dia]+hora+'chte').html('1')
+					 document.getElementById(diass[dia]+hora+'chte').innerHTML ='1';
+					
 				}else{
-					$('#'+diass[dia]+hora+'chte').html('-')
+					//$('#'+diass[dia]+hora+'chte').html('-')
+					document.getElementById(diass[dia]+hora+'chte').innerHTML ='-';
 					
 				}
 			}else{
 				if(en[dia][hora].personas.length>0){
-					$('#'+diass[dia]+hora+'chte').html('1')
+					//$('#'+diass[dia]+hora+'chte').html('1')
+					document.getElementById(diass[dia]+hora+'chte').innerHTML ='1';
 				}else{
-					$('#'+diass[dia]+hora+'chte').html('-')
+					//$('#'+diass[dia]+hora+'chte').html('-')
+					document.getElementById(diass[dia]+hora+'chte').innerHTML ='-';
 				}
-				$('#'+diass[dia]+hora+'chte').css('background-color','#fad')
+				//$('#'+).css('background-colodiass[dia]+hora+'chte'r','#fad')
+				 document.getElementById(diass[dia]+hora+'chte').style.backgroundColor = '#fad'
+				
 			}
 		}
 	}
@@ -739,18 +785,28 @@ function resumenCheck(){
 		for(var hora=1;hora<sa[dia].length;hora++){	
 			if(sa[dia][hora].check==true){
 				if(sa[dia][hora].personas.length>0){
-					$('#'+diass[dia]+hora+'chts').html('1')
+					//$('#'+diass[dia]+hora+'chts').html('1')
+					document.getElementById(diass[dia]+hora+'chts').innerHTML ='1';
+
 				}else{
-					$('#'+diass[dia]+hora+'chts').html('-')
+					//$('#'+diass[dia]+hora+'chts').html('-')
+					document.getElementById(diass[dia]+hora+'chts').innerHTML ='-';
+
 					
 				}
 			}else{
 				if(sa[dia][hora].personas.length>0){
-					$('#'+diass[dia]+hora+'chts').html('1')
+					//$('#'+diass[dia]+hora+'chts').html('1')
+					document.getElementById(diass[dia]+hora+'chts').innerHTML ='1';
+
 				}else{
-					$('#'+diass[dia]+hora+'chts').html('-')
+					//$('#'+diass[dia]+hora+'chts').html('-')
+					document.getElementById(diass[dia]+hora+'chts').innerHTML ='-';
+
 				}
-				$('#'+diass[dia]+hora+'chts').css('background-color','#afd')
+				//$('#'+diass[dia]+hora+'chts').css('background-color','#afd')
+				document.getElementById(diass[dia]+hora+'chts').style.backgroundColor = '#afd'
+
 				
 			}
 		}
@@ -836,7 +892,11 @@ function evaluaDiaHora(dia, hora, ES) {
         esumu = esUnicoMenorUsuarios(dia, hora, ES, nvu.usuariosLibres)
         if (esumu.cierto) {
 
-          return {evaluacion:'asignarUsuario', id:esumu.id}
+          if(usuario[esumu.id].viajes<usuario[esumu.id].meta){
+			  return {evaluacion:'asignarUsuario', id:esumu.id}
+			}else{
+				    return {evaluacion:'dudas', id:-1};
+			}  
 
         } else {
 
@@ -846,15 +906,21 @@ function evaluaDiaHora(dia, hora, ES) {
           }
          ncets= necesitamosCocheEnTuEntradaOsalida(dia, hora, nvu.usuariosLibres,ES)
           if (ncets.numero == 1) {
-
-            return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
-
+			if(usuario[ncets.ids[0].id].viajes<usuario[ncets.ids[0].id].meta){
+					return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
+			}else{
+				    return {evaluacion:'dudas', id:-1};
+			}
           }
           if (ncets.numero > 1) {
 
-			  if(asignaAlAzar){
+			  if(asignaAlAzar ){
 				ncets.ids = shuffle(ncets.ids)
-				return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
+				if(usuario[ncets.ids[0].id].viajes<usuario[ncets.ids[0].id].meta){
+					return {evaluacion:'asignarUsuario', id:ncets.ids[0].id}
+				}else{
+					return {evaluacion:'dudas', id:-1};
+				}
 			  }else{
 				return {evaluacion:'dudas', id:-1};
 			  }
@@ -865,9 +931,12 @@ function evaluaDiaHora(dia, hora, ES) {
 			//return {evaluacion:'dudas', id:-1};
 			 if(asignaAlAzar){
 				nvu.usuariosLibres= shuffle(nvu.usuariosLibres)
-				
 				//nvu.usuariosLibres.sort(function(a, b){return a.nViajes - b.nViajes});
-			  return {evaluacion:'asignarUsuario', id: nvu.usuariosLibres[0].id};
+				if( usuario[nvu.usuariosLibres[0].id].viajes < usuario[nvu.usuariosLibres[0].id].meta  && nvu.usuariosLibres.length>0){
+					return {evaluacion:'asignarUsuario', id: nvu.usuariosLibres[0].id }
+				}else{
+					return {evaluacion:'dudas', id:-1};
+				}
 			   //return {evaluacion:'dudas', id:-1};
 			 }else{
 				 return {evaluacion:'dudas', id:-1};
@@ -908,7 +977,10 @@ function evaluaDiaHora(dia, hora, ES) {
 
 
 
-$(document).ready(function(){
+//$(document).ready(function(){
+document.addEventListener("DOMContentLoaded", function(event) {
+    
+
 	// BASICO: Rellena las matrices auxiliares de entradas y salidas. Reset
 	llenaSalidasYentradas()
 	///
@@ -928,7 +1000,7 @@ $(document).ready(function(){
 	llenaUsuarios()
 	ordenaSegunViajes()
 	 //$('#info').html('<h1>BUSCANDO COINCIDENCIAS.... SinAsignar: '+horasSinAsignar+'</h1>');
-	var maxNumEval=355
+	var maxNumEval=totalHoras*12
 //while(!completo){
 	for(var nEvaluaciones=0;nEvaluaciones<maxNumEval;nEvaluaciones++){
 	
@@ -975,10 +1047,12 @@ $(document).ready(function(){
 			//$('#info').html('DUDAS...!???? '+horasSinAsignar);
 			var color01=355-(255*nEvaluaciones/maxNumEval)
 			if(posES.ES[posES.cont]=='entrada'){
-			 $('#'+ diass[posES.dia]+posES.hora+'chte').css('background-color','rgb('+color01+','+color01+','+color01+')')
+			// $('#'+ diass[posES.dia]+posES.hora+'chte').css('background-color','rgb('+color01+','+color01+','+color01+')')
+			 document.getElementById(diass[posES.dia]+posES.hora+'chte').style.backgroundColor = 'rgb('+color01+','+color01+','+color01+')';
 			}
 			if(posES.ES[posES.cont]=='salida'){
-			 $('#'+ diass[posES.dia]+posES.hora+'chts').css('background-color','rgb('+color01+','+color01+','+color01+')')
+			 //$('#'+ diass[posES.dia]+posES.hora+'chts').css('background-color','rgb('+color01+','+color01+','+color01+')')
+			 document.getElementById(diass[posES.dia]+posES.hora+'chts').style.backgroundColor = 'rgb('+color01+','+color01+','+color01+')';
 			}
 		}
 		
@@ -1005,7 +1079,7 @@ $(document).ready(function(){
 		llenaTabla()
 		 llenaUsuarios()
 		ordenaSegunViajes()
-		resumenCheck()
+		//resumenCheck()
 		//todoBlanco()
   });
 
