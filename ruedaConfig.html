@@ -226,7 +226,7 @@ function rellenaNombres(){
 
 function escribirCodigo(){
 	//$('#codigo').val(usuario.toSource())
-	$('#codigo').val(JSON.stringify(usuario))
+	$('#codigo').val('var usuario='+JSON.stringify(usuario))
 }
 
 $(document).ready(function(){
