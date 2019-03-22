@@ -520,8 +520,49 @@ function llenaUsuarios(){
 	// $('#usuarios').html(cad)
 }
 
+function queHorasNoEstanCheckSemana(){
+	var noEstanCheck=[]
+	var cad=""
+	for(var dia=1;dia<=5;dia++){
+		for(var hora=1;hora<en[dia].length;hora++){
+			//if(!en[dia][hora].check && en[dia][hora].personas.length>0){
+			if(en[dia][hora].factor<1 && en[dia][hora].personas.length>0){
+				noEstanCheck.push({dia:dia,hora:hora,ES:'Entrada'})
+				cad+=en[dia][hora].factor +' '
+			}else{
+			cad+=sa[dia][hora].factor+' '
+			}
+		}
+		for(var hora=1;hora<sa[dia].length;hora++){
+			//if(!sa[dia][hora].check && sa[dia][hora].personas.length>0){
+			if(sa[dia][hora].factor<1 && sa[dia][hora].personas.length>0){
+				noEstanCheck.push({dia:dia,hora:hora,ES:'Salida'})
+				cad+=sa[dia][hora].factor+' '
+			}else{
+			cad+=sa[dia][hora].factor+ ' '
+			}
+		}
+	}	
+	//console.log(noEstanCheck.join(' '))
+	//alert(cad)
+	return noEstanCheck
+}
+
 function llenaUsuariosOrden(){
-	var cad='<table width="100%" border="0px">'
+	//VERIFICA SI ES COMPLETO
+	var cad=""
+	var noCheck=queHorasNoEstanCheckSemana()
+	//alert(noCheck.length)
+	
+	if(noCheck.length>0){
+		var pred='n'
+		if(noCheck.length==1){pred=''}
+		cad+='Queda'+pred+' sin completar: '
+		for(var a=0;a<noCheck.length;a++){
+			cad+='<span><b>'+diass[noCheck[a].dia].toUpperCase()+'</b>'+noCheck[a].hora+'</span> '
+		}
+	}
+	cad+='<table width="100%" border="0px">'
 	for (var a = 0; a < usuariosYviajes.length; a++) {
 		var v=''
 		var diast=''
@@ -1030,7 +1071,7 @@ function reparte(){
 		//if(estadisticaDiaHora(posES.dia,posES.hora,posES.ES[posES.cont]).correcto=='completo'){
 					//tablaColor(posES.dia,posES.hora,posES.ES[posES.cont])
 			if(completo){		
-					completo=true
+					//completo=true
 					// llenaTabla()
 					// llenaUsuarios()
 					// ordenaSegunViajes()
@@ -1325,7 +1366,7 @@ function reuneIgualesDia(dia){
    for (var n = 0; n < usuario.length; n++) {
 	   igualesDia[dia].push(usuario[n][diasn[dia]].igualQue.clone())
    } 
-   var cad='<ul><li>',cad1=''
+   var cad='<h7>'+diasn[dia].toUpperCase()+'</h7><ul><li style="margin-left:-10px;">',cad1=''
    var estalleno=false;
    var preh='';var posh=''
    var contCoches=0;
@@ -1349,9 +1390,10 @@ function reuneIgualesDia(dia){
 	  if(estalleno){
 		  cad = cad.slice(0, -2);
 		  if(contCoches>1){cad+=' <b style="white-space: nowrap;">&#x1f697;&#x1f697;</b>'}
-		  cad+='</li><li>'}
+		  cad+='</li><li style="margin-left:-10px;">'}
    }
-    cad = cad.slice(0, -4);
+    //cad = cad.slice(0, -4);
+	   cad = cad.slice(0, -31);
 	var t=''
 	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
    //$('#R'+dia).html(cad+'</ul>'+ t)
@@ -1481,41 +1523,53 @@ $(document).ready(function(){
 		///////
 		
 		function json2html(){
-			var cadR='', cadT=''
-			
-			cadR+=$('#repartoPage').html()
+			var cadR=$('#repartoPage').html()
 			return cadR
 		}
 	
 		$('#verResult').click(function(){
-			var cad='<html><head><style> table,td,th {  border: 1;  border-style: solid;  border-width: 1px;} </style></head><body>'
-			
-			var j=json2html()
-			cad+=j+'</body></html>'
+			//var d = $('#fechaHora').html()
+			var d = new Date();
+			var cad='<html><title>RUEDA REPARTO '+d.getTime()+'</title><head><style> table,td,th { border-spacing: 0; vertical-align:top; border-collapse: collapse; padding:2px; border: 1;  border-style: solid;  border-width: 1px;} </style></head><body><center>'
+			var j=$('#repartoPage').html()
+			cad+= j+'</center></body></html>'
 			var x= window.open();
-			x.open();
+			if(x){
+			//x.open();
 			x.document.write(cad);
 			x.document.close();
-			if (x) {
-				x.focus();
+			x.focus();
 			} else {
 				alert('Please allow popups for this website');
 			}
 		}) 
-		
+			
 		$('#nuevoReparto').click(function(){
 		    repartoAcero()
 			reparte()
 		}) 
 		$('#guardarConfig').click(function(){
-			var t = $('#codigoConfig')
-			t.select();
-			// Work around Chrome's little problem
-			t.mouseup(function() {
-			// Prevent further mouseup intervention
-				t.unbind("mouseup");
-			return false;
-			});		
+			var t=$('#codigoConfig').val()
+			var uri = 'data:text/csv;charset=utf-8,' + t;
+			var downloadLink = document.createElement("a");
+			downloadLink.href = uri;
+			downloadLink.download = "datos.js";
+			document.body.appendChild(downloadLink);
+			downloadLink.click();
+			document.body.removeChild(downloadLink);
+			/*
+			var t = '<title>datos.js</title>'
+			var t=$('#codigoConfig').val()
+	  		var x= window.open();
+			if(x){
+			x.document.write(t);
+			x.document.close();
+			x.focus();
+			} else {
+				alert('Please allow popups for this website');
+			}
+			
+			*/
 		});		
 		$('#guardarResult').click(function(){
 			var t = $('#codigoResult')
