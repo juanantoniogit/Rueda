@@ -1,8 +1,20 @@
 body {
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 45px;
+  background-color:#aaa;
 }
 
+#menu{
+	position:absolute;
+	top:0px;
+	left:0px;
+	margin:0px;
+	padding:0px;
+	width:100%; 
+	height:40px;
+	background-color:#aaa; 
+}
+ 
 .data-table {
   border: 1;
   border-style: solid;
@@ -29,7 +41,7 @@ td {
   width: 10%;
 }
 
-div.fixed {
+#fixed {
   position: fixed;
   bottom: 0;
   right: 0;
@@ -41,3 +53,48 @@ div.fixed {
   left:10px;
   
 }
+
+.tabla {
+    display: table;
+	border: 0px solid #000;
+    width: 333px;
+    text-align: center;
+    //margin: 0 auto;
+}
+
+.fila {
+    display: table-row;
+}
+.celda0 {
+    display: table-cell;
+    border: 0px solid #000;
+    vertical-align: middle;
+    padding: 10px;
+}
+.celda1{
+    display: table-cell;
+    border: 1px solid #000;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+/* PARA CONFIGURACION*/
+
+
+.buttonHorasE{  
+    height:17px;
+    width:17px;
+font-size:9px;
+
+}
+.nosale{  
+    height:17px;
+    width:17px;
+font-size:9px;
+background-color:#bb9;
+}
+.buttonHorasS{  height:17px;
+    width:17px;font-size:9px;}
+.verde{ background-color:#9fa;}
+.rosa{ background-color:#f9f;}
+.blanco{ background-color:#fff;}

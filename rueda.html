@@ -1,269 +1,213 @@
 <html><head><title></title>
 <link rel=stylesheet href="rueda.css"></link>
-<!--
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
 
+<style>
+
+</style>
 <script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			  crossorigin="anonymous">
 </script>
--->
+
 <script src="datos.js"></script>
-<script src="utilidades.js"></script>
 <script src="rueda.js"></script>
+
+
 </head>
 <body>
 <div class="fixed" id="info"></div>
-<div id="titulo">
-	RUEDA
- <script>
-	var f = new Date();
-	document.write( "&nbsp;&nbsp;&nbsp;&nbsp; Hora actual:  " + f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | ");
-	var d = new Date();
-	document.write(d.getHours() + " : " + d.getMinutes()  + ' &nbsp;&nbsp;&nbsp;&nbsp;Modificado: '+ document.lastModified);
-  </script>
+<div data-role="page" id="menu"  style="display:block;">
+	<div class="tabla" style="border-width:0px;">
+		<div class="fila" > 
+			<div class="celda2"><a href="index.html" style="text-decoration:none;color:#000;">RUEDA</a></div>
+		</div>
+	</div>
 </div>
-<table class="data-table" cellpadding="4px" cellpadding="4px" width="95%">
-  <tr>
-    <th class="hora"></th>
-    <th>Lunes</th>
-    <th>Martes</th>
-    <th>Mi&eacute;rcoles</th>
-    <th>Jueves</th>
-    <th>Viernes</th>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l1"></td>
-    <td id="m1"></td>
-    <td id="x1"></td>
-    <td id="j1"></td>
-    <td id="v1"></td>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l2"></td>
-    <td id="m2"></td>
-    <td id="x2"></td>
-    <td id="j2"></td>
-    <td id="v2"></td>
-  </tr>
-  <tr>
-    <td class="hora"></td>
-    <td id=""></td>
-    <td id=""></td>
-    <td id=""></td>
-    <td id=""></td>
-    <td id=""></td>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l3"></td>
-    <td id="m3"></td>
-    <td id="x3"></td>
-    <td id="j3"></td>
-    <td id="v3"></td>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l4"></td>
-    <td id="m4"></td>
-    <td id="x4"></td>
-    <td id="j4"></td>
-    <td id="v4"></td>
-  </tr>
-  <tr>
-    <td class="hora"></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l5"></td>
-    <td id="m5"></td>
-    <td id="x5"></td>
-    <td id="j5"></td>
-    <td id="v5"></td>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l6"></td>
-    <td id="m6"></td>
-    <td id="x6"></td>
-    <td id="j6"></td>
-    <td id="v6"></td>
-  </tr>
-  <tr>
-    <td class="hora">De a</td>
-    <td id="l7"></td>
-    <td id="m7"></td>
-    <td id="x7"></td>
-    <td id="j7"></td>
-    <td id="v7"></td>
-  </tr>
-
-</table>
-<br>
-<div id="usuarios"></div>
-<pre>
 
 
-</pre>
-<table border="0" style="" width="95%">
-<tr><td  style="border-width:0px;border-style:solid"> Entradas
-<table class="data-table" cellpadding="4px" cellpadding="4px" width="85%">
-    <tr>
-    <th class="hora"></th>
-    <th>L</th>
-    <th>M</th>
-    <th>X</th>
-    <th>J</th>
-    <th>V</th>
-  </tr>
-   <tr>
-    <td class="hora">1</td>
-    <td id="l1chte"></td>
-    <td id="m1chte"></td>
-    <td id="x1chte"></td>
-    <td id="j1chte"></td>
-    <td id="v1chte"></td>
-  </tr>
+
+<div data-role="page" id="configurar"  style="display:block;">
+	<table border="0" style="border-width:0px;border-style:solid;" width="95%"><tr>
+		<td width="20%" style="text-align:right;border-width:0px;border-style:solid;" valign="middle"><h2><pre><button id="userMenos"><</button>  <button id="userMas">></button><span>   NOMBRE USUARIO </span></h2></pre></td>
+		<td width="10%" style="text-align:left;border-width:0px;border-style:solid;" valign="middle"><input type="text" id="nombre" readonly style="margin-left:30px;padding:8px;font-size:20px;font-weight:700;"></td>
+		<td width="70%" style="text-align:left;width:90%;border-width:0px;border-style:solid;" ><div id="nombresUsuarios"></div></td>
+	</tr>
+	</table>
+	 <script>
+	 </script>
+
+	<table class="data-table" cellpadding="4px" cellpadding="4px" width="95%">
+	  <tr>
+		<th class="hora"></th>
+		<th>Lunes&nbsp;&nbsp;&nbsp;<button class="nosale" id="nosale_1">x</button></th>
+		<th>Martes&nbsp;&nbsp;&nbsp;<button class="nosale" id="nosale_2">x</button></th>
+		<th>Mi&eacute;rcoles&nbsp;&nbsp;&nbsp;<button class="nosale" id="nosale_3">x</button></th>
+		<th>Jueves&nbsp;&nbsp;&nbsp;<button class="nosale" id="nosale_4">x</button></th>
+		<th>Viernes&nbsp;&nbsp;&nbsp;<button class="nosale" id="nosale_5">x</button></th>
+	  </tr>
+	  <tr>
+		<td class="hora">ENTRA a</td>
+		<td id="1E"></td>
+		<td id="2E"></td>
+		<td id="3E"></td>
+		<td id="4E"></td>
+		<td id="5E"></td>
+	  </tr>
+	   <tr>
+		<td class="hora">SALE a</td>
+		<td id="1S"></td>
+		<td id="2S"></td>
+		<td id="3S"></td>
+		<td id="4S"></td>
+		<td id="5S"></td>
+	  </tr>
+	</table>
+
+  <table border="0" style="border-width:0px;border-style:solid;" width="95%">
   <tr>
-    <td class="hora">2</td>
-    <td id="l2chte"></td>
-    <td id="m2chte"></td>
-    <td id="x2chte"></td>
-    <td id="j2chte"></td>
-    <td id="v2chte"></td>
-  </tr>
-  <tr>
-    <td class="hora">3</td>
-    <td id="l3chte"></td>
-    <td id="m3chte"></td>
-    <td id="x3chte"></td>
-    <td id="j3chte"></td>
-    <td id="v3chte"></td>
-  </tr>
-  <tr>
-    <td class="hora">4</td>
-    <td id="l4chte"></td>
-    <td id="m4chte"></td>
-    <td id="x4chte"></td>
-    <td id="j4chte"></td>
-    <td id="v4chte"></td>
-  </tr>
-  <tr>
-    <td class="hora">5</td>
-    <td id="l5chte"></td>
-    <td id="m5chte"></td>
-    <td id="x5chte"></td>
-    <td id="j5chte"></td>
-    <td id="v5chte"></td>
-  </tr>
-  <tr>
-    <td class="hora">6</td>
-    <td id="l6chte"></td>
-    <td id="m6chte"></td>
-    <td id="x6chte"></td>
-    <td id="j6chte"></td>
-    <td id="v6chte"></td>
-  </tr>
-  <tr>
-    <td class="hora">7</td>
-    <td id="l7chte"></td>
-    <td id="m7chte"></td>
-    <td id="x7chte"></td>
-    <td id="j7chte"></td>
-    <td id="v7chte"></td>
-  </tr>
-</table>
-</td><td style="border-width:0px;border-style:solid">Salidas
-<table class="data-table" cellpadding="4px" cellpadding="4px" width="85%">
- <tr>
-    <th class="hora"></th>
-    <th>L</th>
-    <th>M</th>
-    <th>X</th>
-    <th>J</th>
-    <th>V</th>
-  </tr>
-   <tr>
-    <td class="hora">1</td>
-    <td id="l1chts"></td>
-    <td id="m1chts"></td>
-    <td id="x1chts"></td>
-    <td id="j1chts"></td>
-    <td id="v1chts"></td>
-  </tr>
-  <tr>
-    <td class="hora">2</td>
-    <td id="l2chts"></td>
-    <td id="m2chts"></td>
-    <td id="x2chts"></td>
-    <td id="j2chts"></td>
-    <td id="v2chts"></td>
-  </tr>
-  <tr>
-    <td class="hora">3</td>
-    <td id="l3chts"></td>
-    <td id="m3chts"></td>
-    <td id="x3chts"></td>
-    <td id="j3chts"></td>
-    <td id="v3chts"></td>
-  </tr>
-  <tr>
-    <td class="hora">4</td>
-    <td id="l4chts"></td>
-    <td id="m4chts"></td>
-    <td id="x4chts"></td>
-    <td id="j4chts"></td>
-    <td id="v4chts"></td>
-  </tr>
-  <tr>
-    <td class="hora">5</td>
-    <td id="l5chts"></td>
-    <td id="m5chts"></td>
-    <td id="x5chts"></td>
-    <td id="j5chts"></td>
-    <td id="v5chts"></td>
-  </tr>
-  <tr>
-    <td class="hora">6</td>
-    <td id="l6chts"></td>
-    <td id="m6chts"></td>
-    <td id="x6chts"></td>
-    <td id="j6chts"></td>
-    <td id="v6chts"></td>
-  </tr>
-  <tr>
-    <td class="hora">7</td>
-    <td id="l7chts"></td>
-    <td id="m7chts"></td>
-    <td id="x7chts"></td>
-    <td id="j7chts"></td>
-    <td id="v7chts"></td>
-  </tr>
-</table>
-</td></tr></table>
-El nivel de gris indica m&aacute;s dudas para resolver esa hora
-<pre>
+    <td style="border-width:0px;border-style:solid;">
+	<div style="white-space: pre;">
+
+	<span ><button id="borrarUsuario">BORRAR USUARIO</button></span>      <span ><button id="insertarUsuario">INSERTAR USUARIO</button></span>                   <span><button id="nuevoReparto" style="color:#050;">NUEVO REPARTO</button></span>
+
+	</div>
+	</td>
+	<td style="border-width:0px;border-style:solid;">
+		<div style="white-space: pre;"> 
+		    PREFERENCIAS (en dias de viaje semanales)
+			1: <input type="text" id="pref1" value="0" size="1"> 2: <input type="text" id="pref2" value="1" size="1"> 3: <input type="text" id="pref3" value="1" size="1"> 4: <input type="text" id="pref4" value="2" size="1"> 5: <input type="text" id="pref5" value="2" size="1">	
+		</div>
+	</td>
+   </tr>
+  </table>
+	
+</div>
+
+<div data-role="page" id="repartoPage" style="" style="display:block;">
+	<div id="esquemaReparto" style="background-color:#fff;width:95%;padding:12px;" style="display:block;">
+	 <script>
+		var f = new Date();var d = new Date();
+		document.write( " Hora actual:  " + f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
+		
+		
+	  </script>
+	<div id="usuarios" style="width:50%;padding:5px;background-color:#fff;"></div>
+	</div>
+	<br>
+	<div id="reparto" style="background-color:#fff;width:95%;padding:12px;" style="display:block;">
+		<table id="reparto_tabla" align="center" class="data-table" cellpadding="4px" cellpadding="4px" width="100%">
+		  <tr>
+			<th class="hora"></th>
+			<th>Lunes</th>
+			<th>Martes</th>
+			<th>Mi&eacute;rcoles</th>
+			<th>Jueves</th>
+			<th>Viernes</th>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l1"></td>
+			<td id="m1"></td>
+			<td id="x1"></td>
+			<td id="j1"></td>
+			<td id="v1"></td>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l2"></td>
+			<td id="m2"></td>
+			<td id="x2"></td>
+			<td id="j2"></td>
+			<td id="v2"></td>
+		  </tr>
+		  <tr>
+			<td class="hora"></td>
+			<td id=""></td>
+			<td id=""></td>
+			<td id=""></td>
+			<td id=""></td>
+			<td id=""></td>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l3"></td>
+			<td id="m3"></td>
+			<td id="x3"></td>
+			<td id="j3"></td>
+			<td id="v3"></td>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l4"></td>
+			<td id="m4"></td>
+			<td id="x4"></td>
+			<td id="j4"></td>
+			<td id="v4"></td>
+		  </tr>
+		  <tr>
+			<td class="hora"></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l5"></td>
+			<td id="m5"></td>
+			<td id="x5"></td>
+			<td id="j5"></td>
+			<td id="v5"></td>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l6"></td>
+			<td id="m6"></td>
+			<td id="x6"></td>
+			<td id="j6"></td>
+			<td id="v6"></td>
+		  </tr>
+		  <tr>
+			<td class="hora">De a</td>
+			<td id="l7"></td>
+			<td id="m7"></td>
+			<td id="x7"></td>
+			<td id="j7"></td>
+			<td id="v7"></td>
+		  </tr>
+
+		</table>
+	</div>
+	<!--<button onclick="toPdf()" >Exportar a .PDF</button>-->
+	<br>
+	<pre>
+   	</pre>
+	<table>
+	 <tr style="background-color:#fafafa;">
+		<td class="hora" style="text-align:left;">COINCIDENCIAS<br><font size="-1px"><p>Conductores en negrita.<br> <br></font></p></td>
+		<td id="R1" style="text-align:left;color:#777;"></td>
+		<td id="R2" style="text-align:left;color:#777;"></td>
+		<td id="R3" style="text-align:left;color:#777;"></td>
+		<td id="R4" style="text-align:left;color:#777;"></td>
+		<td id="R5" style="text-align:left;color:#777;"></td>
+	  </tr>
+	 </table> 
+</div>
+
+<div><button id="guardarConfig">GUARDAR CONFIGURACION</button></div> 
+<textarea id="codigoConfig" style="width:97%"> </textarea>
+<div style="white-space: pre;"><span><button id="guardarResult">GUARDAR RESULTADO</button></span>              <span><button id="verResult">VER RESULTADO</button></span></div> 
+<textarea id="codigoResult" style="width:97%"></textarea>
+ <script>
 
 
-</pre>
-<table>
- <tr style="background-color:#fafafa;">
-    <td class="hora" style="text-align:left;">COINCIDENCIAS<br><font size="-1px"><p>Conductores en negrita.<br> <br></font></p></td>
-    <td id="R1" style="text-align:left;color:#777;"></td>
-    <td id="R2" style="text-align:left;color:#777;"></td>
-    <td id="R3" style="text-align:left;color:#777;"></td>
-    <td id="R4" style="text-align:left;color:#777;"></td>
-    <td id="R5" style="text-align:left;color:#777;"></td>
-  </tr>
- </table> 
- <div class="fixed"></div>
+$(document).ready(function(){
+	
+})
+
+
+ </script>
 </body>
 </html>
