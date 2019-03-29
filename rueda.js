@@ -19,7 +19,7 @@ nviajes+numUsuario
 */
 
 // VARIABLES
-
+var cavenEnCoche = 4
 var nDiasSemana=5
 var nHorasEntrada=7
 var nHorasSalida=7
@@ -261,14 +261,14 @@ var igualesDia=[
 //Debe aclarase ;-(
 
 function recopilaEntrada(a, b, num) {
-  var ncoches=Math.ceil(en[a][b].personas.length/4);
+  var ncoches=Math.ceil(en[a][b].personas.length/cavenEnCoche);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
   var personas=en[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/4)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/cavenEnCoche)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
@@ -329,14 +329,14 @@ function recopilaEntrada(a, b, num) {
 }
 
 function recopilaSalida(a, b, num) {
- var ncoches=Math.ceil(sa[a][b].personas.length/4);
+ var ncoches=Math.ceil(sa[a][b].personas.length/cavenEnCoche);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
   var personas=sa[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(sa[a][b].personas.length/4)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(sa[a][b].personas.length/cavenEnCoche)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:red">'
   var cssend = '</span>'
@@ -640,8 +640,7 @@ function pasaSiguiente(){
 }
 
 function factor(dia,hora,ES){
-    
-	var cavenEnCoche = 4
+
 	var numCochesAsignados=0;
 	var numUsuariosEstaHora = 1
 	if(ES=='entrada'){
@@ -1298,7 +1297,7 @@ function estadisticaDiaHora(dia,hora,ES){
 	asientosLibres
 	*/
 
-	var cavenEnCoche = 4
+
 	var numCochesAsignados=0;
 	var numUsuariosEstaHora = 1
 	if(ES=='entrada'){
@@ -1315,7 +1314,7 @@ function estadisticaDiaHora(dia,hora,ES){
 	var sobranCoches=0;
 	if(numUsuariosEstaHora>0){
 		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
-		cochesTeorico=Math.ceil(numUsuariosEstaHora/4)
+		cochesTeorico=Math.ceil(numUsuariosEstaHora/cavenEnCoche)
 		asientosLibres=numCochesAsignados*cavenEnCoche-numUsuariosEstaHora
 		faltanCoches=Math.abs(cochesTeorico-numCochesAsignados)
 	}
@@ -1423,7 +1422,11 @@ $(document).ready(function(){
 		var f = new Date(); var d = new Date();
 		$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
 	 
+		cavenEnCoche = $('#usCoche').val()
 
+		$('#usCoche').change(function(){
+		cavenEnCoche = $('#usCoche').val()
+		})
 
 //document.addEventListener("DOMContentLoaded", function(event) {
 	for (var a = 0; a < usuario.length; a++) {
@@ -1550,7 +1553,8 @@ $(document).ready(function(){
 				alert('Please allow popups for this website');
 			}
 		}) 
-			
+		
+
 		$('#nuevoReparto').click(function(){
 		    repartoAcero()
 			reparte()
