@@ -20,6 +20,9 @@ nviajes+numUsuario
 
 // VARIABLES
 
+var ciudadCiudad='0-0'
+var usuario=[]
+var cabenEnCoche = 4
 var nDiasSemana=5
 var nHorasEntrada=7
 var nHorasSalida=7
@@ -261,14 +264,14 @@ var igualesDia=[
 //Debe aclarase ;-(
 
 function recopilaEntrada(a, b, num) {
-  var ncoches=Math.ceil(en[a][b].personas.length/4);
+  var ncoches=Math.ceil(en[a][b].personas.length/cabenEnCoche);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
   var personas=en[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/4)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/cabenEnCoche)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
@@ -329,14 +332,14 @@ function recopilaEntrada(a, b, num) {
 }
 
 function recopilaSalida(a, b, num) {
- var ncoches=Math.ceil(sa[a][b].personas.length/4);
+ var ncoches=Math.ceil(sa[a][b].personas.length/cabenEnCoche);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
   var personas=sa[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(sa[a][b].personas.length/4)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(sa[a][b].personas.length/cabenEnCoche)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:red">'
   var cssend = '</span>'
@@ -640,8 +643,7 @@ function pasaSiguiente(){
 }
 
 function factor(dia,hora,ES){
-    
-	var cavenEnCoche = 4
+
 	var numCochesAsignados=0;
 	var numUsuariosEstaHora = 1
 	if(ES=='entrada'){
@@ -655,7 +657,7 @@ function factor(dia,hora,ES){
 	var factor=0;
 
 	if(numUsuariosEstaHora>0){
-		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
+		factor = numCochesAsignados * cabenEnCoche / numUsuariosEstaHora
 			}
 	
 	if(ES=='entrada'){
@@ -1263,6 +1265,20 @@ function escribirCodigoResult(){
 ///////
 // OTRAS FUNCIONES DE USO
 ///////
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null) {
+       return null;
+    }
+    return decodeURI(results[1]) || 0;
+}
+
 Array.prototype.clone = function() {
     return this.slice(0);
 }
@@ -1298,7 +1314,7 @@ function estadisticaDiaHora(dia,hora,ES){
 	asientosLibres
 	*/
 
-	var cavenEnCoche = 4
+
 	var numCochesAsignados=0;
 	var numUsuariosEstaHora = 1
 	if(ES=='entrada'){
@@ -1314,9 +1330,9 @@ function estadisticaDiaHora(dia,hora,ES){
 	var asientosLibres=0;
 	var sobranCoches=0;
 	if(numUsuariosEstaHora>0){
-		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
-		cochesTeorico=Math.ceil(numUsuariosEstaHora/4)
-		asientosLibres=numCochesAsignados*cavenEnCoche-numUsuariosEstaHora
+		factor = numCochesAsignados * cabenEnCoche / numUsuariosEstaHora
+		cochesTeorico=Math.ceil(numUsuariosEstaHora/cabenEnCoche)
+		asientosLibres=numCochesAsignados*cabenEnCoche-numUsuariosEstaHora
 		faltanCoches=Math.abs(cochesTeorico-numCochesAsignados)
 	}
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
@@ -1415,21 +1431,65 @@ function reuneIgualesDia(dia){
 // Tercera ley :-) Los que tienen la misma hora de entrada y salida se pueden intercambiar, o pueden suplirse
 */
 
-
+var ciudadCiudadAguardar=[]
 
 $(document).ready(function(){
-//document.addEventListener("DOMContentLoaded", function(event) {
-	for (var a = 0; a < usuario.length; a++) {
-		usuario[a].viajes=0;
-		for(var b=1;b<=maxDiasSemana;b++){
-			usuario[a][diasn[b]].igualQue=[]
-		}
+	var queFuncion=$.urlParam('funcion');
+    var c=$.urlParam('ciudadCiudad');
+	var ciudadCiudadAguardar=c.split('-')
+	var c0= capitalizeFirstLetter(ciudadCiudadAguardar[0])
+	var c1= capitalizeFirstLetter(ciudadCiudadAguardar[1])
+	ciudadCiudad=c0.toLowerCase()+'-'+c1.toLowerCase()
+	 $('#ciudadCiudad').html(c0+' - '+c1)
+	var f = new Date(); var d = new Date();
+	$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
+ 
+	cabenEnCoche = $('#usCoche').val()
+    $('#ruedaFuncion').html(capitalizeFirstLetter(queFuncion))
+	$('#usCoche').change(function(){
+	cabenEnCoche = $('#usCoche').val()
+	})
+	if(queFuncion=='nueva'){
+		$.getJSON('0-0.json', function(json) {
+			
+			usuario = json
+			
+			if(queFuncion=='editar'){
+			usuario = json.usuario
+			}
+			for (var a = 0; a < usuario.length; a++) {
+				usuario[a].viajes=0;
+				for(var b=1;b<=maxDiasSemana;b++){
+					usuario[a][diasn[b]].igualQue=[]
+				}
+			}
+			usuarioIni=usuario.clone()
+			rellenaBotones(contUsuarios)
+			rellenaNombres()
+			repartoAcero()
+			reparte()
+			escribirCodigo()
+		});	
 	}
-	usuarioIni=usuario.clone()
-	//alert(usuario.length)
-	escribirCodigo()
-	rellenaBotones(contUsuarios)
-	rellenaNombres()
+	if(queFuncion=='editar'){
+			
+			$.getJSON(ciudadCiudad+'.json', function(json) {
+			usuario = json.usuario
+			for (var a = 0; a < usuario.length; a++) {
+				usuario[a].viajes=0;
+				for(var b=1;b<=maxDiasSemana;b++){
+					usuario[a][diasn[b]].igualQue=[]
+				}
+			}
+			usuarioIni=usuario.clone()
+			rellenaBotones(contUsuarios)
+			rellenaNombres()
+			repartoAcero()
+			reparte()
+			escribirCodigo()
+		});	
+	}
+	
 	//////
 	 $('#borrarUsuario').click(function(){
 		 var c=0;
@@ -1543,17 +1603,18 @@ $(document).ready(function(){
 				alert('Please allow popups for this website');
 			}
 		}) 
-			
+		
+
 		$('#nuevoReparto').click(function(){
 		    repartoAcero()
 			reparte()
 		}) 
 		$('#guardarConfig').click(function(){
-			var t=$('#codigoConfig').val()
+			var t='{"usuario":'+$('#codigoConfig').val()+'}'
 			var uri = 'data:text/csv;charset=utf-8,' + t;
 			var downloadLink = document.createElement("a");
 			downloadLink.href = uri;
-			downloadLink.download = "datos.js";
+			downloadLink.download = ciudadCiudad+".json";
 			document.body.appendChild(downloadLink);
 			downloadLink.click();
 			document.body.removeChild(downloadLink);
@@ -1585,10 +1646,7 @@ $(document).ready(function(){
  
  
  
-  escribirCodigo()
-  repartoAcero()
-  reparte()
-  
+ 
 
 		//resumenCheck()
 		//todoBlanco()

@@ -54,28 +54,45 @@ td {
   
 }
 
-.tabla {
-    display: table;
-	border: 0px solid #000;
-    width: 333px;
-    text-align: center;
-    //margin: 0 auto;
-}
 
+.tabla {
+  display: table;         
+  width: auto;         
+  background-color: #eee;         
+  border: 1px solid #666666;         
+  border-spacing: 5px; 
+}
 .fila {
-    display: table-row;
+  display: table-row;
+  width: auto;
+  clear: both;
 }
 .celda0 {
-    display: table-cell;
-    border: 0px solid #000;
-    vertical-align: middle;
-    padding: 10px;
+  float: left; 
+  display: table-column;         
+  width: 218px;         
+  background-color: #ccc;  
 }
-.celda1{
-    display: table-cell;
-    border: 1px solid #000;
-    vertical-align: middle;
-    padding: 10px;
+.celda1 {
+  float: left; 
+  display: table-column;         
+  width: 218px;         
+  background-color: #ccc;  
+}
+.celda1azul {
+  float: left; 
+  padding:9px;
+  display: table-column;         
+  width: 200px; 
+  color:#fff;
+  background-color: #00c;  
+}
+.celda1dobleCentro {
+  float: left; 
+  display: table-column;         
+  width: 436px;  
+  text-align:center;  
+  background-color: #ccc;  
 }
 
 /* PARA CONFIGURACION*/
