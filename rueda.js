@@ -1250,11 +1250,11 @@ function rellenaNombres(){
 }
 
 function escribirCodigo(){
-	$('#codigoConfig').val('var usuario='+JSON.stringify(usuarioIni))
+	$('#codigoConfig').val(JSON.stringify(usuarioIni))
 	
 }
 function escribirCodigoResult(){
-	$('#codigoResult').val('var usuario='+JSON.stringify(usuario))
+	$('#codigoResult').val(JSON.stringify(usuario))
 }
 ///////
 //FIN DE FUNCIONES DE CONFIGURACION
@@ -1266,7 +1266,7 @@ function escribirCodigoResult(){
 // OTRAS FUNCIONES DE USO
 ///////
 
-function capitalizeFirstLetter(string) {
+function capitaliza(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -1437,15 +1437,15 @@ $(document).ready(function(){
 	var queFuncion=$.urlParam('funcion');
     var c=$.urlParam('ciudadCiudad');
 	var ciudadCiudadAguardar=c.split('-')
-	var c0= capitalizeFirstLetter(ciudadCiudadAguardar[0])
-	var c1= capitalizeFirstLetter(ciudadCiudadAguardar[1])
+	var c0= capitaliza(ciudadCiudadAguardar[0])
+	var c1= capitaliza(ciudadCiudadAguardar[1])
 	ciudadCiudad=c0.toLowerCase()+'-'+c1.toLowerCase()
 	 $('#ciudadCiudad').html(c0+' - '+c1)
 	var f = new Date(); var d = new Date();
 	$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
  
 	cabenEnCoche = $('#usCoche').val()
-    $('#ruedaFuncion').html(capitalizeFirstLetter(queFuncion))
+    $('#ruedaFuncion').html(capitaliza(queFuncion))
 	$('#usCoche').change(function(){
 	cabenEnCoche = $('#usCoche').val()
 	})
