@@ -1,6 +1,6 @@
 <html><head><title></title>
 <link rel=stylesheet href="rueda.css"></link>
-
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.css" /></link>-->
 <style>
 
 </style>
@@ -10,13 +10,21 @@
 			  crossorigin="anonymous">
 </script>
 
+<!--<script  src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
 
 
 </head>
 <body>
 <div data-role="page" id="portada"  style="display:none;">
-	<center><h1>RUEDA</h1>
-	<h5>Sugerencias para el uso compartido de veh&iacute;culos</h5>
+   <div data-role="header">
+     
+ 
+	<center>
+	<h1>RUEDA <br><span style="font-size:18px">Sugerencias para el uso compartido de veh&iacute;culos</span></h1>
+     </center> 
+	 </div> 
+      <div data-role="content">
+ <center>
 	<div class="tabla">
 
 	<div class="fila">
@@ -29,6 +37,11 @@
 	<h3>CIUDADES</h3>
 	<div id="ruedas"></div>
 	
+      </div> 
+	  
+   <div data-role="footer">
+         
+      </div> 
 </div>
 
 
@@ -82,7 +95,7 @@ function cargaRuedas(){
 	for(var n=0;n<nruedas;n++){
 	    s=capitaliza(ruedas[n].salida)
 		l=capitaliza(ruedas[n].llegada)
-		cad+='<span id="ciudadCiudad'+n+'"><a href="rueda.html?funcion=editar&ciudadCiudad='+ruedas[n].salida+'-'+ruedas[n].llegada+'">'+s+'-'+l+'</a></span> '
+		cad+='<span id="ciudadCiudad'+n+'"><a href="rueda.html?funcion=ver&ciudadCiudad='+ruedas[n].salida+'-'+ruedas[n].llegada+'">'+s+'-'+l+'</a></span> '
 	}
 	$('#ruedas').html(cad)
 	
@@ -92,7 +105,10 @@ function cargaRuedas(){
 var ruedas=[]
 
 $(document).ready(function(){
-    $.getJSON('ruedas.json', function(json) {
+
+
+
+  $.getJSON('ruedas.json', function(json) {
 		finPreload()	
 		ruedas = json
 		cargaRuedas()

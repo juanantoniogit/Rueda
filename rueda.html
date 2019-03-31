@@ -1,16 +1,16 @@
 <html><head><title></title>
 <link rel=stylesheet href="rueda.css"></link>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.css" /></link>
 <style>
 
 </style>
 <script
 			  src="https://code.jquery.com/jquery-3.3.1.min.js"
 			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			  crossorigin="anonymous">
-</script>
+			  crossorigin="anonymous"
 
-
+<script  src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+			  
 <script src="rueda.js"></script>
 
 
@@ -19,7 +19,7 @@
 <div class="fixed" id="info"></div>
 <div data-role="page" id="menu"  style="display:block;">
 	
-			<div class="celda1" style="padding:5px;padding-left:45px;width:100%"><span id="ruedaFuncion">Nueva</span> <a href="index.html" style="text-decoration:none;color:#000;">RUEDA</a> <span id="ciudadCiudad"></span></div>
+			<div class="celda1" style="padding:5px;padding-left:45px;width:100%"><span id="ruedaFuncion"></span> <a href="index.html" style="text-decoration:none;color:#000;">RUEDA</a> <span id="ciudadCiudad"></span></div>
 		
 </div>
 
@@ -32,9 +32,6 @@
 		<td width="70%" style="text-align:left;width:90%;border-width:0px;border-style:solid;" ><div id="nombresUsuarios"></div></td>
 	</tr>
 	</table>
-	 <script>
-	 </script>
-
 	<table class="data-table" cellpadding="4px" cellpadding="4px" width="95%">
 	  <tr>
 		<th class="hora"></th>
@@ -88,7 +85,7 @@ Usuarios por coche: <span id="usuariosCoche"></span>  <input type="text" id="usC
 	<div id="esquemaReparto" style="background-color:#fff;width:95%;padding:12px;" style="display:block;">
 
 	
-	 Hora actual:  <span id="fechaHora"></span>
+	<span id="fechaHora"></span>
 	<div id="usuarios" style="width:50%;padding:5px;background-color:#fff;"></div>
 
 	
@@ -195,11 +192,15 @@ Usuarios por coche: <span id="usuariosCoche"></span>  <input type="text" id="usC
 	 </table> 
 </div>
 <br>
-<div></div> 
+<div id="botonesGuardar" style="display:hide">
 <textarea id="codigoConfig" style="width:97%;display:none;"> </textarea>
-<div style="white-space: pre;"><span style="display:none;"><button id="guardarResult">GUARDAR RESULTADO</button></span>     <button id="guardarConfig">GUARDAR CONFIGURACION</button>         <span><button id="verResult">VER RESULTADO</button></span></div> 
+<div style="white-space: pre;"><span style="display:none;"><button id="guardarResult">GUARDAR RESULTADO</button></span>     <button id="guardarConfig">GUARDAR CONFIGURACION</button>         <span><button id="verResult">VER RESULTADO</button></span>      <span><button id="verGuardado">VER GUARDADO</button></span></div> 
 <textarea id="codigoResult" style="width:97%;display:none;"></textarea>
 <p><br> </p>
+</div> 
+<div id="botonesEditar" style="display:hide">
+<button id="botonEditar">Editar</button>
+</div> 
  <script>
 
 

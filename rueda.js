@@ -1096,7 +1096,8 @@ function reparte(){
 		for(var a=1;a<=nDiasSemana;a++){
 		  reuneIgualesDia(a)
 		}
-		escribirCodigoResult()
+		//escribirCodigoResult()
+		escribirCodigo()
 }
 
 
@@ -1250,9 +1251,11 @@ function rellenaNombres(){
 }
 
 function escribirCodigo(){
-	$('#codigoConfig').val(JSON.stringify(usuarioIni))
+	//$('#codigoConfig').val(JSON.stringify(usuarioIni))
+	$('#codigoConfig').val('{"fechaHora":'+JSON.stringify($('#fechaHora').html())+',"cabenEnCoche":'+cabenEnCoche+',"META":'+JSON.stringify(META)+',"usuario":'+JSON.stringify(usuarioIni)+',"usuariosYviajes":'+JSON.stringify(usuariosYviajes) + ',"en":'+JSON.stringify(en)+ ',"sa":'+JSON.stringify(sa)+'}')
 	
 }
+
 function escribirCodigoResult(){
 	$('#codigoResult').val(JSON.stringify(usuario))
 }
@@ -1365,6 +1368,55 @@ function estadisticaDiaHora(dia,hora,ES){
 	
 }
 
+function reuneIgualesDiaVer(dia){
+	var ESuser=[0,0]
+	igualesDia[dia]=[]
+	var contIguales=0;
+
+   for (var n = 0; n < usuario.length; n++) {
+	   igualesDia[dia].push(usuario[n][diasn[dia]].igualQue.clone())
+   } 
+   var cad='<h7>'+diasn[dia].toUpperCase()+'</h7><ul><li style="margin-left:-10px;">',cad1=''
+   var estalleno=false;
+   var preh='';var posh=''
+   var contCoches=0;
+   for(var a=0;a<igualesDia[dia].length;a++){
+	   contCoches=0
+	  for(var b=0;b<igualesDia[dia][a].length;b++){ 
+	   if(igualesDia[dia][a].length>1 ){
+		   preh='';posh=''
+		   if(usuario[igualesDia[dia][a][b]][diasn[dia]].usacoche){contCoches++; preh='<span style="font-weight:500;color:#000;">';posh='</span>'}
+	     cad+= preh+ ''+usuario[igualesDia[dia][a][b]].nombre+''+posh+', '
+		 estalleno=true
+	   }else{
+		   if(igualesDia[dia][a].length==1 ){
+				cad1+= usuario[igualesDia[dia][a][b]].nombre+', '
+		   }
+		   estalleno=false
+	   }
+	   
+	  }
+	  if(contCoches>1){}
+	  if(estalleno){
+		  cad = cad.slice(0, -2);
+		  if(contCoches>1){cad+=' <b style="white-space: nowrap;">&#x1f697;&#x1f697;</b>'}
+		  cad+='</li><li style="margin-left:-10px;">'}
+   }
+    //cad = cad.slice(0, -4);
+	   cad = cad.slice(0, -31);
+	var t=''
+	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
+   $('#R'+dia).html(cad+'</ul>'+ t)
+	//return cad+'</ul>'+ t;
+	//document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
+    //document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
+  
+   //Solo Firefox
+   //console.log(igualesDia[dia].toSource())
+}
+
+
+
 function reuneIgualesDia(dia){
 	var ESuser=[0,0]
 	igualesDia[dia]=[]
@@ -1413,8 +1465,8 @@ function reuneIgualesDia(dia){
 	var t=''
 	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
    //$('#R'+dia).html(cad+'</ul>'+ t)
-    document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
-  
+    
+  	document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
    //Solo Firefox
    //console.log(igualesDia[dia].toSource())
 }
@@ -1441,17 +1493,17 @@ $(document).ready(function(){
 	var c1= capitaliza(ciudadCiudadAguardar[1])
 	ciudadCiudad=c0.toLowerCase()+'-'+c1.toLowerCase()
 	 $('#ciudadCiudad').html(c0+' - '+c1)
-	var f = new Date(); var d = new Date();
-	$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
- 
+
 	cabenEnCoche = $('#usCoche').val()
-    $('#ruedaFuncion').html(capitaliza(queFuncion))
-	$('#usCoche').change(function(){
+    $('#usCoche').change(function(){
 	cabenEnCoche = $('#usCoche').val()
 	})
+	
 	if(queFuncion=='nueva'){
 		$.getJSON('0-0.json', function(json) {
-			
+			var f = new Date(); var d = new Date();
+			$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
+			 $('#ruedaFuncion').html(capitaliza(queFuncion))
 			usuario = json
 			
 			if(queFuncion=='editar'){
@@ -1473,7 +1525,21 @@ $(document).ready(function(){
 	}
 	if(queFuncion=='editar'){
 			
-			$.getJSON(ciudadCiudad+'.json', function(json) {
+		$.getJSON(ciudadCiudad+'.json', function(json) { 
+			var f = new Date(); var d = new Date();
+			$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
+ 
+			$('#ruedaFuncion').html(capitaliza(queFuncion))
+			$('#botonesGuardar').show()
+			$('#botonesEditar').hide()
+			META=json.META
+			$('#pref1').val(META[1].meta)
+			$('#pref2').val(META[2].meta)
+			$('#pref3').val(META[3].meta)
+			$('#pref4').val(META[4].meta)
+			$('#pref5').val(META[5].meta)
+			cabenEnCoche=json.cabenEnCoche
+			$('#usCoche').val(cabenEnCoche)
 			usuario = json.usuario
 			for (var a = 0; a < usuario.length; a++) {
 				usuario[a].viajes=0;
@@ -1490,7 +1556,39 @@ $(document).ready(function(){
 		});	
 	}
 	
+	
+	
+	if(queFuncion=='ver'){
+			$('#configurar').hide()
+			$('#botonesGuardar').hide()
+			$('#botonesEditar').show()
+			$.getJSON(ciudadCiudad+'.json', function(json) {
+			$('#fechaHora').html(json.fechaHora);
+			META=json.META
+			cabenEnCoche=json.cabenEnCoche
+			$('#usCoche').val(cabenEnCoche)
+			usuario = json.usuario
+			en = json.en
+			sa = json.sa
+			usuariosYviajes= json.usuariosYviajes
+			llenaUsuariosOrden()
+			llenaTabla()
+			for(var a=1;a<=nDiasSemana;a++){
+				reuneIgualesDiaVer(a)
+				
+			}
+		});	
+	}
+	
 	//////
+	
+	
+	$('#botonEditar').click(function(){
+		location.href='rueda.html?funcion=editar&ciudadCiudad='+ciudadCiudad
+		
+	});
+		
+		
 	 $('#borrarUsuario').click(function(){
 		 var c=0;
 		 if(contUsuarios==usuarioIni.length-1){c=1}
@@ -1610,7 +1708,8 @@ $(document).ready(function(){
 			reparte()
 		}) 
 		$('#guardarConfig').click(function(){
-			var t='{"usuario":'+$('#codigoConfig').val()+'}'
+			//var t='{"usuario":'+$('#codigoConfig').val()+'}'
+			var t=$('#codigoConfig').val()
 			var uri = 'data:text/csv;charset=utf-8,' + t;
 			var downloadLink = document.createElement("a");
 			downloadLink.href = uri;
@@ -1631,7 +1730,12 @@ $(document).ready(function(){
 			}
 			
 			*/
-		});		
+		});	
+
+		$('#verGuardado').click(function(){
+			window.open('rueda.html?funcion=ver&ciudadCiudad='+ciudadCiudad,'_blank');
+		
+		});				
 		$('#guardarResult').click(function(){
 			var t = $('#codigoResult')
 			t.select();
