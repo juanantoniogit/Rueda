@@ -29,7 +29,7 @@ var nHorasSalida=7
 var nombreUsuario=''
 var contUsuarios=0;
 var usuarioIni=[]
-
+var direc=''
 
 // VARIABLES DE ENTRADA  en[0]..e[6] 
 var en = []
@@ -1252,8 +1252,8 @@ function rellenaNombres(){
 
 function escribirCodigo(){
 	//$('#codigoConfig').val(JSON.stringify(usuarioIni))
-	$('#codigoConfig').val('{"fechaHora":'+JSON.stringify($('#fechaHora').html())+',"cabenEnCoche":'+cabenEnCoche+',"META":'+JSON.stringify(META)+',"usuario":'+JSON.stringify(usuarioIni)+',"usuariosYviajes":'+JSON.stringify(usuariosYviajes) + ',"en":'+JSON.stringify(en)+ ',"sa":'+JSON.stringify(sa)+'}')
-	
+
+	$('#codigoConfig').val('{"salida":"'+json.salida+'","destino":"'+json.destino+'","fechaHora":'+JSON.stringify($('#fechaHora').html())+',"cabenEnCoche":'+cabenEnCoche+',"META":'+JSON.stringify(META)+',"usuario":'+JSON.stringify(usuarioIni)+',"usuariosYviajes":'+JSON.stringify(usuariosYviajes) + ',"en":'+JSON.stringify(en)+ ',"sa":'+JSON.stringify(sa)+'}')
 }
 
 function escribirCodigoResult(){
@@ -1482,50 +1482,96 @@ function reuneIgualesDia(dia){
 		buscaNumCochesEnCadaHora()
 // Tercera ley :-) Los que tienen la misma hora de entrada y salida se pueden intercambiar, o pueden suplirse
 */
-
-var ciudadCiudadAguardar=[]
-
-$(document).ready(function(){
-	var queFuncion=$.urlParam('funcion');
-    var c=$.urlParam('ciudadCiudad');
-	var ciudadCiudadAguardar=c.split('-')
-	var c0= capitaliza(ciudadCiudadAguardar[0])
-	var c1= capitaliza(ciudadCiudadAguardar[1])
-	ciudadCiudad=c0.toLowerCase()+'-'+c1.toLowerCase()
-	 $('#ciudadCiudad').html(c0+' - '+c1)
-
-	cabenEnCoche = $('#usCoche').val()
-    $('#usCoche').change(function(){
-	cabenEnCoche = $('#usCoche').val()
-	})
+function borraUsuario(){
+ var c=0;
+		 if(contUsuarios==usuarioIni.length-1){c=1}
+	     usuarioIni.splice(contUsuarios,1)
+		 if(usuarioIni.length==0){nombreUsuario=''; $('#nombre').val(' ')}
+		if(c==1){contUsuarios--}
+		//escribirCodigo()
+			rellenaNombres()
+		rellenaBotones(contUsuarios)
 	
-	if(queFuncion=='nueva'){
-		$.getJSON('0-0.json', function(json) {
+		 repartoAcero()
+		reparte()
+		escribirCodigo()
+}		
+		
+function iniciaEnBlanco(){
+		$('#botonesGuardar').show()
+		$('#botonesEditar').hide()
+	   usuario={}
+	   var script
+	     var d='0-0.js'
+		var script = document.createElement('script');
+		script.onload = function () {
 			var f = new Date(); var d = new Date();
 			$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
-			 $('#ruedaFuncion').html(capitaliza(queFuncion))
-			usuario = json
+			$('#ruedaFuncion').html(capitaliza(queFuncion))
+            //contUsuarios=1
+		
+			var c0= $('#ciudadSalida').val();//capitaliza(ciudadCiudadAguardar[0])
+			var c1= $('#ciudadLlegada').val();// capitaliza(ciudadCiudadAguardar[1])
+			//var ciudadCiudadAguardar=c.split('-')
+			var ciudadCiudadAguardar=[c0,c1]
+			ciudadCiudad=c0+'-'+c1
+			jsonCiudades={"salida":c0,"destino":c1}
+			$('#ciudadCiudad').html(c0+' - '+c1)
 			
-			if(queFuncion=='editar'){
+			
+			//nombreUsuario=''; 
+			//$('#nombre').val(' ')
+			json.salida=$('#ciudadSalida').val()
+			json.destino=$('#ciudadLlegada').val()
 			usuario = json.usuario
-			}
+			usuario.salida=$('#ciudadSalida').val()
+			usuario.destino=$('#ciudadLlegada').val()
+			usuario.fechaHora=$('#fechaHora').html()
+			//$.getJSON(direc+'datos.php?action=nueva', function(json) {
+				
+			
+			//if(queFuncion=='editar'){
+			//usuario = json.usuario
+			//}
+			//$('#botonesEditar').hide()
 			for (var a = 0; a < usuario.length; a++) {
 				usuario[a].viajes=0;
 				for(var b=1;b<=maxDiasSemana;b++){
 					usuario[a][diasn[b]].igualQue=[]
 				}
 			}
+			
+			
 			usuarioIni=usuario.clone()
 			rellenaBotones(contUsuarios)
 			rellenaNombres()
 			repartoAcero()
 			reparte()
 			escribirCodigo()
-		});	
-	}
-	if(queFuncion=='editar'){
+			borraUsuario()
+			$('#modal').hide();
 			
-		$.getJSON(ciudadCiudad+'.json', function(json) { 
+		};
+		script.onerror = function() {	};
+		script.src = d;
+		document.head.appendChild(script);
+	}
+	
+	
+	      
+//});	
+
+function nueva(){
+          
+		
+		   // $('#modal').show();
+			
+		
+	}
+
+function editar(){
+	
+		//$.getJSON(direc+'datos.php?action=descarga&ciudadCiudad='+ciudadCiudad, function(json) { 
 			var f = new Date(); var d = new Date();
 			$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
  
@@ -1553,38 +1599,85 @@ $(document).ready(function(){
 			repartoAcero()
 			reparte()
 			escribirCodigo()
-		});	
-	}
+		//});	
+	
+}
+
+
 	
 	
-	
-	if(queFuncion=='ver'){
+function ver(){
+
 			$('#configurar').hide()
 			$('#botonesGuardar').hide()
 			$('#botonesEditar').show()
-			$.getJSON(ciudadCiudad+'.json', function(json) {
-			$('#fechaHora').html(json.fechaHora);
-			META=json.META
-			cabenEnCoche=json.cabenEnCoche
-			$('#usCoche').val(cabenEnCoche)
-			usuario = json.usuario
-			en = json.en
-			sa = json.sa
-			usuariosYviajes= json.usuariosYviajes
-			llenaUsuariosOrden()
-			llenaTabla()
-			for(var a=1;a<=nDiasSemana;a++){
-				reuneIgualesDiaVer(a)
-				
-			}
-		});	
+			//$.getJSON(direc+'datos.php?action=descarga&ciudadCiudad='+ciudadCiudad, function(json) {
+				$('#fechaHora').html(json.fechaHora);
+				META=json.META
+				cabenEnCoche=json.cabenEnCoche
+				$('#usCoche').val(cabenEnCoche)
+				usuario = json.usuario
+				en = json.en
+				sa = json.sa
+				usuariosYviajes= json.usuariosYviajes
+				llenaUsuariosOrden()
+				llenaTabla()
+				for(var a=1;a<=nDiasSemana;a++){
+					reuneIgualesDiaVer(a)
+					
+				}
+		//});	
 	}
+
 	
-	//////
+var ciudadCiudadAguardar=[]
+var queFuncion='';
+var jsonCiudades=''
+var nfile=1
+
+function abre(n){
+	if(n==0){
+		
+		$('#modal').show();
+	}else{	
+		var d='ruedas/'+n+'.js'
+		nfile=n;
+		var t
+				var s = document.createElement('script');
+				s.onload = function () {
+					var c0= json.salida;//capitaliza(ciudadCiudadAguardar[0])
+					var c1= json.destino;// capitaliza(ciudadCiudadAguardar[1])
+					//var ciudadCiudadAguardar=c.split('-')
+					var ciudadCiudadAguardar=[c0,c1]
+					ciudadCiudad=c0+'-'+c1
+					jsonCiudades={"salida":c0,"destino":c1}
+					$('#ciudadCiudad').html(c0+' - '+c1)
+					if(queFuncion=='editar'){editar()}
+					if(queFuncion=='ver'){ver()}
+					
+				};
+				s.src = d;
+				document.head.appendChild(s);
+		}
+	}
+
+
+var maxActualFile=''
+$(document).ready(function(){
 	
+	queFuncion=$.urlParam('funcion');
+    var c=$.urlParam('ciudadCiudad');
+	maxActualFile=$.urlParam('maxActualFile');
+	if(queFuncion=='nueva'){$('#btn-saveNew').hide()}
+	abre(c)
+	
+	cabenEnCoche = $('#usCoche').val()
+    $('#usCoche').change(function(){
+	cabenEnCoche = $('#usCoche').val()
+	})
 	
 	$('#botonEditar').click(function(){
-		location.href='rueda.html?funcion=editar&ciudadCiudad='+ciudadCiudad
+		location.href='rueda.html?funcion=editar&ciudadCiudad='+nfile+'&maxActualFile='+maxActualFile
 		
 	});
 		
@@ -1671,10 +1764,7 @@ $(document).ready(function(){
 		   contUsuarios--
 		   if(contUsuarios<0){contUsuarios=0}
 		   rellenaBotones(contUsuarios)
-		   // escribirCodigo()
-		   // repartoAcero()
-			//reparte()
-			//escribirCodigo()
+		   
 		}) 
 		
 		
@@ -1700,38 +1790,74 @@ $(document).ready(function(){
 			} else {
 				alert('Please allow popups for this website');
 			}
+			
+			
+			
+			
 		}) 
 		
 
 		$('#nuevoReparto').click(function(){
 		    repartoAcero()
 			reparte()
-		}) 
-		$('#guardarConfig').click(function(){
-			//var t='{"usuario":'+$('#codigoConfig').val()+'}'
-			var t=$('#codigoConfig').val()
-			var uri = 'data:text/csv;charset=utf-8,' + t;
-			var downloadLink = document.createElement("a");
-			downloadLink.href = uri;
-			downloadLink.download = ciudadCiudad+".json";
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
+		})
+
+          $('#guardarConfig').click(function(){
+			  escribirCodigo()
+			 //
+			 
+			 var t='var json='+$('#codigoConfig').val()
+			 //alert(t)
+			 if(queFuncion=='nueva'){
+				 nfile=$.urlParam('maxActualFile')
+			 }
+			// if(queFuncion=='editar'){
+				
+	
+			var d = new Date();
+			//var cad='<html><title>RUEDA REPARTO '+d.getTime()+'</title><head><style> table,td,th { border-spacing: 0; vertical-align:top; border-collapse: collapse; padding:2px; border: 1;  border-style: solid;  border-width: 1px;} </style></head><body><center>'
+			var cad=''
+			//var j=$('#repartoPage').html()
+			//cad+= j+'</center></body></html>'
+			$("#textarea").val(t);
+			var text = $("#textarea").val();
+			var filename = $("#input-fileName").val()
+			
+			var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+			saveAs(blob, filename+".txt");
 			/*
-			var t = '<title>datos.js</title>'
-			var t=$('#codigoConfig').val()
-	  		var x= window.open();
+			var x= window.open('_blank');
 			if(x){
-			x.document.write(t);
-			x.document.close();
-			x.focus();
+			//x.open();
+			    cad+='<p>Guarda el codigo </p><textarea style="width:100%;height:500px;" onclick="this.select()">'+t+'</textarea>'
+				x.document.write(cad);
+				x.document.close();
+				x.focus();
 			} else {
 				alert('Please allow popups for this website');
 			}
-			
+		
+		
+		
+		var s = document.createElement('script'); s.onload = function () {};
+		s.src = d;
+		document.head.appendChild(s);
+	 		
+				
+			 $.post(direc+"datos.php",
+				  {  action:"graba",
+					ciudadCiudad: nfile,
+					datos: t
+				  },
+				  function(data, status){
+					alert(data+"\r\n"+'Guardar en la carpeta "ruedas" para mantenerlo como permanente');
+					//window.open('rueda.html?funcion=ver&ciudadCiudad='+ciudadCiudad,'_blank');
+					window.open(direc+nfile+'.js','_blank');
+				  });
+			// }
 			*/
-		});	
-
+		});			
+		
 		$('#verGuardado').click(function(){
 			window.open('rueda.html?funcion=ver&ciudadCiudad='+ciudadCiudad,'_blank');
 		
@@ -1748,7 +1874,44 @@ $(document).ready(function(){
 		});		
 	///////////
  
+   $('#iniciar').click(function(){
+	 	iniciaEnBlanco()
+	});
  
+	$('#cancelar').click(function(){
+	    //$('#modal').fadeOut( "slow" );
+		//$('#portada').show();
+		location.href='index.html'
+	});
+	$("#btn-saveNew").click( function() {
+		escribirCodigo()
+		var t='var json='+$('#codigoConfig').val()
+	    nfile=$.urlParam('maxActualFile')
+	    $("#textarea").val(t);
+		 $("#input-fileName").val(nfile)
+  var text = $("#textarea").val();
+  var filename = $("#input-fileName").val()
+  //var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  var blob = new Blob([text], {type: "text/javascript"});
+  saveAs(blob, filename+".js");
+});
+	
+	$("#btn-save").click( function() {
+		escribirCodigo()
+		var t='var json='+$('#codigoConfig').val()
+		if(queFuncion=='nueva'){
+				 nfile=$.urlParam('maxActualFile')
+	     }
+		 $("#textarea").val(t);
+		 $("#input-fileName").val(nfile)
+  var text = $("#textarea").val();
+  var filename = $("#input-fileName").val()
+  //var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  var blob = new Blob([text], {type: "text/javascript"});
+  saveAs(blob, filename+".js");
+});
+	//$('#nueva').click(function(){$('#portada').fadeOut( "slow" ); $('#modal').show();	});
+
  
  
 

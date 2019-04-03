@@ -10,8 +10,9 @@
 			  crossorigin="anonymous">
 </script>
 
-<!--<script  src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
-
+<!--<script  src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script  src="ruedas.js"   crossorigin="anonymous"></script>
+-->
 
 </head>
 <body>
@@ -73,7 +74,12 @@
 
  <script>
  
+
  
+Array.prototype.clone = function() {
+    return this.slice(0);
+}
+
  function finPreload(){
  setTimeout(
   function() 
@@ -95,39 +101,88 @@ function cargaRuedas(){
 	for(var n=0;n<nruedas;n++){
 	    s=capitaliza(ruedas[n].salida)
 		l=capitaliza(ruedas[n].llegada)
+		
 		cad+='<span id="ciudadCiudad'+n+'"><a href="rueda.html?funcion=ver&ciudadCiudad='+ruedas[n].salida+'-'+ruedas[n].llegada+'">'+s+'-'+l+'</a></span> '
 	}
 	$('#ruedas').html(cad)
 	
 }
 
+function abre(n){
+		var d='ruedas/'+n+'.js'
+		var t
+		var s = document.createElement('script');
+		s.onload = function () {
+			location.href='rueda.html?funcion=ver&ciudadCiudad='+n+'&maxActualFile='+maxActualFile
+		};
+		s.src = d;
+		document.head.appendChild(s);
+}		 
+
+
+
+
+var json={};
+var cdds=[]
+var enlaces=[]
+
+function cargaEnlaces(){
+	var cad='',s,l
+	var nruedas=3
+	cdds=[]
+	var script =[]
+	var enlaces=[]
+	var myt = setInterval(myTimer ,500);
+	var n=1
+	var nruedas=100
+	function llenaEnlaces(){
+	    enlaces.sort(function(a, b){return b.n - a.n});
+		var cad='';
+		for(var a=0;a<enlaces.length;a++){
+			cad+='<b>'+enlaces[a].n+'</b>.&nbsp;<span id="ciudadCiudad'+enlaces[a].n+'"><a href="javascript:abre('+enlaces[a].n+')">'+enlaces[a].salida+'-'+enlaces[a].destino+'_'+enlaces[a].fechaHora+'</a></span><br> '
+		 }
+		 $('#ruedas').html(cad)
+	}
+	function myTimer() {
+        var d='ruedas/'+n+'.js'
+		script[n] = document.createElement('script');
+		script[n].onload = function () {
+		   	
+				enlaces.push({n:n,salida:json.salida,destino:json.destino,fechaHora:json.fechaHora})
+				script[n].remove()
+				llenaEnlaces()
+				n++
+				maxActualFile=n; 
+				if(n==nruedas){
+					clearInterval(myt); 
+				}
+				
+		};
+		script[n].onerror = function() {
+		    //alert(JSON.stringify(enlaces))
+			//llenaEnlaces()
+			clearInterval(myt);
+			
+		};
+		script[n].src = d;
+		document.head.appendChild(script[n]);
+	}
+}
 
 var ruedas=[]
-
+var maxActualFile=0;
 $(document).ready(function(){
-
-
-
-  $.getJSON('ruedas.json', function(json) {
-		finPreload()	
-		ruedas = json
-		cargaRuedas()
-		
-	});
-	
-	
+      cargaEnlaces()
+	finPreload()	
 	$('#iniciar').click(function(){
-	   var ciudadSalida=$('#ciudadSalida').val()
-	   var ciudadLlegada=$('#ciudadLlegada').val()
-	   location.href='rueda.html?funcion=nueva&ciudadCiudad='+ciudadSalida.toLowerCase()+'-'+ciudadLlegada.toLowerCase()
+	   location.href='rueda.html?funcion=nueva&ciudadCiudad=0&maxActualFile='+maxActualFile
 	});
 	$('#cancelar').click(function(){
 	    $('#modal').fadeOut( "slow" );
 		$('#portada').show();
 	});
-	$('#nueva').click(function(){
-	    $('#portada').fadeOut( "slow" );
-		$('#modal').show();
+    $('#nueva').click(function(){ 
+		location.href='rueda.html?funcion=nueva&ciudadCiudad=0&maxActualFile='+maxActualFile
 	});
 
 })
