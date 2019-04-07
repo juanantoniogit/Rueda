@@ -168,6 +168,7 @@ $(document).ready(function(){
       cargaEnlaces()
 	finPreload()	
 	$('#iniciar').click(function(){
+	   if(maxActualFile==0){maxActualFile=1}
 	   location.href='rueda.html?funcion=nueva&ciudadCiudad=0&maxActualFile='+maxActualFile
 	});
 	$('#cancelar').click(function(){
