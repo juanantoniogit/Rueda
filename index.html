@@ -176,6 +176,7 @@ $(document).ready(function(){
 		$('#portada').show();
 	});
     $('#nueva').click(function(){ 
+    	if(maxActualFile==0){maxActualFile=1}
 		location.href='rueda.html?funcion=nueva&ciudadCiudad=0&maxActualFile='+maxActualFile
 	});
 
