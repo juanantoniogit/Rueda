@@ -24,15 +24,44 @@ var ciudadCiudad='0-0'
 var usuario=[]
 var cabenEnCoche = 4
 var nDiasSemana=5
-var nHorasEntrada=7
-var nHorasSalida=7
+var nHorasES = 12
+var nHorasEntrada=nHorasES
+var nHorasSalida=nHorasES
 var nombreUsuario=''
 var contUsuarios=0;
 var usuarioIni=[]
 var direc=''
 
+/////
+
+var posES={dia:1,hora:1, cont:0, ES:['entrada','salida']} 
+var nVueltas=0
+var nFilas=nHorasES, nColumnas=5;
+var totalHoras=nFilas*nColumnas*2; 
+var horasSinAsignar = totalHoras
+var horasAsignadasVuelta=0
+var horasSinAsignarPrevia=totalHoras;
+var asignaAlAzar=false
+var completo=false
+
 // VARIABLES DE ENTRADA  en[0]..e[6] 
 var en = []
+var sa = []
+
+function llenaESvar(){
+  en = []
+  sa = []
+  for(var a=0;a<=nDiasSemana;a++){
+      en[a]=[]
+      sa[a]=[]
+    for(var b=0;b<=nHorasES;b++){
+      en[a].push([])
+      sa[a].push([])
+    }
+  }
+}
+llenaESvar();
+/*
 en[0] = [
   [],
   [],
@@ -175,7 +204,7 @@ sa[6] = [
   [],
   [],
   []
-]
+]*/
 /////TABLA META
 /////VIAJES SEMANA // VIAJES META
 var numUsuarios=usuario.length;
@@ -231,7 +260,7 @@ function llenaSalidasYentradas(){
 		usuario[a].viajes=0;
 		n=numDiasQueViajaUsuario(a)
 		usuario[a].meta=META[n].meta
-	    en[1][usuario[a].lunes.entrada].personas.push(a)
+	  en[1][usuario[a].lunes.entrada].personas.push(a)
 		sa[1][usuario[a].lunes.salida].personas.push(a)
 	   
 		en[2][usuario[a].martes.entrada].personas.push(a)
@@ -445,18 +474,44 @@ function buscaConductoresSolosSalida(cuantos){
 /////////////////////////
 // UTILIDADES PRINCIPALES
 /////////////////////////
+function creaTabla(){
+
+  var cad='  <table id="reparto_tabla" align="center" class="data-table" cellpadding="4px" cellpadding="4px" width="100%">'
+    cad+='<tr>'
+      cad+='<th class="hora"></th>'
+      cad+='<th>Lunes</th>'
+      cad+='<th>Martes</th>'
+      cad+='<th>Mi&eacute;rcoles</th>'
+      cad+='<th>Jueves</th>'
+      cad+='<th>Viernes</th>'
+      cad+='</tr>'
+      for(var n=1;n<=nHorasES;n++){
+      cad+='<tr>'
+      cad+='<td class="hora"><h3>'+n+'</h3> De a</td>'
+      cad+='<td id="l'+n+'"></td>'
+      cad+='<td id="m'+n+'"></td>'
+      cad+='<td id="x'+n+'"></td>'
+      cad+='<td id="j'+n+'"></td>'
+      cad+='<td id="v'+n+'"></td>'
+      cad+='</tr>'
+    }
+    cad+='</table>'
+    document.getElementById('reparto').innerHTML=cad;
+
+}
 
 function llenaTabla(){
   var nsomos = 0;
- 
+
   for (var a = 1; a < 6; a++) {
 	// ENTRADAS
-    nsomos = en[a][1].personas.length
-    cad = recopilaEntrada(a, 1, nsomos)
+  for(var n=1;n<=nHorasES;n++){
+    nsomos = en[a][n].personas.length
+    cad = recopilaEntrada(a, n, nsomos)
     //$('#' + diass[a] + '1').append(cad)
-	document.getElementById(diass[a] + '1').insertAdjacentHTML( 'beforeend', cad );
-	
-    nsomos = en[a][2].personas.length
+	 document.getElementById(diass[a] + n).insertAdjacentHTML( 'beforeend', cad );
+	}
+   /* nsomos = en[a][2].personas.length
     cad = recopilaEntrada(a, 2, nsomos)
     //$('#' + diass[a] + '2').append(cad)
 	document.getElementById(diass[a] + '2').insertAdjacentHTML( 'beforeend', cad );
@@ -480,9 +535,16 @@ function llenaTabla(){
     cad = recopilaEntrada(a, 6, nsomos)
    //$('#' + diass[a] + '6').append(cad)
    document.getElementById(diass[a] + '6').insertAdjacentHTML( 'beforeend', cad );
-	
+	*/
 	
 	// SALIDAS
+    for(var n=1;n<=nHorasES;n++){
+      nsomos = sa[a][n].personas.length
+      cad = recopilaSalida(a, n, nsomos)
+      //$('#' + diass[a] + '1').append(cad)
+      document.getElementById(diass[a] + n).insertAdjacentHTML( 'beforeend', cad );
+    }
+    /*
     nsomos = sa[a][4].personas.length
     cad = recopilaSalida(a, 4, nsomos)
     //$('#' + diass[a] + '4').append(cad)
@@ -502,7 +564,7 @@ function llenaTabla(){
     cad = recopilaSalida(a, 7, nsomos)
     //$('#' + diass[a] + '7').append(cad)
 	document.getElementById(diass[a] + '7').insertAdjacentHTML( 'beforeend', cad );
-
+  */
   }
 }
 
@@ -602,15 +664,7 @@ function ordenaSegunViajes() {
 /// VERSION 2   DESDE ESQUEMA
 //////////////////////////////////////
 
-var posES={dia:1,hora:1, cont:0, ES:['entrada','salida']} 
-var nVueltas=0
-var nFilas=7, nColumnas=5;
-var totalHoras=nFilas*nColumnas*2; //35 const 
-var horasSinAsignar = totalHoras
-var horasAsignadasVuelta=0
-var horasSinAsignarPrevia=totalHoras;
-var asignaAlAzar=false
-var completo=false
+
 
 function pasaSiguiente(){
   var cierto=false;
@@ -986,15 +1040,11 @@ function repartoAcero(){
 		}
 	}
 	
-	 for (var a = 1; a < 6; a++) {
-	  document.getElementById(diass[a] + '1').innerHTML =' ';
-	  document.getElementById(diass[a] + '2').innerHTML =' ';
-	  document.getElementById(diass[a] + '3').innerHTML =' ';
-	  document.getElementById(diass[a] + '4').innerHTML =' ';
-	  document.getElementById(diass[a] + '5').innerHTML =' ';
-	  document.getElementById(diass[a] + '6').innerHTML =' ';
-	  document.getElementById(diass[a] + '7').innerHTML =' ';
-  }
+	 for (var a = 1; a <=nDiasSemana; a++) {
+      for (var b = 1; b <=nHorasES; b++) {
+  	    $('#'+diass[a] + b).html('');
+     }
+	 }
 	//llenaUsuarios()
 	
 }
@@ -1523,7 +1573,26 @@ function iniciaEnBlanco(){
 			//$('#nombre').val(' ')
 			json.salida=$('#ciudadSalida').val()
 			json.destino=$('#ciudadLlegada').val()
+
+
+      //
+      nVueltas=0
+      nFilas=nHorasES, nColumnas=5;
+      totalHoras=nFilas*nColumnas*2; 
+      horasSinAsignar = totalHoras
+      horasAsignadasVuelta=0
+      horasSinAsignarPrevia=totalHoras;
+      completo=false
+      //
 			usuario = json.usuario
+      usuario.nHoras=$('#nHoras').val()
+      nHorasES=$('#nHoras').val()
+      nHorasEntrada=nHorasES
+      nHorasSalida=nHorasES
+      llenaESvar();
+      creaTabla();
+      
+      
 			usuario.salida=$('#ciudadSalida').val()
 			usuario.destino=$('#ciudadLlegada').val()
 			usuario.fechaHora=$('#fechaHora').html()
@@ -1668,6 +1737,9 @@ $(document).ready(function(){
 	queFuncion=$.urlParam('funcion');
     var c=$.urlParam('ciudadCiudad');
 	maxActualFile=$.urlParam('maxActualFile');
+
+  creaTabla()
+
 	if(queFuncion=='nueva'){$('#btn-saveNew').hide()}
 	abre(c)
 	

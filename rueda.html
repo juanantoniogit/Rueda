@@ -223,6 +223,30 @@ Usuarios por coche: <span id="usuariosCoche"></span>  <input type="text" id="usC
 			<div class="celda1"><input id="ciudadLlegada" value="" style="width:90%;"></div>
 		</div>
 		<div class="fila">
+			<div class="celda1dobleCentro" style="color:#fff;background-color:#777; ">N&uacute;mero de horas
+				&nbsp;&nbsp;&nbsp;&nbsp;<input type="list" size=2 id="nHoras" value="7" list="horas" maxlength="2" onchange="miraNhorasInput(this)">  
+				<datalist id="horas">
+				  <option value="2">
+				  <option value="3">
+				  <option value="4">
+				  <option value="5">
+				  <option value="6">
+				  <option value="7" selected>
+				  <option value="8">
+				  <option value="9">
+				  <option value="10">
+				  <option value="12">
+				  <option value="13">
+				  <option value="14">
+				  <option value="15">
+				  <option value="16">
+				  <option value="17">
+				  <option value="18">
+				  <option value="20">
+				</datalist>
+		    </div>
+		</div>
+		<div class="fila">
 			<div class="celda1dobleCentro"><pre><button id="cancelar">Cancelar</button>	<button id="iniciar">INICIAR</button></pre></div>
 		</div>
 	 </div>
@@ -232,8 +256,18 @@ Usuarios por coche: <span id="usuariosCoche"></span>  <input type="text" id="usC
 </div>
 
  <script>
-$(document).ready(function(){
+ 	function miraNhorasInput(val){
+ 		 if (Number(val.value) > 23){
+		      val.value = 23
+		    }
+		 if (Number(val.value) < 2){
+		      val.value = 2
+		    }
+  }
+		
 	
+$(document).ready(function(){
+
 })
 
 

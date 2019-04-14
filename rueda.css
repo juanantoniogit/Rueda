@@ -102,16 +102,22 @@ td {
     height:17px;
     width:17px;
 font-size:9px;
-
+padding:1px 1px;
 }
 .nosale{  
     height:17px;
     width:17px;
 font-size:9px;
 background-color:#bb9;
+padding:1px 1px;
 }
-.buttonHorasS{  height:17px;
-    width:17px;font-size:9px;}
+.buttonHorasS{  
+  height:17px;
+  width:17px;
+  font-size:9px;
+  padding:1px 1px;
+  }
+
 .verde{ background-color:#9fa;}
 .rosa{ background-color:#f9f;}
 .blanco{ background-color:#fff;}
