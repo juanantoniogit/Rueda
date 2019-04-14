@@ -671,7 +671,7 @@ function pasaSiguiente(){
   var hsa=35;
    posES.dia++
 		if(posES.dia>5){posES.dia=1;posES.hora++;}
-		if(posES.hora>7){
+		if(posES.hora>nHorasES){
 			cierto=true;
 			posES.dia=1;posES.hora=1;
 			posES.cont++;
