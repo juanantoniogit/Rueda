@@ -848,7 +848,7 @@ function esLaUltima(){
 function nHorasEScheck(){
 	var estanCheck=0
 	for(var dia=1;dia<=5;dia++){
-		for(var hora=1;hora<=7;hora++){
+		for(var hora=1;hora<=nHorasES;hora++){
 			if(en[dia][hora].check ){
 				estanCheck++
 			}
@@ -1303,7 +1303,7 @@ function rellenaNombres(){
 function escribirCodigo(){
 	//$('#codigoConfig').val(JSON.stringify(usuarioIni))
 
-	$('#codigoConfig').val('{"salida":"'+json.salida+'","destino":"'+json.destino+'","fechaHora":'+JSON.stringify($('#fechaHora').html())+',"cabenEnCoche":'+cabenEnCoche+',"META":'+JSON.stringify(META)+',"usuario":'+JSON.stringify(usuarioIni)+',"usuariosYviajes":'+JSON.stringify(usuariosYviajes) + ',"en":'+JSON.stringify(en)+ ',"sa":'+JSON.stringify(sa)+'}')
+	$('#codigoConfig').val('{"salida":"'+json.salida+'","destino":"'+json.destino+'","fechaHora":'+JSON.stringify($('#fechaHora').html())+',"nHoras":'+nHorasES+',"cabenEnCoche":'+cabenEnCoche+',"META":'+JSON.stringify(META)+',"usuario":'+JSON.stringify(usuarioIni)+',"usuariosYviajes":'+JSON.stringify(usuariosYviajes) + ',"en":'+JSON.stringify(en)+ ',"sa":'+JSON.stringify(sa)+'}')
 }
 
 function escribirCodigoResult(){
@@ -1655,13 +1655,39 @@ function editar(){
 			$('#pref5').val(META[5].meta)
 			cabenEnCoche=json.cabenEnCoche
 			$('#usCoche').val(cabenEnCoche)
-			usuario = json.usuario
+
+     
+      usuario = json.usuario
+      //usuario.nHoras=$('#nHoras').val()
+      nHorasES=json.nHoras
+      nHorasEntrada=nHorasES
+      nHorasSalida=nHorasES
+      //
+      nVueltas=0
+      nFilas=nHorasES, nColumnas=5;
+      totalHoras=nFilas*nColumnas*2; 
+      horasSinAsignar = totalHoras
+      horasAsignadasVuelta=0
+      horasSinAsignarPrevia=totalHoras;
+      completo=false
+      //
+
+      llenaESvar();
+      creaTabla();
+
+
+
 			for (var a = 0; a < usuario.length; a++) {
 				usuario[a].viajes=0;
 				for(var b=1;b<=maxDiasSemana;b++){
 					usuario[a][diasn[b]].igualQue=[]
 				}
 			}
+
+
+
+
+
 			usuarioIni=usuario.clone()
 			rellenaBotones(contUsuarios)
 			rellenaNombres()
@@ -1738,11 +1764,11 @@ $(document).ready(function(){
     var c=$.urlParam('ciudadCiudad');
 	maxActualFile=$.urlParam('maxActualFile');
 
-  creaTabla()
+  
 
 	if(queFuncion=='nueva'){$('#btn-saveNew').hide()}
 	abre(c)
-	
+	creaTabla()
 	cabenEnCoche = $('#usCoche').val()
     $('#usCoche').change(function(){
 	cabenEnCoche = $('#usCoche').val()
@@ -1874,7 +1900,7 @@ $(document).ready(function(){
 			reparte()
 		})
 
-          $('#guardarConfig').click(function(){
+   $('#guardarConfig').click(function(){
 			  escribirCodigo()
 			 //
 			 
