@@ -668,7 +668,7 @@ function ordenaSegunViajes() {
 
 function pasaSiguiente(){
   var cierto=false;
-  var hsa=35;
+  //var hsa=35;
    posES.dia++
 		if(posES.dia>5){posES.dia=1;posES.hora++;}
 		if(posES.hora>nHorasES){
@@ -1990,7 +1990,7 @@ $(document).ready(function(){
   var text = $("#textarea").val();
   var filename = $("#input-fileName").val()
   //var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-  var blob = new Blob([text], {type: "text/javascript"});
+  var blob = new Blob([text], {type: "text/javascript",charset:"utf-8"});
   saveAs(blob, filename+".js");
 });
 	
@@ -2005,7 +2005,7 @@ $(document).ready(function(){
   var text = $("#textarea").val();
   var filename = $("#input-fileName").val()
   //var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-  var blob = new Blob([text], {type: "text/javascript"});
+  var blob = new Blob([text], {type: "text/javascript",charset:"utf-8"});
   saveAs(blob, filename+".js");
 });
 	//$('#nueva').click(function(){$('#portada').fadeOut( "slow" ); $('#modal').show();	});
