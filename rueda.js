@@ -1672,10 +1672,34 @@ function editar(){
       completo=false
       //
 
+  $('#fechaHora').html(json.fechaHora);
+        META=json.META
+        cabenEnCoche=json.cabenEnCoche
+        $('#usCoche').val(cabenEnCoche)
+        usuario = json.usuario
+        
+        nHorasES=json.nHoras
+        nHorasEntrada=nHorasES
+        nHorasSalida=nHorasES
+        en = json.en
+        sa = json.sa
+        usuariosYviajes= json.usuariosYviajes
+        creaTabla()
+        llenaUsuariosOrden()
+        llenaTabla()
+        for(var a=1;a<=nDiasSemana;a++){
+          reuneIgualesDiaVer(a)
+          
+        }
+
+usuarioIni=usuario.clone()
+      rellenaBotones(contUsuarios)
+      rellenaNombres()
+/*
       llenaESvar();
       creaTabla();
 
-
+/*
 
 			for (var a = 0; a < usuario.length; a++) {
 				usuario[a].viajes=0;
@@ -1691,9 +1715,11 @@ function editar(){
 			usuarioIni=usuario.clone()
 			rellenaBotones(contUsuarios)
 			rellenaNombres()
-			repartoAcero()
-			reparte()
-			escribirCodigo()
+
+			//repartoAcero()
+			//reparte()
+			//escribirCodigo()
+      */
 		//});	
 	
 }
@@ -1714,6 +1740,11 @@ function ver(){
 				usuario = json.usuario
 				en = json.en
 				sa = json.sa
+        nHorasES=json.nHoras
+        nHorasEntrada=nHorasES
+        nHorasSalida=nHorasES
+        //llenaESvar();
+        creaTabla();
 				usuariosYviajes= json.usuariosYviajes
 				llenaUsuariosOrden()
 				llenaTabla()
@@ -1747,7 +1778,10 @@ function abre(n){
 					ciudadCiudad=c0+'-'+c1
 					jsonCiudades={"salida":c0,"destino":c1}
 					$('#ciudadCiudad').html(c0+' - '+c1)
-					if(queFuncion=='editar'){editar()}
+					if(queFuncion=='editar'){
+
+              editar()
+          }//
 					if(queFuncion=='ver'){ver()}
 					
 				};
@@ -1758,6 +1792,8 @@ function abre(n){
 
 
 var maxActualFile=''
+
+
 $(document).ready(function(){
 	
 	queFuncion=$.urlParam('funcion');
