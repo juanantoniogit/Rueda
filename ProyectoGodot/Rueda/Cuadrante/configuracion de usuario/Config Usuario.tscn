@@ -1,0 +1,200 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Cuadrante/configuracion de usuario/Hora de salida/Hora de salida.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Cuadrante/configuracion de usuario/Hora de entrada/Hora de entrada.tscn" type="PackedScene" id=2]
+
+[node name="Config Usuario" type="Control"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 14.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="Panel" type="Panel" parent="PanelContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 126.0
+margin_bottom = 69.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="HBoxContainer" type="VBoxContainer" parent="PanelContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 126.0
+margin_bottom = 69.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Nombre" type="Label" parent="PanelContainer/HBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 119.0
+margin_bottom = 14.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Juan"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="salida" type="HBoxContainer" parent="PanelContainer/HBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 18.0
+margin_right = 119.0
+margin_bottom = 38.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Salida" type="Label" parent="PanelContainer/HBoxContainer/salida" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 3.0
+margin_right = 45.0
+margin_bottom = 17.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Salida  "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Hora de salida" parent="PanelContainer/HBoxContainer/salida" index="1" instance=ExtResource( 1 )]
+
+margin_left = 49.0
+margin_right = 69.0
+margin_bottom = 20.0
+
+[node name="Hora de salida2" parent="PanelContainer/HBoxContainer/salida" index="2" instance=ExtResource( 1 )]
+
+margin_left = 73.0
+margin_right = 93.0
+margin_bottom = 20.0
+
+[node name="Hora de salida3" parent="PanelContainer/HBoxContainer/salida" index="3" instance=ExtResource( 1 )]
+
+margin_left = 97.0
+margin_right = 117.0
+margin_bottom = 20.0
+
+[node name="entrada" type="HBoxContainer" parent="PanelContainer/HBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 42.0
+margin_right = 119.0
+margin_bottom = 62.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Entrada" type="Label" parent="PanelContainer/HBoxContainer/entrada" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 3.0
+margin_right = 47.0
+margin_bottom = 17.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Entrada"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Hora de entrada" parent="PanelContainer/HBoxContainer/entrada" index="1" instance=ExtResource( 2 )]
+
+margin_left = 51.0
+margin_right = 71.0
+margin_bottom = 20.0
+
+[node name="Hora de entrada2" parent="PanelContainer/HBoxContainer/entrada" index="2" instance=ExtResource( 2 )]
+
+margin_left = 75.0
+margin_right = 95.0
+margin_bottom = 20.0
+
+[node name="Hora de entrada3" parent="PanelContainer/HBoxContainer/entrada" index="3" instance=ExtResource( 2 )]
+
+margin_left = 99.0
+margin_right = 119.0
+margin_bottom = 20.0
+
+

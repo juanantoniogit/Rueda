@@ -1,0 +1,316 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Cuadrante/Hora/hora.tscn" type="PackedScene" id=1]
+
+[node name="Cuadrante" type="Control"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="ColHorario" type="VBoxContainer" parent="HBoxContainer" index="0"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 43.0
+margin_bottom = 156.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Vacio" parent="HBoxContainer/ColHorario" index="0" instance=ExtResource( 1 )]
+
+margin_right = 43.0
+margin_bottom = 28.0
+
+[node name="horario 01" parent="HBoxContainer/ColHorario" index="1" instance=ExtResource( 1 )]
+
+margin_top = 32.0
+margin_right = 43.0
+margin_bottom = 60.0
+
+[node name="horario 02" parent="HBoxContainer/ColHorario" index="2" instance=ExtResource( 1 )]
+
+margin_top = 64.0
+margin_right = 43.0
+margin_bottom = 92.0
+
+[node name="horari0 03" parent="HBoxContainer/ColHorario" index="3" instance=ExtResource( 1 )]
+
+margin_top = 96.0
+margin_right = 43.0
+margin_bottom = 124.0
+
+[node name="horario 04" parent="HBoxContainer/ColHorario" index="4" instance=ExtResource( 1 )]
+
+margin_top = 128.0
+margin_right = 43.0
+margin_bottom = 156.0
+
+[node name="Lunes" type="VBoxContainer" parent="HBoxContainer" index="1"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 47.0
+margin_right = 99.0
+margin_bottom = 156.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Dia" parent="HBoxContainer/Lunes" index="0" instance=ExtResource( 1 )]
+
+margin_right = 52.0
+margin_bottom = 28.0
+
+[node name="hora2" parent="HBoxContainer/Lunes" index="1" instance=ExtResource( 1 )]
+
+margin_top = 32.0
+margin_right = 52.0
+margin_bottom = 60.0
+
+[node name="hora3" parent="HBoxContainer/Lunes" index="2" instance=ExtResource( 1 )]
+
+margin_top = 64.0
+margin_right = 52.0
+margin_bottom = 92.0
+
+[node name="hora4" parent="HBoxContainer/Lunes" index="3" instance=ExtResource( 1 )]
+
+margin_top = 96.0
+margin_right = 52.0
+margin_bottom = 124.0
+
+[node name="hora5" parent="HBoxContainer/Lunes" index="4" instance=ExtResource( 1 )]
+
+margin_top = 128.0
+margin_right = 52.0
+margin_bottom = 156.0
+
+[node name="Martes" type="VBoxContainer" parent="HBoxContainer" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 103.0
+margin_right = 161.0
+margin_bottom = 156.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Dia" parent="HBoxContainer/Martes" index="0" instance=ExtResource( 1 )]
+
+margin_right = 58.0
+margin_bottom = 28.0
+
+[node name="hora2" parent="HBoxContainer/Martes" index="1" instance=ExtResource( 1 )]
+
+margin_top = 32.0
+margin_right = 58.0
+margin_bottom = 60.0
+
+[node name="hora3" parent="HBoxContainer/Martes" index="2" instance=ExtResource( 1 )]
+
+margin_top = 64.0
+margin_right = 58.0
+margin_bottom = 92.0
+
+[node name="hora4" parent="HBoxContainer/Martes" index="3" instance=ExtResource( 1 )]
+
+margin_top = 96.0
+margin_right = 58.0
+margin_bottom = 124.0
+
+[node name="hora5" parent="HBoxContainer/Martes" index="4" instance=ExtResource( 1 )]
+
+margin_top = 128.0
+margin_right = 58.0
+margin_bottom = 156.0
+
+[node name="Miercoles" type="VBoxContainer" parent="HBoxContainer" index="3"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 165.0
+margin_right = 242.0
+margin_bottom = 156.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Dia" parent="HBoxContainer/Miercoles" index="0" instance=ExtResource( 1 )]
+
+margin_right = 77.0
+margin_bottom = 28.0
+
+[node name="hora2" parent="HBoxContainer/Miercoles" index="1" instance=ExtResource( 1 )]
+
+margin_top = 32.0
+margin_right = 77.0
+margin_bottom = 60.0
+
+[node name="hora3" parent="HBoxContainer/Miercoles" index="2" instance=ExtResource( 1 )]
+
+margin_top = 64.0
+margin_right = 77.0
+margin_bottom = 92.0
+
+[node name="hora4" parent="HBoxContainer/Miercoles" index="3" instance=ExtResource( 1 )]
+
+margin_top = 96.0
+margin_right = 77.0
+margin_bottom = 124.0
+
+[node name="hora5" parent="HBoxContainer/Miercoles" index="4" instance=ExtResource( 1 )]
+
+margin_top = 128.0
+margin_right = 77.0
+margin_bottom = 156.0
+
+[node name="Jueves" type="VBoxContainer" parent="HBoxContainer" index="4"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 246.0
+margin_right = 301.0
+margin_bottom = 156.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Dia" parent="HBoxContainer/Jueves" index="0" instance=ExtResource( 1 )]
+
+margin_right = 55.0
+margin_bottom = 28.0
+
+[node name="hora2" parent="HBoxContainer/Jueves" index="1" instance=ExtResource( 1 )]
+
+margin_top = 32.0
+margin_right = 55.0
+margin_bottom = 60.0
+
+[node name="hora3" parent="HBoxContainer/Jueves" index="2" instance=ExtResource( 1 )]
+
+margin_top = 64.0
+margin_right = 55.0
+margin_bottom = 92.0
+
+[node name="hora4" parent="HBoxContainer/Jueves" index="3" instance=ExtResource( 1 )]
+
+margin_top = 96.0
+margin_right = 55.0
+margin_bottom = 124.0
+
+[node name="hora5" parent="HBoxContainer/Jueves" index="4" instance=ExtResource( 1 )]
+
+margin_top = 128.0
+margin_right = 55.0
+margin_bottom = 156.0
+
+[node name="Viernes" type="VBoxContainer" parent="HBoxContainer" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 305.0
+margin_right = 367.0
+margin_bottom = 156.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="Dia" parent="HBoxContainer/Viernes" index="0" instance=ExtResource( 1 )]
+
+margin_right = 62.0
+margin_bottom = 28.0
+
+[node name="hora2" parent="HBoxContainer/Viernes" index="1" instance=ExtResource( 1 )]
+
+margin_top = 32.0
+margin_right = 62.0
+margin_bottom = 60.0
+
+[node name="hora3" parent="HBoxContainer/Viernes" index="2" instance=ExtResource( 1 )]
+
+margin_top = 64.0
+margin_right = 62.0
+margin_bottom = 92.0
+
+[node name="hora4" parent="HBoxContainer/Viernes" index="3" instance=ExtResource( 1 )]
+
+margin_top = 96.0
+margin_right = 62.0
+margin_bottom = 124.0
+
+[node name="hora5" parent="HBoxContainer/Viernes" index="4" instance=ExtResource( 1 )]
+
+margin_top = 128.0
+margin_right = 62.0
+margin_bottom = 156.0
+
+
