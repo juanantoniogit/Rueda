@@ -19,17 +19,49 @@ nviajes+numUsuario
 */
 
 // VARIABLES
-var cavenEnCoche = 4
+
+var ciudadCiudad='0-0'
+var usuario=[]
+var cabenEnCoche = 4
 var nDiasSemana=5
-var nHorasEntrada=7
-var nHorasSalida=7
+var nHorasES = 12
+var nHorasEntrada=nHorasES
+var nHorasSalida=nHorasES
 var nombreUsuario=''
 var contUsuarios=0;
 var usuarioIni=[]
+var direc=''
 
+/////
+
+var posES={dia:1,hora:1, cont:0, ES:['entrada','salida']} 
+var nVueltas=0
+var nFilas=nHorasES, nColumnas=5;
+var totalHoras=nFilas*nColumnas*2; 
+var horasSinAsignar = totalHoras
+var horasAsignadasVuelta=0
+var horasSinAsignarPrevia=totalHoras;
+var asignaAlAzar=false
+var completo=false
 
 // VARIABLES DE ENTRADA  en[0]..e[6] 
 var en = []
+var sa = []
+
+function llenaESvar(){
+  en = []
+  sa = []
+  for(var a=0;a<=nDiasSemana;a++){
+      en[a]=[]
+      sa[a]=[]
+    for(var b=0;b<=nHorasES;b++){
+      en[a].push([])
+      sa[a].push([])
+    }
+  }
+}
+llenaESvar();
+/*
 en[0] = [
   [],
   [],
@@ -172,7 +204,7 @@ sa[6] = [
   [],
   [],
   []
-]
+]*/
 /////TABLA META
 /////VIAJES SEMANA // VIAJES META
 var numUsuarios=usuario.length;
@@ -228,7 +260,7 @@ function llenaSalidasYentradas(){
 		usuario[a].viajes=0;
 		n=numDiasQueViajaUsuario(a)
 		usuario[a].meta=META[n].meta
-	    en[1][usuario[a].lunes.entrada].personas.push(a)
+	  en[1][usuario[a].lunes.entrada].personas.push(a)
 		sa[1][usuario[a].lunes.salida].personas.push(a)
 	   
 		en[2][usuario[a].martes.entrada].personas.push(a)
@@ -261,14 +293,14 @@ var igualesDia=[
 //Debe aclarase ;-(
 
 function recopilaEntrada(a, b, num) {
-  var ncoches=Math.ceil(en[a][b].personas.length/cavenEnCoche);
+  var ncoches=Math.ceil(en[a][b].personas.length/cabenEnCoche);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
   var personas=en[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/cavenEnCoche)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(en[a][b].personas.length/cabenEnCoche)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:green">'
   var cssend = '</span>'
@@ -329,14 +361,14 @@ function recopilaEntrada(a, b, num) {
 }
 
 function recopilaSalida(a, b, num) {
- var ncoches=Math.ceil(sa[a][b].personas.length/cavenEnCoche);
+ var ncoches=Math.ceil(sa[a][b].personas.length/cabenEnCoche);
   var s='',n=''
   if(ncoches>1){s='s';n='n'}
   var asignados=0;
   var sp='',np=''
   var personas=sa[a][b].personas.length
   if(personas>1){sp='s';np='n'}
-  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(sa[a][b].personas.length/cavenEnCoche)+' coche'+s+' )<br>'
+  var cad01 = '(' + personas  + ' persona'+sp+' necesita'+ np +' '+ Math.ceil(sa[a][b].personas.length/cabenEnCoche)+' coche'+s+' )<br>'
   var cad=''
   var cssprev = '<span style="color:red">'
   var cssend = '</span>'
@@ -442,18 +474,44 @@ function buscaConductoresSolosSalida(cuantos){
 /////////////////////////
 // UTILIDADES PRINCIPALES
 /////////////////////////
+function creaTabla(){
+
+  var cad='  <table id="reparto_tabla" align="center" class="data-table" cellpadding="4px" cellpadding="4px" width="100%">'
+    cad+='<tr>'
+      cad+='<th class="hora"></th>'
+      cad+='<th>Lunes</th>'
+      cad+='<th>Martes</th>'
+      cad+='<th>Mi&eacute;rcoles</th>'
+      cad+='<th>Jueves</th>'
+      cad+='<th>Viernes</th>'
+      cad+='</tr>'
+      for(var n=1;n<=nHorasES;n++){
+      cad+='<tr>'
+      cad+='<td class="hora"><h3>'+n+'</h3> De a</td>'
+      cad+='<td id="l'+n+'"></td>'
+      cad+='<td id="m'+n+'"></td>'
+      cad+='<td id="x'+n+'"></td>'
+      cad+='<td id="j'+n+'"></td>'
+      cad+='<td id="v'+n+'"></td>'
+      cad+='</tr>'
+    }
+    cad+='</table>'
+    document.getElementById('reparto').innerHTML=cad;
+
+}
 
 function llenaTabla(){
   var nsomos = 0;
- 
+
   for (var a = 1; a < 6; a++) {
 	// ENTRADAS
-    nsomos = en[a][1].personas.length
-    cad = recopilaEntrada(a, 1, nsomos)
+  for(var n=1;n<=nHorasES;n++){
+    nsomos = en[a][n].personas.length
+    cad = recopilaEntrada(a, n, nsomos)
     //$('#' + diass[a] + '1').append(cad)
-	document.getElementById(diass[a] + '1').insertAdjacentHTML( 'beforeend', cad );
-	
-    nsomos = en[a][2].personas.length
+	 document.getElementById(diass[a] + n).insertAdjacentHTML( 'beforeend', cad );
+	}
+   /* nsomos = en[a][2].personas.length
     cad = recopilaEntrada(a, 2, nsomos)
     //$('#' + diass[a] + '2').append(cad)
 	document.getElementById(diass[a] + '2').insertAdjacentHTML( 'beforeend', cad );
@@ -477,9 +535,16 @@ function llenaTabla(){
     cad = recopilaEntrada(a, 6, nsomos)
    //$('#' + diass[a] + '6').append(cad)
    document.getElementById(diass[a] + '6').insertAdjacentHTML( 'beforeend', cad );
-	
+	*/
 	
 	// SALIDAS
+    for(var n=1;n<=nHorasES;n++){
+      nsomos = sa[a][n].personas.length
+      cad = recopilaSalida(a, n, nsomos)
+      //$('#' + diass[a] + '1').append(cad)
+      document.getElementById(diass[a] + n).insertAdjacentHTML( 'beforeend', cad );
+    }
+    /*
     nsomos = sa[a][4].personas.length
     cad = recopilaSalida(a, 4, nsomos)
     //$('#' + diass[a] + '4').append(cad)
@@ -499,7 +564,7 @@ function llenaTabla(){
     cad = recopilaSalida(a, 7, nsomos)
     //$('#' + diass[a] + '7').append(cad)
 	document.getElementById(diass[a] + '7').insertAdjacentHTML( 'beforeend', cad );
-
+  */
   }
 }
 
@@ -599,22 +664,14 @@ function ordenaSegunViajes() {
 /// VERSION 2   DESDE ESQUEMA
 //////////////////////////////////////
 
-var posES={dia:1,hora:1, cont:0, ES:['entrada','salida']} 
-var nVueltas=0
-var nFilas=7, nColumnas=5;
-var totalHoras=nFilas*nColumnas*2; //35 const 
-var horasSinAsignar = totalHoras
-var horasAsignadasVuelta=0
-var horasSinAsignarPrevia=totalHoras;
-var asignaAlAzar=false
-var completo=false
+
 
 function pasaSiguiente(){
   var cierto=false;
-  var hsa=35;
+  //var hsa=35;
    posES.dia++
 		if(posES.dia>5){posES.dia=1;posES.hora++;}
-		if(posES.hora>7){
+		if(posES.hora>nHorasES){
 			cierto=true;
 			posES.dia=1;posES.hora=1;
 			posES.cont++;
@@ -654,7 +711,7 @@ function factor(dia,hora,ES){
 	var factor=0;
 
 	if(numUsuariosEstaHora>0){
-		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
+		factor = numCochesAsignados * cabenEnCoche / numUsuariosEstaHora
 			}
 	
 	if(ES=='entrada'){
@@ -791,7 +848,7 @@ function esLaUltima(){
 function nHorasEScheck(){
 	var estanCheck=0
 	for(var dia=1;dia<=5;dia++){
-		for(var hora=1;hora<=7;hora++){
+		for(var hora=1;hora<=nHorasES;hora++){
 			if(en[dia][hora].check ){
 				estanCheck++
 			}
@@ -983,15 +1040,11 @@ function repartoAcero(){
 		}
 	}
 	
-	 for (var a = 1; a < 6; a++) {
-	  document.getElementById(diass[a] + '1').innerHTML =' ';
-	  document.getElementById(diass[a] + '2').innerHTML =' ';
-	  document.getElementById(diass[a] + '3').innerHTML =' ';
-	  document.getElementById(diass[a] + '4').innerHTML =' ';
-	  document.getElementById(diass[a] + '5').innerHTML =' ';
-	  document.getElementById(diass[a] + '6').innerHTML =' ';
-	  document.getElementById(diass[a] + '7').innerHTML =' ';
-  }
+	 for (var a = 1; a <=nDiasSemana; a++) {
+      for (var b = 1; b <=nHorasES; b++) {
+  	    $('#'+diass[a] + b).html('');
+     }
+	 }
 	//llenaUsuarios()
 	
 }
@@ -1093,7 +1146,8 @@ function reparte(){
 		for(var a=1;a<=nDiasSemana;a++){
 		  reuneIgualesDia(a)
 		}
-		escribirCodigoResult()
+		//escribirCodigoResult()
+		escribirCodigo()
 }
 
 
@@ -1247,11 +1301,13 @@ function rellenaNombres(){
 }
 
 function escribirCodigo(){
-	$('#codigoConfig').val('var usuario='+JSON.stringify(usuarioIni))
-	
+	//$('#codigoConfig').val(JSON.stringify(usuarioIni))
+
+	$('#codigoConfig').val('{"salida":"'+json.salida+'","destino":"'+json.destino+'","fechaHora":'+JSON.stringify($('#fechaHora').html())+',"nHoras":'+nHorasES+',"cabenEnCoche":'+cabenEnCoche+',"META":'+JSON.stringify(META)+',"usuario":'+JSON.stringify(usuarioIni)+',"usuariosYviajes":'+JSON.stringify(usuariosYviajes) + ',"en":'+JSON.stringify(en)+ ',"sa":'+JSON.stringify(sa)+'}')
 }
+
 function escribirCodigoResult(){
-	$('#codigoResult').val('var usuario='+JSON.stringify(usuario))
+	$('#codigoResult').val(JSON.stringify(usuario))
 }
 ///////
 //FIN DE FUNCIONES DE CONFIGURACION
@@ -1262,6 +1318,20 @@ function escribirCodigoResult(){
 ///////
 // OTRAS FUNCIONES DE USO
 ///////
+
+function capitaliza(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null) {
+       return null;
+    }
+    return decodeURI(results[1]) || 0;
+}
+
 Array.prototype.clone = function() {
     return this.slice(0);
 }
@@ -1313,9 +1383,9 @@ function estadisticaDiaHora(dia,hora,ES){
 	var asientosLibres=0;
 	var sobranCoches=0;
 	if(numUsuariosEstaHora>0){
-		factor = numCochesAsignados * cavenEnCoche / numUsuariosEstaHora
-		cochesTeorico=Math.ceil(numUsuariosEstaHora/cavenEnCoche)
-		asientosLibres=numCochesAsignados*cavenEnCoche-numUsuariosEstaHora
+		factor = numCochesAsignados * cabenEnCoche / numUsuariosEstaHora
+		cochesTeorico=Math.ceil(numUsuariosEstaHora/cabenEnCoche)
+		asientosLibres=numCochesAsignados*cabenEnCoche-numUsuariosEstaHora
 		faltanCoches=Math.abs(cochesTeorico-numCochesAsignados)
 	}
     //console.log(r+' El '+diasn[dia]+' a la hora '+hora+' hay asignados '+numCochesAsignados +' coches y  '+ numUsuariosEstaHora+ ' usuarios')
@@ -1347,6 +1417,55 @@ function estadisticaDiaHora(dia,hora,ES){
 	
 	
 }
+
+function reuneIgualesDiaVer(dia){
+	var ESuser=[0,0]
+	igualesDia[dia]=[]
+	var contIguales=0;
+
+   for (var n = 0; n < usuario.length; n++) {
+	   igualesDia[dia].push(usuario[n][diasn[dia]].igualQue.clone())
+   } 
+   var cad='<h7>'+diasn[dia].toUpperCase()+'</h7><ul><li style="margin-left:-10px;">',cad1=''
+   var estalleno=false;
+   var preh='';var posh=''
+   var contCoches=0;
+   for(var a=0;a<igualesDia[dia].length;a++){
+	   contCoches=0
+	  for(var b=0;b<igualesDia[dia][a].length;b++){ 
+	   if(igualesDia[dia][a].length>1 ){
+		   preh='';posh=''
+		   if(usuario[igualesDia[dia][a][b]][diasn[dia]].usacoche){contCoches++; preh='<span style="font-weight:500;color:#000;">';posh='</span>'}
+	     cad+= preh+ ''+usuario[igualesDia[dia][a][b]].nombre+''+posh+', '
+		 estalleno=true
+	   }else{
+		   if(igualesDia[dia][a].length==1 ){
+				cad1+= usuario[igualesDia[dia][a][b]].nombre+', '
+		   }
+		   estalleno=false
+	   }
+	   
+	  }
+	  if(contCoches>1){}
+	  if(estalleno){
+		  cad = cad.slice(0, -2);
+		  if(contCoches>1){cad+=' <b style="white-space: nowrap;">&#x1f697;&#x1f697;</b>'}
+		  cad+='</li><li style="margin-left:-10px;">'}
+   }
+    //cad = cad.slice(0, -4);
+	   cad = cad.slice(0, -31);
+	var t=''
+	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
+   $('#R'+dia).html(cad+'</ul>'+ t)
+	//return cad+'</ul>'+ t;
+	//document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
+    //document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
+  
+   //Solo Firefox
+   //console.log(igualesDia[dia].toSource())
+}
+
+
 
 function reuneIgualesDia(dia){
 	var ESuser=[0,0]
@@ -1396,8 +1515,8 @@ function reuneIgualesDia(dia){
 	var t=''
 	//if(cad1.length>8){t='No pueden rotar:<br> '+cad1}
    //$('#R'+dia).html(cad+'</ul>'+ t)
-    document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
-  
+    
+  	document.getElementById('R'+dia).innerHTML =cad+'</ul>'+ t;
    //Solo Firefox
    //console.log(igualesDia[dia].toSource())
 }
@@ -1413,34 +1532,290 @@ function reuneIgualesDia(dia){
 		buscaNumCochesEnCadaHora()
 // Tercera ley :-) Los que tienen la misma hora de entrada y salida se pueden intercambiar, o pueden suplirse
 */
+function borraUsuario(){
+ var c=0;
+		 if(contUsuarios==usuarioIni.length-1){c=1}
+	     usuarioIni.splice(contUsuarios,1)
+		 if(usuarioIni.length==0){nombreUsuario=''; $('#nombre').val(' ')}
+		if(c==1){contUsuarios--}
+		//escribirCodigo()
+			rellenaNombres()
+		rellenaBotones(contUsuarios)
+	
+		 repartoAcero()
+		reparte()
+		escribirCodigo()
+}		
+		
+function iniciaEnBlanco(){
+		$('#botonesGuardar').show()
+		$('#botonesEditar').hide()
+	   usuario={}
+	   var script
+	     var d='0-0.js'
+		var script = document.createElement('script');
+		script.onload = function () {
+			var f = new Date(); var d = new Date();
+			$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
+			$('#ruedaFuncion').html(capitaliza(queFuncion))
+            //contUsuarios=1
+		
+			var c0= $('#ciudadSalida').val();//capitaliza(ciudadCiudadAguardar[0])
+			var c1= $('#ciudadLlegada').val();// capitaliza(ciudadCiudadAguardar[1])
+			//var ciudadCiudadAguardar=c.split('-')
+			var ciudadCiudadAguardar=[c0,c1]
+			ciudadCiudad=c0+'-'+c1
+			jsonCiudades={"salida":c0,"destino":c1}
+			$('#ciudadCiudad').html(c0+' - '+c1)
+			
+			
+			//nombreUsuario=''; 
+			//$('#nombre').val(' ')
+			json.salida=$('#ciudadSalida').val()
+			json.destino=$('#ciudadLlegada').val()
 
+
+      //
+      nVueltas=0
+      nFilas=nHorasES, nColumnas=5;
+      totalHoras=nFilas*nColumnas*2; 
+      horasSinAsignar = totalHoras
+      horasAsignadasVuelta=0
+      horasSinAsignarPrevia=totalHoras;
+      completo=false
+      //
+			usuario = json.usuario
+      usuario.nHoras=$('#nHoras').val()
+      nHorasES=$('#nHoras').val()
+      nHorasEntrada=nHorasES
+      nHorasSalida=nHorasES
+      llenaESvar();
+      creaTabla();
+      
+      
+			usuario.salida=$('#ciudadSalida').val()
+			usuario.destino=$('#ciudadLlegada').val()
+			usuario.fechaHora=$('#fechaHora').html()
+			//$.getJSON(direc+'datos.php?action=nueva', function(json) {
+				
+			
+			//if(queFuncion=='editar'){
+			//usuario = json.usuario
+			//}
+			//$('#botonesEditar').hide()
+			for (var a = 0; a < usuario.length; a++) {
+				usuario[a].viajes=0;
+				for(var b=1;b<=maxDiasSemana;b++){
+					usuario[a][diasn[b]].igualQue=[]
+				}
+			}
+			
+			
+			usuarioIni=usuario.clone()
+			rellenaBotones(contUsuarios)
+			rellenaNombres()
+			repartoAcero()
+			reparte()
+			escribirCodigo()
+			borraUsuario()
+			$('#modal').hide();
+			
+		};
+		script.onerror = function() {	};
+		script.src = d;
+		document.head.appendChild(script);
+	}
+	
+	
+	      
+//});	
+
+function nueva(){
+          
+		
+		   // $('#modal').show();
+			
+		
+	}
+
+function editar(){
+	
+		//$.getJSON(direc+'datos.php?action=descarga&ciudadCiudad='+ciudadCiudad, function(json) { 
+			var f = new Date(); var d = new Date();
+			$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
+ 
+			$('#ruedaFuncion').html(capitaliza(queFuncion))
+			$('#botonesGuardar').show()
+			$('#botonesEditar').hide()
+			META=json.META
+			$('#pref1').val(META[1].meta)
+			$('#pref2').val(META[2].meta)
+			$('#pref3').val(META[3].meta)
+			$('#pref4').val(META[4].meta)
+			$('#pref5').val(META[5].meta)
+			cabenEnCoche=json.cabenEnCoche
+			$('#usCoche').val(cabenEnCoche)
+
+     
+      usuario = json.usuario
+      //usuario.nHoras=$('#nHoras').val()
+      nHorasES=json.nHoras
+      nHorasEntrada=nHorasES
+      nHorasSalida=nHorasES
+      //
+      nVueltas=0
+      nFilas=nHorasES, nColumnas=5;
+      totalHoras=nFilas*nColumnas*2; 
+      horasSinAsignar = totalHoras
+      horasAsignadasVuelta=0
+      horasSinAsignarPrevia=totalHoras;
+      completo=false
+      //
+
+  $('#fechaHora').html(json.fechaHora);
+        META=json.META
+        cabenEnCoche=json.cabenEnCoche
+        $('#usCoche').val(cabenEnCoche)
+        usuario = json.usuario
+        
+        nHorasES=json.nHoras
+        nHorasEntrada=nHorasES
+        nHorasSalida=nHorasES
+        en = json.en
+        sa = json.sa
+        usuariosYviajes= json.usuariosYviajes
+        creaTabla()
+        llenaUsuariosOrden()
+        llenaTabla()
+        for(var a=1;a<=nDiasSemana;a++){
+          reuneIgualesDiaVer(a)
+          
+        }
+
+usuarioIni=usuario.clone()
+      rellenaBotones(contUsuarios)
+      rellenaNombres()
+/*
+      llenaESvar();
+      creaTabla();
+
+/*
+
+			for (var a = 0; a < usuario.length; a++) {
+				usuario[a].viajes=0;
+				for(var b=1;b<=maxDiasSemana;b++){
+					usuario[a][diasn[b]].igualQue=[]
+				}
+			}
+
+
+
+
+
+			usuarioIni=usuario.clone()
+			rellenaBotones(contUsuarios)
+			rellenaNombres()
+
+			//repartoAcero()
+			//reparte()
+			//escribirCodigo()
+      */
+		//});	
+	
+}
+
+
+	
+	
+function ver(){
+
+			$('#configurar').hide()
+			$('#botonesGuardar').hide()
+			$('#botonesEditar').show()
+			//$.getJSON(direc+'datos.php?action=descarga&ciudadCiudad='+ciudadCiudad, function(json) {
+				$('#fechaHora').html(json.fechaHora);
+				META=json.META
+				cabenEnCoche=json.cabenEnCoche
+				$('#usCoche').val(cabenEnCoche)
+				usuario = json.usuario
+				en = json.en
+				sa = json.sa
+        nHorasES=json.nHoras
+        nHorasEntrada=nHorasES
+        nHorasSalida=nHorasES
+        //llenaESvar();
+        creaTabla();
+				usuariosYviajes= json.usuariosYviajes
+				llenaUsuariosOrden()
+				llenaTabla()
+				for(var a=1;a<=nDiasSemana;a++){
+					reuneIgualesDiaVer(a)
+					
+				}
+		//});	
+	}
+
+	
+var ciudadCiudadAguardar=[]
+var queFuncion='';
+var jsonCiudades=''
+var nfile=1
+
+function abre(n){
+	if(n==0){
+		
+		$('#modal').show();
+	}else{	
+		var d='ruedas/'+n+'.js'
+		nfile=n;
+		var t
+				var s = document.createElement('script');
+				s.onload = function () {
+					var c0= json.salida;//capitaliza(ciudadCiudadAguardar[0])
+					var c1= json.destino;// capitaliza(ciudadCiudadAguardar[1])
+					//var ciudadCiudadAguardar=c.split('-')
+					var ciudadCiudadAguardar=[c0,c1]
+					ciudadCiudad=c0+'-'+c1
+					jsonCiudades={"salida":c0,"destino":c1}
+					$('#ciudadCiudad').html(c0+' - '+c1)
+					if(queFuncion=='editar'){
+
+              editar()
+          }//
+					if(queFuncion=='ver'){ver()}
+					
+				};
+				s.src = d;
+				document.head.appendChild(s);
+		}
+	}
+
+
+var maxActualFile=''
 
 
 $(document).ready(function(){
+	
+	queFuncion=$.urlParam('funcion');
+    var c=$.urlParam('ciudadCiudad');
+	maxActualFile=$.urlParam('maxActualFile');
 
+  
 
-		var f = new Date(); var d = new Date();
-		$('#fechaHora').html(f.getDate() + " / " + (f.getMonth() + 1) + " / " + f.getFullYear() + " | " +d.getHours() + " : " + d.getMinutes());
-	 
-		cavenEnCoche = $('#usCoche').val()
-
-		$('#usCoche').change(function(){
-		cavenEnCoche = $('#usCoche').val()
-		})
-
-//document.addEventListener("DOMContentLoaded", function(event) {
-	for (var a = 0; a < usuario.length; a++) {
-		usuario[a].viajes=0;
-		for(var b=1;b<=maxDiasSemana;b++){
-			usuario[a][diasn[b]].igualQue=[]
-		}
-	}
-	usuarioIni=usuario.clone()
-	//alert(usuario.length)
-	escribirCodigo()
-	rellenaBotones(contUsuarios)
-	rellenaNombres()
-	//////
+	if(queFuncion=='nueva'){$('#btn-saveNew').hide()}
+	abre(c)
+	creaTabla()
+	cabenEnCoche = $('#usCoche').val()
+    $('#usCoche').change(function(){
+	cabenEnCoche = $('#usCoche').val()
+	})
+	
+	$('#botonEditar').click(function(){
+		location.href='rueda.html?funcion=editar&ciudadCiudad='+nfile+'&maxActualFile='+maxActualFile
+		
+	});
+		
+		
 	 $('#borrarUsuario').click(function(){
 		 var c=0;
 		 if(contUsuarios==usuarioIni.length-1){c=1}
@@ -1523,10 +1898,7 @@ $(document).ready(function(){
 		   contUsuarios--
 		   if(contUsuarios<0){contUsuarios=0}
 		   rellenaBotones(contUsuarios)
-		   // escribirCodigo()
-		   // repartoAcero()
-			//reparte()
-			//escribirCodigo()
+		   
 		}) 
 		
 		
@@ -1552,36 +1924,78 @@ $(document).ready(function(){
 			} else {
 				alert('Please allow popups for this website');
 			}
+			
+			
+			
+			
 		}) 
 		
 
 		$('#nuevoReparto').click(function(){
 		    repartoAcero()
 			reparte()
-		}) 
-		$('#guardarConfig').click(function(){
-			var t=$('#codigoConfig').val()
-			var uri = 'data:text/csv;charset=utf-8,' + t;
-			var downloadLink = document.createElement("a");
-			downloadLink.href = uri;
-			downloadLink.download = "datos.js";
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
+		})
+
+   $('#guardarConfig').click(function(){
+			  escribirCodigo()
+			 //
+			 
+			 var t='var json='+$('#codigoConfig').val()
+			 //alert(t)
+			 if(queFuncion=='nueva'){
+				 nfile=$.urlParam('maxActualFile')
+			 }
+			// if(queFuncion=='editar'){
+				
+	
+			var d = new Date();
+			//var cad='<html><title>RUEDA REPARTO '+d.getTime()+'</title><head><style> table,td,th { border-spacing: 0; vertical-align:top; border-collapse: collapse; padding:2px; border: 1;  border-style: solid;  border-width: 1px;} </style></head><body><center>'
+			var cad=''
+			//var j=$('#repartoPage').html()
+			//cad+= j+'</center></body></html>'
+			$("#textarea").val(t);
+			var text = $("#textarea").val();
+			var filename = $("#input-fileName").val()
+			
+			var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+			saveAs(blob, filename+".txt");
 			/*
-			var t = '<title>datos.js</title>'
-			var t=$('#codigoConfig').val()
-	  		var x= window.open();
+			var x= window.open('_blank');
 			if(x){
-			x.document.write(t);
-			x.document.close();
-			x.focus();
+			//x.open();
+			    cad+='<p>Guarda el codigo </p><textarea style="width:100%;height:500px;" onclick="this.select()">'+t+'</textarea>'
+				x.document.write(cad);
+				x.document.close();
+				x.focus();
 			} else {
 				alert('Please allow popups for this website');
 			}
-			
+		
+		
+		
+		var s = document.createElement('script'); s.onload = function () {};
+		s.src = d;
+		document.head.appendChild(s);
+	 		
+				
+			 $.post(direc+"datos.php",
+				  {  action:"graba",
+					ciudadCiudad: nfile,
+					datos: t
+				  },
+				  function(data, status){
+					alert(data+"\r\n"+'Guardar en la carpeta "ruedas" para mantenerlo como permanente');
+					//window.open('rueda.html?funcion=ver&ciudadCiudad='+ciudadCiudad,'_blank');
+					window.open(direc+nfile+'.js','_blank');
+				  });
+			// }
 			*/
-		});		
+		});			
+		
+		$('#verGuardado').click(function(){
+			window.open('rueda.html?funcion=ver&ciudadCiudad='+ciudadCiudad,'_blank');
+		
+		});				
 		$('#guardarResult').click(function(){
 			var t = $('#codigoResult')
 			t.select();
@@ -1594,12 +2008,46 @@ $(document).ready(function(){
 		});		
 	///////////
  
+   $('#iniciar').click(function(){
+	 	iniciaEnBlanco()
+	});
+ 
+	$('#cancelar').click(function(){
+	    //$('#modal').fadeOut( "slow" );
+		//$('#portada').show();
+		location.href='index.html'
+	});
+	$("#btn-saveNew").click( function() {
+		escribirCodigo()
+		var t='var json='+$('#codigoConfig').val()
+	    nfile=$.urlParam('maxActualFile')
+	    $("#textarea").val(t);
+		 $("#input-fileName").val(nfile)
+  var text = $("#textarea").val();
+  var filename = $("#input-fileName").val()
+  //var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  var blob = new Blob([text], {type: "text/javascript",charset:"utf-8"});
+  saveAs(blob, filename+".js");
+});
+	
+	$("#btn-save").click( function() {
+		escribirCodigo()
+		var t='var json='+$('#codigoConfig').val()
+		if(queFuncion=='nueva'){
+				 nfile=$.urlParam('maxActualFile')
+	     }
+		 $("#textarea").val(t);
+		 $("#input-fileName").val(nfile)
+  var text = $("#textarea").val();
+  var filename = $("#input-fileName").val()
+  //var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  var blob = new Blob([text], {type: "text/javascript",charset:"utf-8"});
+  saveAs(blob, filename+".js");
+});
+	//$('#nueva').click(function(){$('#portada').fadeOut( "slow" ); $('#modal').show();	});
+
  
  
-  escribirCodigo()
-  repartoAcero()
-  reparte()
-  
 
 		//resumenCheck()
 		//todoBlanco()
