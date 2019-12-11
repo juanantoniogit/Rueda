@@ -16,5 +16,6 @@ Un hueco entre los número no funcionaría:
 Una rueda nueva se nombra por defecto como el final de la serie
 
 Un fichero modificado se nombrará con el mismo número
-
+Para ver una previsualizacion puedes acceder a:
+https://juanantoniogit.github.io/Rueda/index.html
 
